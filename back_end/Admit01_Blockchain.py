@@ -70,18 +70,22 @@ class Transaction:
 
 # The User class
 class User:
-    def __init__(self, id, inventory, wallet):
-        self.id = id
+    def __init__(self, inventory, wallet):
+        #
+        # inventory: list of (event_id, ticket_id)
+        # wallet: int
+        #
+        self.id = None # auto-generate, must be unique from user_ids and venue_ids
         self.inventory = inventory
         self.wallet = wallet
 
-    def buyTicket(self, event):
+    def buyTicket(self, ticket):
+        #
+        # ticket: Ticket object
+        #
         return False
 
     def upgradeTicket(self, ticket):
-        return False
-
-    def listTicket(self, ticket):
         return False
 
     def search(self, text):
@@ -94,8 +98,41 @@ class User:
         return False
 
 
-#The host class will inherit the user class, and add new functionalities
-class Host(User):
+# #The host class will inherit the user class, and add new functionalities
+# class Host(User):
+#     def createEvent(self, name, date, time, desc):
+#         return Event(name, date, time, desc, None, None)
+#
+#     def manageEvent(self, event):
+#         return False
+#
+#     def createTicket(self, event, cost, ticket_class, number):
+#         i = 0
+#         tickets = []
+#         while i < number:
+#             tickets.append(Ticket(event, cost, ticket_class))
+#             i += 1
+#
+#         return tickets
+#
+#     def manageTicket(self, event, ticket_class):
+#         return False
+#
+#     def scheduleRelease(self, event, ticket_class, number):
+#         return False
+
+
+# The Venue class will manage creating and distributing tickets for its events
+class Venue:
+    def __init__(self, name, blockchains, events, location):
+        self.id = None # auto-geenrate, must be unique from other venue_ids and user_ids
+        self.name = name
+        self.blockchains = blockchains # dictionary mapping events to blockchains
+        self.location = location
+
+    def validateTicket(self, code, chain):
+        return False
+
     def createEvent(self, name, date, time, desc):
         return Event(name, date, time, desc, None, None)
 
@@ -118,39 +155,49 @@ class Host(User):
         return False
 
 
-#The Venue class with inherit the host class, and add the ability to validate a ticket
-class Venue(Host):
-    def __init__(self, name, blockchains, events, location):
-        self.name = name
-        self.blockchains = blockchains # dictionary of blockchains
-        self.location = location
-
-    def validateTicket(self, code, chain):
-        return False
-
-
 #The Event class, pretty simple and self explanitory
 class Event:
-    def __init__(self, name, date, time, desc, tickets, classes):
+    def __init__(self, name, datetime, desc):
         self.name = name
-        self.date = date
-        self.time = time
+        self.datetime = datetime
         self.desc = desc
-        self.tickets = tickets # number of tickets available for the event?
-        self.classes = classes # classes of tickets, like GA, upper level, etc. Represented in a list
+        self.tickets = None # can add tickets later
         self.blockchain = initialBlockchain() # do this
 
     def initialBlockchain(self):
         return Chain() # do this
 
+# The Seat class, uniquely identifies a seat within a Venue
+class Seat:
+    def __init__(self, section, row, seat_no):
+    #
+    # section, row: String
+    # seat: int
+    #
+    self.section = section
+    self.row = row
+    self.seat_no = seat_no
+
 
 # The Ticket class, pretty simple and self explanitory
 class Ticket:
-    def __init__(self, event, cost, ticket_class, history):
+    def __init__(self, event, face_value, seat):
+        #
+        # event: Event object
+        # face_value: int
+        # seat: Seat object
+        # history: list of (block_no (int), hash (int))
+        #
         self.event = event
-        self.cost = cost # the (base) cost of the ticket?
-        self.ticket_class = ticket_class # the class of the ticket
-        self.history = history # history is list of tuples of block index, hash
+        self.face_value = face_value
+        self.list_price = face_value # upon inception, list price = face_value
+        self.for_sale = False
+        self.history = None # history is list of tuples of block index, hash
+
+    def listTicket(self, list_price, seller_id):
+        self.for_sale = True
+        # TO-DO: finish the rest
+        return False
 
 
 class HashcashHeader:
@@ -182,4 +229,3 @@ class HashcashHeader:
         sha = hasher.sha1()
         sha.update(self.toString().encode('utf-8'))
         return sha.hexdigest()
-
