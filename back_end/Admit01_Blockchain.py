@@ -70,14 +70,19 @@ class Transaction:
 
 # The User class
 class User:
-    def __init__(self, inventory, wallet):
+    def __init__(self, fname, lname, email_address):
         #
-        # inventory: list of (event_id, ticket_id)
-        # wallet: int
+        # fname, lname, email_address: String
         #
         self.id = None # auto-generate, must be unique from user_ids and venue_ids
-        self.inventory = inventory
-        self.wallet = wallet
+        self.fname = fname
+        self.lname = lname
+        self.email_address = email_address
+        self.inventory = []
+        self.wallet = 0
+
+    def getID(self):
+        return self.id
 
     def buyTicket(self, ticket):
         #
@@ -193,6 +198,9 @@ class Ticket:
         self.list_price = face_value # upon inception, list price = face_value
         self.for_sale = False
         self.history = None # history is list of tuples of block index, hash
+
+    def isForSale(self):
+        return self.for_sale
 
     def listTicket(self, list_price, seller_id):
         self.for_sale = True
