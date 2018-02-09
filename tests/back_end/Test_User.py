@@ -5,7 +5,7 @@ user2 = User("Ross", "Piper", "er@example.com") # failure
 user3 = User("", "Piper", "rp@example.com") # failure
 user4 = User("Ross", "", "rp@example.com") # failure
 user5 = User("Ross", "Piper", "") # failure
-# "invalid.email@format" should also fail; regex validation handled on front-end
+# "invalid.email@format" should also fail; regex validation handled on front end
 
 def test_validuser:
     #
