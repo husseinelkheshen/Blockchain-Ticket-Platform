@@ -129,11 +129,11 @@ class User:
 
 # The Venue class will manage creating and distributing tickets for its events
 class Venue:
-    def __init__(self, name, blockchains, events, location):
-        self.id = None # auto-geenrate, must be unique from other venue_ids and user_ids
-        self.name = name
-        self.blockchains = blockchains # dictionary mapping events to blockchains
-        self.location = location
+    def __init__(self, name, blockchains, location):
+        self.id = None # auto-generate, must be unique from other venue_ids and user_ids
+        self.name = name # String
+        self.events = {} # dictionary mapping events to their blockchains
+        self.location = location # String, for now
 
     def validateTicket(self, code, chain):
         return False
