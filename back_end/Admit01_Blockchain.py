@@ -135,34 +135,34 @@ class Venue:
         self.events = {} # dictionary mapping events to their blockchains
         self.location = location # String, for now
 
-    def validateTicket(self, code, chain):
+    # All these functions are for iteration 2
+
+    def validateTicket(self, ticket_code, chain):
         return False
 
-    def createEvent(self, name, date, time, desc):
-        return Event(name, date, time, desc, None, None)
+    def createEvent(self, name, datetime, desc):
+        # Also append this event to events{} as a key
+        # Generate Venue copy of blockchain as associated value
+        return Event(name, datetime, self, desc)
 
-    def manageEvent(self, event):
+    def manageEvent(self, event, name, datetime, desc):
         return False
 
-    def createTicket(self, event, cost, ticket_class, number):
-        i = 0
-        tickets = []
-        while i < number:
-            tickets.append(Ticket(event, cost, ticket_class))
-            i += 1
+    def createTicket(self, event, face_value, seat):
+        # Return a SINGLE ticket, loops can be done externally
+        return None
 
-        return tickets
-
-    def manageTicket(self, event, ticket_class):
+    def manageTicket(self, ticket, list_price, for_sale):
         return False
 
-    def scheduleRelease(self, event, ticket_class, number):
+    def scheduleRelease(self, tickets, datetime):
         return False
 
 
-#The Event class, pretty simple and self explanitory
+#The Event class, pretty simple and self explanatory
 class Event:
-    def __init__(self, name, datetime, desc):
+    def __init__(self, name, datetime, venue, desc):
+        self.id = None # auto-generate, must be unique from other event_ids
         self.name = name
         self.datetime = datetime
         self.desc = desc
