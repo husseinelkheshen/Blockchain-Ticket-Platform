@@ -1,4 +1,3 @@
-
 import datetime as date
 import hashlib as hasher
 
@@ -42,16 +41,18 @@ class Block:
 
 # The Chain class, really just for ease of debugging, no really necessary
 class Chain:
-    def __init__(self, event, ticket, host):
+    def __init__(self, event, ticket, venue):
         self.event = event
         self.ticket = ticket
-        self.blocks = list(Block.genesisBlock(host))
+        self.blocks = list(a1.Block(0, date.datetime.now(), None, "", event))
 
     def findRecentTrans(self, ticket_id):
         return Transaction()
 
-    def mineNewBlock(self):
-        return Block;
+    def mineNewBlock(self, transactions):
+        self.blocks.append(Block(len(self.blocks), date.datetime.now(), transactions,
+                                 a1.HashcashHeader(self).generateAcceptableHeader()))
+
 
 
 
@@ -130,39 +131,39 @@ class User:
 # The Venue class will manage creating and distributing tickets for its events
 class Venue:
     def __init__(self, name, location):
-        self.id = None # auto-generate, must be unique from other venue_ids and user_ids
-        self.name = name # String
-        self.events = {} # dictionary mapping events to their blockchains
-        self.location = location # String, for now
+        self.id = None  # auto-generate, must be unique from other venue_ids and user_ids
+        self.name = name  # String
+        self.events = {}  # dictionary mapping events to their blockchains
+        self.location = location  # String, for now
 
-    # All these functions are for iteration 2
-
-    def validateTicket(self, ticket_code, chain):
+    def validateTicket(self, code, chain):
         return False
 
-    def createEvent(self, name, datetime, desc):
-        # Also append this event to events{} as a key
-        # Generate Venue copy of blockchain as associated value
-        return Event(name, datetime, self, desc)
+    def createEvent(self, name, date, time, desc):
+        return Event(name, date, time, desc, None, None)
 
-    def manageEvent(self, event, name, datetime, desc):
+    def manageEvent(self, event):
         return False
 
-    def createTicket(self, event, face_value, seat):
-        # Return a SINGLE ticket, loops can be done externally
-        return None
+    def createTicket(self, event, cost, ticket_class, number):
+        i = 0
+        tickets = []
+        while i < number:
+            tickets.append(Ticket(event, cost, ticket_class))
+            i += 1
 
-    def manageTicket(self, ticket, list_price, for_sale):
+        return tickets
+
+    def manageTicket(self, event, ticket_class):
         return False
 
-    def scheduleRelease(self, tickets, datetime):
+    def scheduleRelease(self, event, ticket_class, number):
         return False
 
 
-#The Event class, pretty simple and self explanatory
+#The Event class, pretty simple and self explanitory
 class Event:
-    def __init__(self, name, datetime, venue, desc):
-        self.id = None # auto-generate, must be unique from other event_ids
+    def __init__(self, name, datetime, desc):
         self.name = name
         self.datetime = datetime
         self.desc = desc
@@ -173,15 +174,15 @@ class Event:
         return Chain() # do this
 
 # The Seat class, uniquely identifies a seat within a Venue
-class Seat:
-    def __init__(self, section, row, seat_no):
     #
     # section, row: String
     # seat: int
     #
-    self.section = section
-    self.row = row
-    self.seat_no = seat_no
+class Seat:
+    def __init__(self, section, row, seat_no):
+        self.section = section
+        self.row = row
+        self.seat_no = seat_no
 
 
 # The Ticket class, pretty simple and self explanitory
@@ -209,29 +210,43 @@ class Ticket:
 
 
 class HashcashHeader:
-    def __init__(self, bits, data, counter):
+    def __init__(self, chain):
         date.datetime.tzname("CDT")
-        self.version = 1
-        self.bits = bits
-        self.date = date.datetime.now().strftime("%y%m%d%H%M%S")
-        self.data = data
-        self.randstring = ""
-        self.counter = 0
-        self.hash = ""
+        if type(chain) != a1.Chain:
+            self.version = 1
+            self.bits = 20
+            self.date = date.datetime.now().strftime("%y%m%d%H%M%S")
+            self.data = None
+            self.randstring = ''.join(
+                random.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase) for _ in range(16))
+            self.counter = 0
+            self.hash = ""
+            self.prev_hashes = list()
+        else:
+            self.version = 1
+            self.bits = 20
+            self.date = date.datetime.now().strftime("%y%m%d%H%M%S")
+            self.data = chain.blocks[-1]
+            self.randstring = ''.join(random.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase) for _ in range(16))
+            self.counter = 0
+            self.hash = ""
+            self.prev_hashes = list()
 
-    def toString(self):
+    def __str__(self):
         return ':'.join(self.version, self.bits, self.date, self.data, self.randstring, self.counter)
 
     def generateAcceptableHeader(self):
         self.counter = randint()
         result = "11111"
-        randstring = ''.join(random.choice(string.ascii_uppercase + string.digits + string.ascii_uppercase + '+' + '/') for _ in range(16))
-        while result[0:5] != "00000":
+        # randstring = ''.join(random.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase + '+' + '/') for _ in range(16))
+        while result[0:5] != "00000" or result[5:] in self.prev_hashes:
             self.counter += 1
             result = genSHA1Hash(self)
         print("Got a matching hash\n")
         print(result)
-        return self
+        self.prev_hashes.append(self.hash[5:])
+        self.hash = result
+        return True
 
     def genSHA1Hash(self):
         sha = hasher.sha1()
