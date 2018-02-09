@@ -5,7 +5,7 @@ user2 = User("Ross", "Piper", "er@example.com") # failure
 user3 = User("", "Piper", "rp@example.com") # failure
 user4 = User("Ross", "", "rp@example.com") # failure
 user5 = User("Ross", "Piper", "") # failure
-user6 = User("Ross", "Piper", "invalid.email@format") # failure
+# "invalid.email@format" should also fail; handled on front-end
 
 
 def test_validuser:
@@ -32,8 +32,3 @@ def test_noemail:
     assert user5.fname == None and
            user5.lname == None and
            user5.email_address == None
-
-def test_bademail:
-    assert user6.fname == None and
-           user6.lname == None and
-           user6.email_address == None 
