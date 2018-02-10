@@ -5,13 +5,13 @@ import pytest
 date = dt.datetime.now()
 
 event1 = Event("event1", dt.datetime.now(), "test")
+
 seat1 = Seat("seat1", "A", 1)
 ticket1 = Ticket(event1, 100, seat1)
 ticket1.id = "ticket1"
 
-event2 = Event("event2", dt.datetime.now(), "test")
 seat2 = Seat("seat2", "C", 2)
-ticket2 = Ticket(event2, 50, seat2)
+ticket2 = Ticket(event1, 50, seat2)
 ticket2.id = "ticket2"
 
 venue1 = Venue("Apollo Theater", "Chicago, IL")
@@ -39,8 +39,8 @@ trans4.content = "ticket2"
 trans5 = Transaction("user1", "venue1", 50)
 trans5.content = "ticket0"
 
-trans6 = Transaction("user1", "user2", 50)
-trans5.content = "ticket1"
+trans6 = Transaction("user1", "user2", 80)
+trans6.content = "ticket2"
 
 block1 = Block(0, date, trans1, 0, venue1) # success
 block2 = Block(1, date, trans2, block1.hash, venue1) # success
@@ -143,3 +143,52 @@ def test_nohash:
     assert block11.index == None and
            block11.timestamp == None and
            block11.data == None
+            
+chain1 = Chain(event1, ticket2)
+chain1.blocks = None
+
+chaintrans0 = chain1.findRecentTrans("ticket2") # failure
+
+chain1.blocks = list(block2)
+
+chaintrans1 = chain1.findRecentTrans("ticket2") # success
+chaintrans2 = chain1.findRecentTrans("ticket1") # failure
+
+chain1.blocks.append(block4)
+
+chaintrans3 = chain1.findRecentTrans("ticket2")
+
+def test_notransactions:
+    #
+    # Search should be empty if ticket has no transactions
+    # Functionally this should not happen since ticket genesis involves transactions
+    # This is mainly for debugging purposes
+    #
+    assert chaintrans0.target == None and
+           chaintrans0.source == None and
+           chaintrans0.value == None
+            
+def test_listofone:
+    #
+    # Should return the only transaction in the list
+    #
+    assert chaintrans1.target == "user1" and
+           chaintrans1.source == "user2" and
+           chaintrans1.value == 50
+            
+def test_falseticketid:
+    #
+    # Return no ticket if ticket id is incorrect
+    #
+    assert chaintrans2.target == None and
+           chaintrans2.source == None and
+           chaintrans2.value == None
+            
+def test_newtransaction:
+    #
+    # Should return only most recent transaction
+    #
+    assert chaintrans3.target == "user2" and
+           chaintrans3.source == "user1" and
+           chaintrans3.value == 50
+            
