@@ -1,3 +1,5 @@
+// Testing suite design for use by Jasmine framework
+
 describe("Test for validation of names", function() {
 
     // Valid Name input requriements
