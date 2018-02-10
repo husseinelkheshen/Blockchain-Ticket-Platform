@@ -1,4 +1,5 @@
 from ../../back_end/Admit01_Blockchain.py import *
+import pytest
 
 event1 = Event("event1", dt.datetime.now(), "test")
 seat1 = Seat("seat1", "A", 1)
