@@ -4,7 +4,7 @@ import hashlib as hasher
 # The Block class, constituting an instance of a block in the chain
 class Block:
     def __init__(self, index, timestamp, transaction, prev_hash, target):
-        if len(prev_hash):
+        if prev_hash == None or len(prev_hash) == 0:
             # genesis
             self.index = 0
             self.timestamp = timestamp
