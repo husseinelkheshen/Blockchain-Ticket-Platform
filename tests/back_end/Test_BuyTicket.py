@@ -89,7 +89,7 @@ def test_buyTicket_availability1():
 	testUser2.buyTicket(testTicket1)
 	assert(testUser.inventory[0] == None
 	       and testTicket1.for_sale == False
-	       and testUser.wallet = 500)
+	       and testUser.wallet == 500)
 
 def test_buyTicket_availability2():
 	testUser2.buyTicket(testTicket2)
