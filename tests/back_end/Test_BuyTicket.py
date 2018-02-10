@@ -2,7 +2,7 @@
 # Tests for buyTicket
 #
 
-from ../back_end/Admit01_Blockchain.py import *
+from ../../back_end/Admit01_Blockchain.py import *
 
 #
 # Creation of Peripheral Objects
