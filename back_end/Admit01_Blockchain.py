@@ -42,11 +42,10 @@ class Block:
         return generateHash(''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(length)))
 
 
-# The Chain class, really just for ease of debugging, no really necessary
+# The Chain class, really just for ease of debugging, not really necessary
 class Chain:
-    def __init__(self, event, ticket, venue):
+    def __init__(self, event):
         self.event = event
-        self.ticket = ticket
         self.blocks = list(a1.Block(0, date.datetime.now(), None, "", event))
 
     def findRecentTrans(self, ticket_id):
@@ -142,20 +141,14 @@ class Venue:
     def validateTicket(self, code, chain):
         return False
 
-    def createEvent(self, name, date, time, desc):
-        return Event(name, date, time, desc, None, None)
+    def createEvent(self, name, datetime, desc):
+        return Event(name, datetime, desc)
 
     def manageEvent(self, event):
         return False
 
     def createTicket(self, event, cost, ticket_class, number):
-        i = 0
-        tickets = []
-        while i < number:
-            tickets.append(Ticket(event, cost, ticket_class))
-            i += 1
-
-        return tickets
+        return []
 
     def manageTicket(self, event, ticket_class):
         return False
@@ -172,7 +165,7 @@ class Event:
         self.datetime = datetime
         self.desc = desc
         self.tickets = None # can add tickets later
-        self.blockchain = initialBlockchain() # do this
+        self.blockchain = Chain() # do this
 
     def initialBlockchain(self):
         return Chain() # do this
