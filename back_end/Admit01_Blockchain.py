@@ -42,10 +42,9 @@ class Block:
         return generateHash(''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(length)))
 
 
-# The Chain class, really just for ease of debugging, not really necessary
 class Chain:
-    def __init__(self, event):
-        self.event = event
+    """ Wrapper for a list of Block objects and some helper methods """
+    def __init__(self):
         self.blocks = list(a1.Block(0, date.datetime.now(), None, "", event))
 
     def findRecentTrans(self, ticket_id):
@@ -165,7 +164,7 @@ class Event:
         self.datetime = datetime
         self.desc = desc
         self.tickets = None # can add tickets later
-        self.blockchain = Chain() # do this
+        self.blockchain =  # do this
 
     def initialBlockchain(self):
         return Chain() # do this
