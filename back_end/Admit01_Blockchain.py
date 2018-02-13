@@ -25,17 +25,20 @@ class Block:
 
     # generates a genesis block, with a genesis transaction given a target.
     # the hash for this genesis block is a sha256 hash of 512 random characters (ascii uppercase and digits)
-    def genesisBlock(self, target): # target is the venue
-        return Block(0, date.datetime.now(), Transaction.genesisTransaction(target), self.genesisHash(512))
+    @staticmethod
+    def genesisBlock(target): # target is the venue
+        return Block(0, date.datetime.now(), Transaction.genesisTransaction(target), genesisHash(512))
 
     # generates a sha256 hash given a string
-    def generateHash(self, text):
+    @staticmethod
+    def generateHash(text):
         sha = hasher.sha256()
         sha.update(text.encode('utf-8'))
         return sha.hexdigest()
 
     # generates a hash of length random characters (ascii uppercase and digits)
-    def genesisHash(self, length):
+    @staticmethod
+    def genesisHash(length):
         return generateHash(''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(length)))
 
 
@@ -161,9 +164,10 @@ class Venue:
         return False
 
 
-#The Event class, pretty simple and self explanitory
 class Event:
+    """ Class to define an event, each of which will belong to a Venue """
     def __init__(self, name, datetime, desc):
+        """ Event constructor """
         self.name = name
         self.datetime = datetime
         self.desc = desc
