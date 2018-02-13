@@ -160,9 +160,11 @@ class Venue:
             location: string
 
         """
+        location_exists = False
         venue_already_exists = False
         # check if the name/location pair already exists
         if location in Trackers.registered_venues:
+            location_exists = True
             if name in Trackers.registered_venues[location]:
                 venue_already_exists = True
         if name and location and not venue_already_exists:
@@ -172,6 +174,8 @@ class Venue:
             self.events = {}    # dictionary mapping Events to blockchains
             self.location = location
             # add this Venue to the catalog of registered Venues
+            if not location_exists:
+                Trackers.registered_venues[location] = {}
             Trackers.registered_venues[location][name] = self
         else:
             self.id = self.name = self.events = self.location = None
