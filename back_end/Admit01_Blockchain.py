@@ -173,7 +173,7 @@ class Event:
 
         """
         self.tickets = None    # can add tickets later
-        if (!name or datetime < date.datetime.now()):
+        if !name or datetime < date.datetime.now():
             self.name = self.datetime = self.desc = self.blockchain = None
         else:
             self.name = name
@@ -193,9 +193,12 @@ class Seat:
             seat_no: int
 
         """
-        self.section = section
-        self.row = row
-        self.seat_no = seat_no
+        if !section or !row or seat_no < 0:
+            self.section = self.row = self.seat_no = None
+        else:
+            self.section = section
+            self.row = row
+            self.seat_no = seat_no
 
 
 # The Ticket class, pretty simple and self explanitory
