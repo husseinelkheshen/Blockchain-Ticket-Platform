@@ -1,10 +1,19 @@
 from back_end.Admit01_Blockchain import *
 
-first_id = Trackers.getNextID()
-next_id = Trackers.getNextID()
+first_id = Trackers.getNextUserVenueID()
+next_id = Trackers.getNextUserVenueID()
 
-def test_firstid():
+first_event_id = Trackers.getNextEventID()
+next_event_id = Trackers.getNextEventID()
+
+def test_firstuservenueid():
     assert first_id == 0
 
-def test_increment():
+def test_uservenueincrement():
     assert next_id == first_id + 1
+
+def test_firsteventid():
+    assert first_event_id == 0
+
+def test_eventincrement():
+    assert next_event_id == first_event_id + 1
