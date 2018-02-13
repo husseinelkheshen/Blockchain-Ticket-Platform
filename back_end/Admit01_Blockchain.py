@@ -112,7 +112,7 @@ class User:
             self.lname = lname
             self.email_address = email_address
             self.inventory = []
-            self.wallet = 0
+            self.wallet = 0.00
             # add this User to the catalog of registered Users
             registered_users[email_address] = self
 
@@ -203,6 +203,7 @@ class Event:
         if !name or datetime < date.datetime.now():
             self.name = self.datetime = self.desc = self.blockchain = None
         else:
+            self.next_ticket_num = 0
             self.name = name
             self.datetime = datetime
             self.desc = desc
@@ -237,6 +238,8 @@ class Ticket:
         # seat: Seat object
         # history: list of (block_no (int), hash (int))
         #
+        self.ticket_num = event.next_ticket_num
+        event.next_ticket_num += 1
         self.event = event
         self.face_value = face_value
         self.list_price = face_value # upon inception, list price = face_value
@@ -246,10 +249,17 @@ class Ticket:
     def isForSale(self):
         return self.for_sale
 
+    def mostRecentTransaction(self):
+        # TO-DO: add three-way consensus check here in iteration 2
+        return event.blockchain.findRecentTrans(self.ticket_num)
+
     def listTicket(self, list_price, seller_id):
-        self.for_sale = True
-        # TO-DO: finish the rest
-        return False
+        # confirm that whoever is trying to list the Ticket actually owns it
+        valid_seller = (seller_id == self.mostRecentTransaction().target)
+        # enforce that list_price is positive and non-zero
+        if valid_seller and list_price > 0.00:
+            self.for_sale = True
+            self.list_price = list_price
 
 
 class HashcashHeader:
