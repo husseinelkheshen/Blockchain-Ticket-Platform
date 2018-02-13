@@ -1,20 +1,25 @@
 import datetime as date
 import hashlib as hasher
 
-# keep track of the next usable id number to avoid duplicates amongst or
-# between Users and Venues
-next_unused_id = 0
 
-# keep track of all Venues on the platform
-# dictionaries of Venues are mapped by their location
-# per-location dictionaries of Venues are mapped by their name
-# ex. {'Chicago, IL': {'Apollo Theater': <Venue obj>}}
-registered_venues = {}
+class Trackers:
+    """ Holds all global tracker variables """
 
-# keep track of all registered Users on the platform
-# a User is mapped by his or her email_address
-# ex. {'email@address.com': <User obj>}
-registered_users = {}
+    # keep track of the next usable id number to avoid duplicates amongst or
+    # between Users and Venues
+    next_unused_id = 0
+
+    # keep track of all Venues on the platform
+    # dictionaries of Venues are mapped by their location
+    # per-location dictionaries of Venues are mapped by their name
+    # ex. {'Chicago, IL': {'Apollo Theater': <Venue obj>}}
+    registered_venues = {}
+
+    # keep track of all registered Users on the platform
+    # a User is mapped by his or her email_address
+    # ex. {'email@address.com': <User obj>}
+    registered_users = {}
+
 
 # The Block class, constituting an instance of a block in the chain
 class Block:
@@ -60,7 +65,7 @@ class Block:
 class Chain:
     """ Wrapper for a list of Block objects and some helper methods """
     def __init__(self):
-        self.blocks = list(a1.Block(0, date.datetime.now(), None, "", event))
+        self.blocks = []    # no need for a genesis block here
 
     def findRecentTrans(self, ticket_id):
         return Transaction()
@@ -100,21 +105,24 @@ class User:
             email_address: string
 
         """
-        # check for empty strings and confirm email isn't already registered
-        if !fname or !lname or !email_address or
-            email_address in registered_users:
-            self.id = self.fname = self.lname = self.email_address = None
-            self.inventory = self.wallet = None
+        if email_address:
+            unique_email = email_address not in Trackers.registered_users
         else:
-            self.id = next_unused_id
-            next_unused_id += 1
+            unique_email = False
+        # check for empty strings and confirm email isn't already registered
+        if fname and lname and email_address and unique_email:
+            self.id = Trackers.next_unused_id
+            Trackers.next_unused_id += 1
             self.fname = fname
             self.lname = lname
             self.email_address = email_address
             self.inventory = []
             self.wallet = 0.00
             # add this User to the catalog of registered Users
-            registered_users[email_address] = self
+            Trackers.registered_users[email_address] = self
+        else:
+            self.id = self.fname = self.lname = self.email_address = None
+            self.inventory = self.wallet = None
 
     def getID(self):
         return self.id
@@ -152,22 +160,21 @@ class Venue:
             location: string
 
         """
-        venue_exists = False
+        venue_already_exists = False
         # check if the name/location pair already exists
-        if location in registered_venues:
-            if name in registered_venues[location]:
-                venue_exists = True
-        if !name or !location or venue_exists:
-            self.id = self.name = self.events = self.location = None
-        else:
-            self.id = next_unused_id
-            next_unused_id += 1
+        if location in Trackers.registered_venues:
+            if name in Trackers.registered_venues[location]:
+                venue_already_exists = True
+        if name and location and not venue_already_exists:
+            self.id = Trackers.next_unused_id
+            Trackers.next_unused_id += 1
             self.name = name
             self.events = {}    # dictionary mapping Events to blockchains
             self.location = location
             # add this Venue to the catalog of registered Venues
-            if location_exists:
-                registered_venues[location][name] = self
+            Trackers.registered_venues[location][name] = self
+        else:
+            self.id = self.name = self.events = self.location = None
 
     def validateTicket(self, code, chain):
         return False
@@ -200,7 +207,7 @@ class Event:
 
         """
         self.tickets = None    # can add tickets later
-        if !name or datetime < date.datetime.now():
+        if not name or datetime < date.datetime.now():
             self.name = self.datetime = self.desc = self.blockchain = None
         else:
             self.next_ticket_num = 0
@@ -221,7 +228,7 @@ class Seat:
             seat_no: int
 
         """
-        if !section or !row or seat_no < 0:
+        if not section or not row or seat_no < 0:
             self.section = self.row = self.seat_no = None
         else:
             self.section = section
@@ -251,7 +258,7 @@ class Ticket:
 
     def mostRecentTransaction(self):
         # TO-DO: add three-way consensus check here in iteration 2
-        return event.blockchain.findRecentTrans(self.ticket_num)
+        return self.event.blockchain.findRecentTrans(self.ticket_num)
 
     def listTicket(self, list_price, seller_id):
         # confirm that whoever is trying to list the Ticket actually owns it
