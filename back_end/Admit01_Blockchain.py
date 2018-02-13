@@ -1,6 +1,13 @@
 import datetime as date
 import hashlib as hasher
 
+# keep track of the next usable id number to avoid duplicates amongst or
+# between Users and Venues
+next_unused_id = 0
+
+# keep track of all Venues on the platform
+venues = []
+
 # The Block class, constituting an instance of a block in the chain
 class Block:
     def __init__(self, index, timestamp, transaction, prev_hash, target):
@@ -70,13 +77,23 @@ class Transaction:
         return Transaction(target, None, 0)
 
 
-# The User class
 class User:
+    """
+    Class to uniquely identify users, maintain and manage their Ticket
+    inventory, and keep track of their usable funds (in their 'wallet')
+
+    """
     def __init__(self, fname, lname, email_address):
-        #
-        # fname, lname, email_address: String
-        #
-        self.id = None # auto-generate, must be unique from user_ids and venue_ids
+        """
+        User constructor
+
+            fname: string
+            lname: string
+            email_address: string
+
+        """
+        self.id = next_unused_id
+        next_unused_id += 1
         self.fname = fname
         self.lname = lname
         self.email_address = email_address
@@ -105,37 +122,25 @@ class User:
         return False
 
 
-# #The host class will inherit the user class, and add new functionalities
-# class Host(User):
-#     def createEvent(self, name, date, time, desc):
-#         return Event(name, date, time, desc, None, None)
-#
-#     def manageEvent(self, event):
-#         return False
-#
-#     def createTicket(self, event, cost, ticket_class, number):
-#         i = 0
-#         tickets = []
-#         while i < number:
-#             tickets.append(Ticket(event, cost, ticket_class))
-#             i += 1
-#
-#         return tickets
-#
-#     def manageTicket(self, event, ticket_class):
-#         return False
-#
-#     def scheduleRelease(self, event, ticket_class, number):
-#         return False
-
-
-# The Venue class will manage creating and distributing tickets for its events
 class Venue:
+    """
+    Class for uniquely identifying event venues as well as storing a list of
+    its upcoming Events mapped to validation copies of each one's blockchain
+
+    """
     def __init__(self, name, location):
-        self.id = None  # auto-generate, must be unique from other venue_ids and user_ids
-        self.name = name  # String
+        """
+        Venue constructor
+
+            name: string
+            location: string
+
+        """
+        self.id = next_unused_id
+        next_unused_id += 1
+        self.name = name
         self.events = {}  # dictionary mapping events to their blockchains
-        self.location = location  # String, for now
+        self.location = location
 
     def validateTicket(self, code, chain):
         return False
@@ -159,23 +164,32 @@ class Venue:
 class Event:
     """ Class to define an event, each of which will belong to a Venue """
     def __init__(self, name, datetime, desc):
-        """ Event constructor """
+        """
+        Event constructor
+
+            name: string
+            datetime: datetime object
+            desc: string
+
+        """
         self.name = name
         self.datetime = datetime
         self.desc = desc
-        self.tickets = None # can add tickets later
-        self.blockchain =  # do this
+        self.tickets = None    # can add tickets later
+        self.blockchain = Chain()    # initialize an empty blockchain
 
-    def initialBlockchain(self):
-        return Chain() # do this
 
-# The Seat class, uniquely identifies a seat within a Venue
-    #
-    # section, row: String
-    # seat: int
-    #
 class Seat:
+    """ Class to uniquely identify a seat within a Venue """
     def __init__(self, section, row, seat_no):
+        """
+        Seat constructor
+
+            section: string
+            row: string
+            seat_no: int
+
+        """
         self.section = section
         self.row = row
         self.seat_no = seat_no
