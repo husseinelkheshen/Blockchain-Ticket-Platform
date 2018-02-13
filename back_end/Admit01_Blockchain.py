@@ -5,8 +5,11 @@ import hashlib as hasher
 # between Users and Venues
 next_unused_id = 0
 
-# keep track of all Venues on the platform
-venues = []
+# keep track of all Venues on the platform (mapped by location)
+venues = {}
+
+# keep track of all registered Users on the platform (mapped by email_address)
+registered_users = {}
 
 # The Block class, constituting an instance of a block in the chain
 class Block:
@@ -92,13 +95,21 @@ class User:
             email_address: string
 
         """
-        self.id = next_unused_id
-        next_unused_id += 1
-        self.fname = fname
-        self.lname = lname
-        self.email_address = email_address
-        self.inventory = []
-        self.wallet = 0
+        # check for empty strings and confirm email isn't already registered
+        if !fname or !lname or !email_address or
+            email_address in registered_users:
+            self.id = self.fname = self.lname = self.email_address = None
+            self.inventory = self.wallet = None
+        else:
+            self.id = next_unused_id
+            next_unused_id += 1
+            self.fname = fname
+            self.lname = lname
+            self.email_address = email_address
+            self.inventory = []
+            self.wallet = 0
+            # add this User to the list of registered Users
+            registered_users[email_address] = self
 
     def getID(self):
         return self.id
