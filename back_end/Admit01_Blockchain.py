@@ -6,7 +6,7 @@ class Trackers:
     """ Holds all global tracker variables """
 
     # keep track of the next usable id number to avoid duplicates amongst or
-    # between Users and Venues
+    # between Users and Venues; must be incremented by 1 after each use
     next_unused_id = 0
 
     # keep track of all Venues on the platform
@@ -19,6 +19,12 @@ class Trackers:
     # a User is mapped by his or her email_address
     # ex. {'email@address.com': <User obj>}
     registered_users = {}
+
+    @staticmethod
+    def getNextID():
+        next_id = Trackers.next_unused_id
+        Trackers.next_unused_id += 1
+        return next_id
 
 
 # The Block class, constituting an instance of a block in the chain
@@ -111,8 +117,7 @@ class User:
             unique_email = False
         # check for empty strings and confirm email isn't already registered
         if fname and lname and email_address and unique_email:
-            self.id = Trackers.next_unused_id
-            Trackers.next_unused_id += 1
+            self.id = Trackers.getNextID()
             self.fname = fname
             self.lname = lname
             self.email_address = email_address
@@ -168,8 +173,7 @@ class Venue:
             if name in Trackers.registered_venues[location]:
                 venue_already_exists = True
         if name and location and not venue_already_exists:
-            self.id = Trackers.next_unused_id
-            Trackers.next_unused_id += 1
+            self.id = Trackers.getNextID()
             self.name = name
             self.events = {}    # dictionary mapping Events to blockchains
             self.location = location
