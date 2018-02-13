@@ -2,7 +2,7 @@
 # Tests for upgradeTicket
 #
 
-from ../back_end/Admit01_Blockchain.py import *
+from back_end.Admit01_Blockchain import *
 
 #
 # Creation of Peripheral Objects
@@ -70,54 +70,54 @@ testTicket9.for_sale = True
 #
 def test_upgradeTicket_valid():
 	testUser3.buyTicket(testTicket1)
-	assert(testUser3.upgradeTicket(testTicket1, testTicket3)
-	       and testUser3.wallet == 500
-		   and testUser3.inventory[0] == testTicket3
-		   and testTicket1.for_sale == True
-		   and testTicket2.for_sale == False)
+	assert (testUser3.upgradeTicket(testTicket1, testTicket3)
+	        and testUser3.wallet == 500
+		    and testUser3.inventory[0] == testTicket3
+		    and testTicket1.for_sale == True
+		    and testTicket2.for_sale == False)
 
 #
 # Test upgrading tickets between different events
 #
 def test_upgradeTicket_valid():
 	testUser2.buyTicket(testTicket5)
-	assert!(testUser2.upgradeTicket(testTicket5, testTicket6))
-	assert(testUser2.wallet == 400)
-    assert(testUser2.inventory[0] == testTicket5)
+	assert not testUser2.upgradeTicket(testTicket5, testTicket6)
+	assert testUser2.wallet == 400
+    assert testUser2.inventory[0] == testTicket5
 
 #
 # Test upgrading tickets user does not own
 #
 def test_upgradeTicket_unowned():
-	assert!(testUser4.upgradeTicket(testTicket6, testTicket4))
+	assert not testUser4.upgradeTicket(testTicket6, testTicket4)
 
 #
 # Test upgrading tickets not for sale
 #
 def test_upgradeTicket_notforsale():
-	assert!(testUser3.upgradeTicket(testTicket3, testTicket2))
+	assert not testUser3.upgradeTicket(testTicket3, testTicket2)
 
 #
 # Test upgrading tickets that are worth less than current
 #
 def test_upgradeTicket_less():
-	assert!(testUser3.upgradeTicket(testTicket3, testTicket4))
+	assert not testUser3.upgradeTicket(testTicket3, testTicket4)
 
 #
 # Test upgrading invalid tickets
 #
 def test_upgradeTicket_invalid():
-	assert!(testUser3.upgradeTicket(testTicket3, None))
+	assert not testUser3.upgradeTicket(testTicket3, None)
 
 #
 # Test upgrading tickets for events that have transpired
 #
 def test_upgradeTicket_transpired():
-	assert!(testUser3.upgradeTicket(testTicket3, testTicket7))
+	assert not testUser3.upgradeTicket(testTicket3, testTicket7)
 
 #
 # Test upgrading tickets equal to current
 #
 def test_upgradeTicket_equal():
 	testUser1.buyTicket(testTicket8)
-	assert!(testUser1.upgradeTicket(testTicket8, testTicket9))
+	assert not testUser1.upgradeTicket(testTicket8, testTicket9)
