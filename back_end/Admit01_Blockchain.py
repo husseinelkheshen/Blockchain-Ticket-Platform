@@ -5,10 +5,15 @@ import hashlib as hasher
 # between Users and Venues
 next_unused_id = 0
 
-# keep track of all Venues on the platform (mapped by location)
-venues = {}
+# keep track of all Venues on the platform
+# dictionaries of Venues are mapped by their location
+# per-location dictionaries of Venues are mapped by their name
+# ex. {'Chicago, IL': {'Apollo Theater': <Venue obj>}}
+registered_venues = {}
 
-# keep track of all registered Users on the platform (mapped by email_address)
+# keep track of all registered Users on the platform
+# a User is mapped by his or her email_address
+# ex. {'email@address.com': <User obj>}
 registered_users = {}
 
 # The Block class, constituting an instance of a block in the chain
@@ -108,7 +113,7 @@ class User:
             self.email_address = email_address
             self.inventory = []
             self.wallet = 0
-            # add this User to the list of registered Users
+            # add this User to the catalog of registered Users
             registered_users[email_address] = self
 
     def getID(self):
@@ -147,11 +152,22 @@ class Venue:
             location: string
 
         """
-        self.id = next_unused_id
-        next_unused_id += 1
-        self.name = name
-        self.events = {}  # dictionary mapping events to their blockchains
-        self.location = location
+        venue_exists = False
+        # check if the name/location pair already exists
+        if location in registered_venues:
+            if name in registered_venues[location]:
+                venue_exists = True
+        if !name or !location or venue_exists:
+            self.id = self.name = self.events = self.location = None
+        else:
+            self.id = next_unused_id
+            next_unused_id += 1
+            self.name = name
+            self.events = {}    # dictionary mapping Events to blockchains
+            self.location = location
+            # add this Venue to the catalog of registered Venues
+            if location_exists:
+                registered_venues[location][name] = self
 
     def validateTicket(self, code, chain):
         return False
