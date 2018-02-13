@@ -176,8 +176,8 @@ class User:
                                    "current_owner = " + str(current_owner))
                     # generate ticket code
                     ticket_code = qr.create(ticket_data)
-                    
-        return ticket_code
+
+        return ticket_code    # call ticket_code.png('filename.png') to generate
 
 
 class Venue:
