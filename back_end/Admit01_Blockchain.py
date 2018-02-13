@@ -1,5 +1,6 @@
 import datetime as date
 import hashlib as hasher
+import pyqrcode as qr
 
 
 class Trackers:
@@ -7,7 +8,10 @@ class Trackers:
 
     # keep track of the next usable id number to avoid duplicates amongst or
     # between Users and Venues; must be incremented by 1 after each use
-    next_unused_id = 0
+    next_user_venue_id = 0
+
+    # keep track of the next Event id number to avoid duplicates
+    next_event_id = 0
 
     # keep track of all Venues on the platform
     # dictionaries of Venues are mapped by their location
@@ -16,14 +20,20 @@ class Trackers:
     registered_venues = {}
 
     # keep track of all registered Users on the platform
-    # a User is mapped by his or her email_address
+    # a User is mapped by his or her email_addfress
     # ex. {'email@address.com': <User obj>}
     registered_users = {}
 
     @staticmethod
-    def getNextID():
-        next_id = Trackers.next_unused_id
-        Trackers.next_unused_id += 1
+    def getNextUserVenueID():
+        next_id = Trackers.next_user_venue_id
+        Trackers.next_user_venue_id += 1
+        return next_id
+
+    @staticmethod
+    def getNextEventID():
+        next_id = Trackers.next_event_id
+        Trackers.next_event_id += 1
         return next_id
 
 
@@ -117,7 +127,7 @@ class User:
             unique_email = False
         # check for empty strings and confirm email isn't already registered
         if fname and lname and email_address and unique_email:
-            self.id = Trackers.getNextID()
+            self.id = Trackers.getNextUserVenueID()
             self.fname = fname
             self.lname = lname
             self.email_address = email_address
@@ -130,6 +140,7 @@ class User:
             self.inventory = self.wallet = None
 
     def getID(self):
+        """ Getter for User's ID number """
         return self.id
 
     def buyTicket(self, ticket):
@@ -142,13 +153,31 @@ class User:
         return False
 
     def search(self, text):
+        # iteration 2
         return False
 
     def explore(self):
+        # iteration 2
         return False
 
-    def generateTicketCode(self, ticket):
-        return False
+    def generateTicketCode(self, venue, event, ticket):
+        """ Generate a QR code object if the User owns the Ticket """
+        ticket_code = None
+        # confirm Event is valid
+        if event in venue.events:
+            # confirm Ticket is valid
+            if ticket in event.tickets:
+                current_owner = ticket.mostRecentTransaction().target
+                # confirm Ticket ownership
+                if self.id == current_owner:
+                    ticket_data = ("venue_id = " + str(venue_id) +
+                                   "event_id = " + str(event_id) +
+                                   "ticket_num = " + str(ticket.ticket_num) +
+                                   "current_owner = " + str(current_owner))
+                    # generate ticket code
+                    ticket_code = qr.create(ticket_data)
+                    
+        return ticket_code
 
 
 class Venue:
@@ -173,9 +202,12 @@ class Venue:
             if name in Trackers.registered_venues[location]:
                 venue_already_exists = True
         if name and location and not venue_already_exists:
-            self.id = Trackers.getNextID()
+            self.id = Trackers.getNextUserVenueID()
             self.name = name
-            self.events = {}    # dictionary mapping Events to blockchains
+            # dictionary mapping event_ids to tuples that pair Events to Venue
+            # copies of their blockchains
+            # ex. {1023: (<Event obj>: <Chain obj>)}
+            self.events = {}
             self.location = location
             # add this Venue to the catalog of registered Venues
             if not location_exists:
@@ -216,8 +248,10 @@ class Event:
         """
         self.tickets = None    # can add tickets later
         if not name or datetime < date.datetime.now():
-            self.name = self.datetime = self.desc = self.blockchain = None
+            self.id = self.name = self.datetime = None
+            self.desc = self.blockchain = None
         else:
+            self.id = Trackers.getNextEventID()
             self.next_ticket_num = 0
             self.name = name
             self.datetime = datetime
