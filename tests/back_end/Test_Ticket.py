@@ -47,4 +47,5 @@ def test_normal:
 		   and testTicket.face_value == 1
 		   and testTicket.list_price == 1
 		   and testTicket.for_sale == False
-		   and testTicket.history == None)
+		   and testTicket.history == None
+           and testTicket.seat == testSeat1)
