@@ -15,18 +15,21 @@ event3 = Event("Hamilton", invalid_datetime, "2016 Tony winner") # failure
 
 def test_allvalid():
     """ Future-dated Event with non-empty name should construct successfully """
-    assert (event1.name == "Lady Gaga" and
+    assert (event1.id is not None and
+            event1.name == "Lady Gaga" and
             event1.datetime == valid_datetime and
             event1.desc == "Stadium world tour")
 
 def test_badname():
     """ Nameless Event should not construct """
-    assert (event2.name == None and
-            event2.datetime == None and
-            event2.desc == None)
+    assert (event2.id is None and
+            event2.name is None and
+            event2.datetime is None and
+            event2.desc is None)
 
 def test_baddatetime():
     """ Past-dated Event should not construct """
-    assert (event3.name == None and
-            event3.datetime == None and
-            event3.desc == None)
+    assert (event3.id is None and
+            event3.name is None and
+            event3.datetime is None and
+            event3.desc is None)
