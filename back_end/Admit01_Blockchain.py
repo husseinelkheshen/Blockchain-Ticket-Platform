@@ -172,11 +172,14 @@ class Event:
             desc: string
 
         """
-        self.name = name
-        self.datetime = datetime
-        self.desc = desc
         self.tickets = None    # can add tickets later
-        self.blockchain = Chain()    # initialize an empty blockchain
+        if (!name or datetime < date.datetime.now()):
+            self.name = self.datetime = self.desc = self.blockchain = None
+        else:
+            self.name = name
+            self.datetime = datetime
+            self.desc = desc
+            self.blockchain = Chain()    # initialize an empty blockchain
 
 
 class Seat:
