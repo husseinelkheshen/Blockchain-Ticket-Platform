@@ -99,16 +99,8 @@ class Transaction:
         self.target = target
         self.source = source
         self.value = value
-<<<<<<< HEAD
-        self.content = content #
-
-    # function to create a genesis transaction with a recipient (host/venue)
-    def genesisTransaction(self, target):
-        return Transaction(target, None, 0)
-
-=======
-        self.ticket_num = ticket_num
->>>>>>> a44032f3959ddb386b99d4ae98ff7149eea15466
+        self.ticket_num = ticket_num #
+        
 
 class User:
     """
