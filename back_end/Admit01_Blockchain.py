@@ -39,19 +39,18 @@ class Trackers:
 
 # The Block class, constituting an instance of a block in the chain
 class Block:
-    def __init__(self, index, timestamp, transaction, prev_hash):
-        if prev_hash == None or len(prev_hash) == 0:
+    def __init__(self, index, timestamp, transactions, prev_hash):
+        if prev_hash is None or len(prev_hash) == 0:
             # genesis
             self.index = 0
             self.timestamp = timestamp
-            self.data = Transaction.genesisTransaction(target)
-            self.prev_hash = self.genesisHash(512)
+            self.data = transactions
+            self.prev_hash = None
             self.hash = self.hashBlock()
         else:
             self.index = index # numerical index, (matching the list index of the block?)
             self.timestamp = timestamp # a datetime timestamp object
-            self.data = transaction # an instance of the transaction class defined below representing the transaction for this block
-                                    # in the future, if more than a single transaction is put on a block, this can be a list of transactions
+            self.data = transactions # a list of transactions
             self.prev_hash = prev_hash # the hash of the previous block in the chain
             self.hash = self.hashBlock() # the new hash for this block, including all of the above fields
 
@@ -244,10 +243,11 @@ class Venue:
         # make sure Venue is valid
         if self.id is not None:
             # make sure Event is valid
-            if (event is not None and
+            if (event.id is not None and
                 event.id in self.events and
                 event == self.events[event.id][0]):
                 # make sure Ticket for this Seat does not already exist
+                assert seat is not None
                 valid_ticket = True
                 for ticket in event.tickets:
                     if ticket.seat == seat:
@@ -266,7 +266,7 @@ class Venue:
                     new_block = Block(new_block_index, date.datetime.now(),
                                       [new_txn], prev_hash)
                     event.blockchain.blocks.append(new_block)
-                    this.events[event_id][1].blocks.append(new_block)
+                    self.events[event.id][1].blocks.append(new_block)
                     # TO-DO: ***MINE THE BLOCK***, publish the nonce
                     new_block_hash = None    # obviously fix this
                     new_ticket.history.append((new_block_index, new_block_hash))
@@ -291,7 +291,7 @@ class Event:
             desc: string
 
         """
-        self.tickets = None    # can add tickets later
+        self.tickets = []    # can add tickets later
         if not name or datetime < date.datetime.now():
             self.id = self.name = self.datetime = None
             self.desc = self.blockchain = None
@@ -339,7 +339,7 @@ class Ticket:
         self.face_value = face_value
         self.list_price = face_value # upon inception, list price = face_value
         self.for_sale = False
-        self.history = None # history is list of tuples of (block index, hash)
+        self.history = []    # history is list of tuples of (block index, hash)
 
     def isForSale(self):
         return self.for_sale
