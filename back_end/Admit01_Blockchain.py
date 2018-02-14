@@ -253,7 +253,7 @@ class Venue:
                     new_ticket = Ticket(event, face_value, seat)
                     # post to both blockchains and Ticket history
                     new_txn = Transaction(self.id, None, 0,
-                                           new_ticket.ticket_num)
+                                          new_ticket.ticket_num)
                     prev_hash = None
                     new_block_index = len(event.blockchain.blocks)
                     if new_block_index > 0:
