@@ -318,7 +318,7 @@ class Seat:
             self.seat_no = seat_no
 
 
-# The Ticket class, pretty simple and self explanitory
+# The Ticket class, pretty simple and self explanatory
 class Ticket:
     def __init__(self, event, face_value, seat):
         #
