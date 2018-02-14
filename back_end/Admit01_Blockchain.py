@@ -177,9 +177,9 @@ class User:
                 # confirm Ticket ownership
                 if self.id == current_owner:
                     ticket_data = ("venue_id = " + str(venue_id) +
-                                   "event_id = " + str(event_id) +
-                                   "ticket_num = " + str(ticket.ticket_num) +
-                                   "current_owner = " + str(current_owner))
+                                   "\nevent_id = " + str(event_id) +
+                                   "\nticket_num = " + str(ticket.ticket_num) +
+                                   "\ncurrent_owner = " + str(current_owner))
                     # generate ticket code
                     ticket_code = qr.create(ticket_data)
 
