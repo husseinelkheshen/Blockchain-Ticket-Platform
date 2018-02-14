@@ -39,7 +39,7 @@ class Trackers:
 
 # The Block class, constituting an instance of a block in the chain
 class Block:
-    def __init__(self, index, timestamp, transaction, prev_hash, target):
+    def __init__(self, index, timestamp, transaction, prev_hash):
         if prev_hash == None or len(prev_hash) == 0:
             # genesis
             self.index = 0
@@ -88,7 +88,7 @@ class Chain:
 
     def mineNewBlock(self, transactions):
         self.blocks.append(Block(len(self.blocks), date.datetime.now(), transactions,
-                                 a1.HashcashHeader(self).generateAcceptableHeader()))
+                                 HashcashHeader(self).generateAcceptableHeader()))
 
 
 
@@ -161,10 +161,17 @@ class User:
         return False
 
     def generateTicketCode(self, venue, event, ticket):
-        """ Generate a QR code object if the User owns the Ticket """
+        """
+        Generate a QR code object if the User owns the Ticket
+
+            venue: Venue object
+            event: Event object
+            ticket: Ticket object
+
+        """
         ticket_code = None
         # confirm Event is valid
-        if event in venue.events:
+        if event.id in venue.events and event == venue.events[event.id][0]:
             # confirm Ticket is valid
             if ticket in event.tickets:
                 current_owner = ticket.mostRecentTransaction().target
@@ -225,8 +232,46 @@ class Venue:
     def manageEvent(self, event):
         return False
 
-    def createTicket(self, event, cost, ticket_class, number):
-        return []
+    def createTicket(self, event, face_value, seat):
+        """
+        Allows a Venue to create a new Ticket for one of its Events
+
+            event: Event object
+            face_value: int
+            seat: Seat object
+
+        """
+        # make sure Venue is valid
+        if self.id is not None:
+            # make sure Event is valid
+            if (event is not None and
+                event.id in self.events and
+                event == self.events[event.id][0]):
+                # make sure Ticket for this Seat does not already exist
+                valid_ticket = True
+                for ticket in event.tickets:
+                    if ticket.seat == seat:
+                        valid_ticket = False
+                        break
+                if valid_ticket:
+                    # create the new Ticket
+                    new_ticket = Ticket(event, face_value, seat)
+                    # post to both blockchains and Ticket history
+                    new_txn = Transaction(self.id, None, 0,
+                                           new_ticket.ticket_num)
+                    prev_hash = None
+                    new_block_index = len(event.blockchain.blocks)
+                    if new_block_index > 0:
+                        prev_hash = event.blockchain.blocks[-1].hash
+                    new_block = Block(new_block_index, date.datetime.now(),
+                                      [new_txn], prev_hash)
+                    event.blockchain.blocks.append(new_block)
+                    this.events[event_id][1].blocks.append(new_block)
+                    # TO-DO: ***MINE THE BLOCK***, publish the nonce
+                    new_block_hash = None    # obviously fix this
+                    new_ticket.history.append((new_block_index, new_block_hash))
+                    event.tickets.append(new_ticket)
+
 
     def manageTicket(self, event, ticket_class):
         return False
@@ -290,10 +335,11 @@ class Ticket:
         self.ticket_num = event.next_ticket_num
         event.next_ticket_num += 1
         self.event = event
+        self.seat = seat
         self.face_value = face_value
         self.list_price = face_value # upon inception, list price = face_value
         self.for_sale = False
-        self.history = None # history is list of tuples of block index, hash
+        self.history = None # history is list of tuples of (block index, hash)
 
     def isForSale(self):
         return self.for_sale
