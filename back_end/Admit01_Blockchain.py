@@ -95,16 +95,20 @@ class Chain:
 
 # The Transaction class, pretty simple, to, from, value of transaction.
 class Transaction:
-    def __init__(self, target, source, value, content):
+    def __init__(self, target, source, value, ticket_num):
         self.target = target
         self.source = source
         self.value = value
+<<<<<<< HEAD
         self.content = content #
 
     # function to create a genesis transaction with a recipient (host/venue)
     def genesisTransaction(self, target):
         return Transaction(target, None, 0)
 
+=======
+        self.ticket_num = ticket_num
+>>>>>>> a44032f3959ddb386b99d4ae98ff7149eea15466
 
 class User:
     """
@@ -259,7 +263,7 @@ class Venue:
                     new_ticket = Ticket(event, face_value, seat)
                     # post to both blockchains and Ticket history
                     new_txn = Transaction(self.id, None, 0,
-                                           new_ticket.ticket_num)
+                                          new_ticket.ticket_num)
                     prev_hash = None
                     new_block_index = len(event.blockchain.blocks)
                     if new_block_index > 0:
@@ -324,7 +328,7 @@ class Seat:
             self.seat_no = seat_no
 
 
-# The Ticket class, pretty simple and self explanitory
+# The Ticket class, pretty simple and self explanatory
 class Ticket:
     def __init__(self, event, face_value, seat):
         #
