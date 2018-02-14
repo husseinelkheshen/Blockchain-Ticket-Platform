@@ -101,16 +101,16 @@ def test_buyTicket_availability2():
 # Test purchasing of tickets when user does not exist
 #
 def test_buyTicket_userDNE():
-	assert!(testUser5.buyTicket(testTicket5))
+	assert not testUser5.buyTicket(testTicket5)
 
 #
 # Test buyTicket when ticket does not exist
 #
 def test_buyTicket_ticketDNE():
-	assert!(testUser3.buyTicket(testTicket7))
+	assert not testUser3.buyTicket(testTicket7)
 
 #
 # Test buyTicket when event has transpired
 #
 def test_buyTicket_eventDNE():
-	assert!(testUser3.buyTicket(testTicket6))
+	assert not testUser3.buyTicket(testTicket6)
