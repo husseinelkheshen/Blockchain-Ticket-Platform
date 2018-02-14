@@ -94,7 +94,7 @@ class Chain:
 
 # The Transaction class, pretty simple, to, from, value of transaction.
 class Transaction:
-    def __init__(self, target, source, value, content):
+    def __init__(self, target, source, value, ticket_num):
         self.target = target
         self.source = source
         self.value = value
