@@ -1,5 +1,7 @@
+# Install prerequisites by calling 'make install'
 install:
 	pip3 install pyqrcode
+	python3 -m pip install pytest
 
 # Run back end unit tests by calling 'make back_end_unit_tests'
 back_end_unit_tests:
