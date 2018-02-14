@@ -1,5 +1,6 @@
 import datetime as date
 import hashlib as hasher
+from random import *
 import pyqrcode as qr
 
 
@@ -46,13 +47,13 @@ class Block:
             self.timestamp = timestamp
             self.data = transactions
             self.prev_hash = None
-            self.hash = self.hashBlock()
+            self.hash = ""
         else:
             self.index = index # numerical index, (matching the list index of the block?)
             self.timestamp = timestamp # a datetime timestamp object
             self.data = transactions # a list of transactions
             self.prev_hash = prev_hash # the hash of the previous block in the chain
-            self.hash = self.hashBlock() # the new hash for this block, including all of the above fields
+            self.hash = "" # the new hash for this block, including all of the above fields
 
     # generates a hash for a block
     def hashBlock(self):
@@ -98,7 +99,7 @@ class Transaction:
         self.target = target
         self.source = source
         self.value = value
-        self.content = content
+        self.content = content #
 
     # function to create a genesis transaction with a recipient (host/venue)
     def genesisTransaction(self, target):
@@ -389,7 +390,7 @@ class HashcashHeader:
         # randstring = ''.join(random.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase + '+' + '/') for _ in range(16))
         while result[0:5] != "00000" or result[5:] in self.prev_hashes:
             self.counter += 1
-            result = genSHA1Hash(self)
+            result = self.genSHA1Hash()
         print("Got a matching hash\n")
         print(result)
         self.prev_hashes.append(self.hash[5:])
@@ -398,5 +399,5 @@ class HashcashHeader:
 
     def genSHA1Hash(self):
         sha = hasher.sha1()
-        sha.update(self.toString().encode('utf-8'))
+        sha.update(str(self).encode('utf-8'))
         return sha.hexdigest()
