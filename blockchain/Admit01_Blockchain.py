@@ -61,7 +61,7 @@ class Block:
         valid_index = (index is not None) and (index >= 0)
         if(not valid_index or (timestamp is None) or (transactions is None)):
             self. index = self.timestamp = self.data = self.prev_hash = self.hash = None
-        if prev_hash is None or len(prev_hash) == 0:
+        elif prev_hash is None or len(prev_hash) == 0:
             # genesis
             self.index = 0
             self.timestamp = timestamp

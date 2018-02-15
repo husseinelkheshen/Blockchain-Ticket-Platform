@@ -85,7 +85,6 @@ def test_notrans():
             block7.timestamp is None and
             block7.data is None)
 
-
 def test_notime():
     #
     # Block should reject blocks with no time stamp
