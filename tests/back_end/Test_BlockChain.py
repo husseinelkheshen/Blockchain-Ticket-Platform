@@ -40,13 +40,13 @@ def test_goodparameters():
 
 def test_goodexchange():
     #
-    # Block should accept multiple exchanges between same parties
+    # Block should accept multiple transactions in one block
+    # Simulates UpgradeTicket
     #
     assert (block2.index == 1 and
             block2.timestamp == date and
             block2.data[0] == trans2 and
-            block2.data[1] == trans3 and
-            block2.prev_hash == block1.prev_hash)
+            block2.data[1] == trans3)
 
 # def test_goodtransactions():
 #     #
