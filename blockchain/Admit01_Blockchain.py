@@ -27,13 +27,29 @@ class Trackers:
     registered_users = {}
 
     @staticmethod
+    def venueExists(venue_id):
+        """ Checks if a Venue is registered """
+        if venue_id is None or venue_id < 0:
+            return False
+
+        venues = Trackers.registered_venues
+        for city in venues:
+            for venue_name in venues[city]:
+                if venue_id == venues[city][venue_name].id:
+                    return True
+
+        return False
+
+    @staticmethod
     def getNextUserVenueID():
+        """ Retrieves the next usable ID for User or Venue """
         next_id = Trackers.next_user_venue_id
         Trackers.next_user_venue_id += 1
         return next_id
 
     @staticmethod
     def getNextEventID():
+        """ Retrieves the next usable ID for Event """
         next_id = Trackers.next_event_id
         Trackers.next_event_id += 1
         return next_id
@@ -199,7 +215,7 @@ class User:
             return False
 
         # check if ticket is for sale
-        if ticket.for_sale == False:
+        if ticket.for_sale == True:
             return False
 
         # check if user calling has enough money in wallet
@@ -217,19 +233,19 @@ class User:
                                             ticket.list_value,
                                             ticket.ticket_num))
 
-        # post the transactions to a new block
+        # post the transaction to a new block
         prev_hash = None
         new_block_index = len(event.blockchain.blocks)
         if new_block_index > 0:
-            prev_hash = ticket.event.blockchain.blocks[-1].hash
+            prev_hash = event.blockchain.blocks[-1].hash
         new_block = Block(new_block_index,
                           date.datetime.now(),
                           new_transactions,
                           prev_hash)
 
         # append the new block to both blockchains
-        ticket.event.blockchain.blocks.append(new_block)
-        ticket.event.venue.events[event.id][1].blocks.append(new_block)
+        event.blockchain.blocks.append(new_block)
+        event.venue.events[event.id][1].blocks.append(new_block)
 
         # UNFINISHED mine one new block
         new_block_hash = None
@@ -243,9 +259,7 @@ class User:
         self.inventory.append(ticket)
 
         # subtract appropriate funds from user's wallet
-        self.wallet -= ticket.list_value
-
-        # add appropriate funds to seller's wallet (iteration 2)
+        self.wallet = self.wallet - ticket.list_value
 
         # mark ticket as sold
         ticket.for_sale = False
@@ -253,6 +267,7 @@ class User:
         # signify completion
         return True
 
+<<<<<<< HEAD
     def upgradeTicket(self, owned_ticket, new_ticket):
         '''
         Allows a User to upgrade an owned ticket for another listed ticket
@@ -341,6 +356,10 @@ class User:
 
         # signify completion
         return True
+=======
+    def upgradeTicket(self, ticket):
+        return False
+>>>>>>> master
 
     def search(self, text):
         # iteration 2
@@ -401,7 +420,6 @@ class Venue:
         if name and location and not venue_already_exists:
             self.id = Trackers.getNextUserVenueID()
             self.name = name
-            self.wallet = 0.00
             # dictionary mapping event_ids to tuples that pair Events to Venue
             # copies of their blockchains
             # ex. {1023: (<Event obj>: <Chain obj>)}
@@ -459,12 +477,20 @@ class Venue:
                         prev_hash = event.blockchain.blocks[-1].hash
                     new_block = Block(new_block_index, date.datetime.now(),
                                       [new_txn], prev_hash)
-                    event.blockchain.blocks.append(new_block)
-                    self.events[event.id][1].blocks.append(new_block)
-                    # TO-DO: ***MINE THE BLOCK***, publish the nonce
-                    new_block_hash = None    # obviously fix this
-                    new_ticket.history.append((new_block_index, new_block_hash))
-                    event.tickets.append(new_ticket)
+                    event_chain = event.blockchain
+                    venue_chain = self.events[event.id][1]
+                    # add new block to both chains
+                    event_chain.blocks.append(new_block)
+                    venue_chain.blocks.append(new_block)
+                    # mine the new block
+                    if event.blockchain.mineNewBlock([venue_chain]):
+                        new_block_hash = event_chain.blocks[-1].hash
+                        new_ticket.history.append((new_block_index, new_block_hash))
+                        event.tickets.append(new_ticket)
+                    else:
+                        del event_chain.blocks[-1]
+                        del venue_chain.blocks[-1]
+                        print("Transaction aborted: could not mine block")
 
 
     def manageTicket(self, event, ticket_class):
