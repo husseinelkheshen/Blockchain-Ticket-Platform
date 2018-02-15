@@ -112,8 +112,7 @@ class Chain:
     def findRecentTrans(self, ticket_id):
         recentTrans = None
 
-<<<<<<< HEAD
-=======
+
         chainlength = len(Chain.blocks)
         translength = 0
         foundTrans = False
@@ -133,9 +132,6 @@ class Chain:
 
         return recentTrans
 
-
-
->>>>>>> hussein
     def mineNewBlock(self, otherchains):
         if self.blocks[-1].hash:
             return False
