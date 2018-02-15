@@ -15,4 +15,4 @@ class Customer(models.Model):
             max_digits=15, decimal_places=2, default=Decimal("0.00"))
 
     def __str__(self):
-        return user.get_full_name()
+        return self.user.username
