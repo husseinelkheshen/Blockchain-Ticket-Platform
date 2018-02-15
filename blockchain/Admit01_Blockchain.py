@@ -97,7 +97,9 @@ class Chain:
         self.prev_hashes = []
 
     def findRecentTrans(self, ticket_id):
-        return Transaction()
+        recentTrans = None
+
+
 
     def mineNewBlock(self, otherchains):
         if self.blocks[-1].hash:
@@ -128,11 +130,14 @@ class Chain:
 # The Transaction class, pretty simple, to, from, value of transaction.
 class Transaction:
     def __init__(self, target, source, value, ticket_num):
-        self.target = target
-        self.source = source
-        self.value = value
-        self.ticket_num = ticket_num #
-
+        if ((not target or (value < 0) or (ticket_num < 0))
+                or (not source and target not in Trackers.registered_venues)):
+            self. target = self.source = self.value = self.ticket_num = None
+        else:
+            self.target = target
+            self.source = source
+            self.value = value
+            self.ticket_num = ticket_num #
 
 class User:
     """
@@ -170,11 +175,11 @@ class User:
     def getID(self):
         """ Getter for User's ID number """
         return self.id
-        
+
     def buyTicket(self, ticket):
         '''
         Allows a User to buy a listed ticket
-        
+
             ticket: Ticket object
 
         '''
@@ -188,7 +193,7 @@ class User:
             or ticket.for_sale == None
             or ticket.history == None):
             return False
-        
+
         # check if the event has already transpired
         if ticket.event.datetime < datetime.now():
             return False
@@ -201,7 +206,7 @@ class User:
         if ticket.list_value > self.wallet:
             return False
 
-        # check if user already owns the ticket 
+        # check if user already owns the ticket
         if ticket in self.inventory:
             return False
 
