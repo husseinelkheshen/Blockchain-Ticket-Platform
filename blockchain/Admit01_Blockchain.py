@@ -118,6 +118,8 @@ class Chain:
     def findRecentTrans(self, ticket_id):
         recentTrans = None
 
+        return recentTrans
+
 
 
     def mineNewBlock(self, otherchains):

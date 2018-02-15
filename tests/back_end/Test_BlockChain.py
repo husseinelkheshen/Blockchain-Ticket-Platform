@@ -114,16 +114,14 @@ event1.blockchain.blocks.append(block3)
 
 chaintrans3 = event1.blockchain.findRecentTrans(1)
 
-# def test_notransactions():
-#     #
-#     # Search should be empty if ticket has no transactions
-#     # Functionally this should not happen since ticket genesis involves transactions
-#     # This is mainly for debugging purposes
-#     #
-#     assert (chaintrans0.target is None and
-#             chaintrans0.source is None and
-#             chaintrans0.value is None)
-#
+def test_notransactions():
+    #
+    # Search should be empty if ticket has no transactions
+    # Functionally this should not happen since ticket genesis involves transactions
+    # This is mainly for debugging purposes
+    #
+    assert chaintrans0 is None
+
 # def test_listofone():
 #     #
 #     # Should return the only transaction in the list
