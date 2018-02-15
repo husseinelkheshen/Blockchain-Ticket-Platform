@@ -130,19 +130,17 @@ def test_listofone():
             chaintrans1.source == user2.id and
             chaintrans1.value == 50)
 
-# def test_falseticketid():
-#     #
-#     # Return no ticket if ticket id is incorrect
-#     #
-#     assert (chaintrans2.target is None and
-#             chaintrans2.source is None and
-#             chaintrans2.value is None)
-#
-# def test_newtransaction():
-#     #
-#     # Should return only most recent transaction
-#     #
-#     assert (chaintrans3.target == user2.id and
-#             chaintrans3.source == user1.id and
-#             chaintrans3.value == 50)
+def test_falseticketid():
+    #
+    # Return no ticket if ticket id is incorrect
+    #
+    assert chaintrans2 is None
+
+def test_newtransaction():
+    #
+    # Should return only most recent transaction
+    #
+    assert (chaintrans3.target == user2.id and
+            chaintrans3.source == user1.id and
+            chaintrans3.value == 50)
 
