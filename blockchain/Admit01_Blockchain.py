@@ -218,7 +218,7 @@ class User:
         if new_block_index > 0:
             prev_hash = event.blockchain.blocks[-1].hash
         new_block = Block(new_block_index,
-                          date.datetime.now()
+                          date.datetime.now(),
                           new_transactions,
                           prev_hash)
 
