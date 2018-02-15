@@ -73,7 +73,8 @@ class Block:
             self.timestamp = timestamp # a datetime timestamp object
             self.data = transactions # a list of transactions
             self.prev_hash = prev_hash # the hash of the previous block in the chain
-            self.hash = "" # the new hash for this block, including all of the above fields
+            self.hash = ""  # the new hash for this block, generated in hashcash format
+                            # where data content of hashcash is a string representation of the block
 
     # generates a sha256 hash given a string
     @staticmethod
@@ -113,28 +114,47 @@ class Chain:
         recentTrans = None
 
     def mineNewBlock(self, otherchains):
+        """
+            Allows a Chain to mine the hash for the most recently appended block
+                otherchains: [Chain]
+            otherchains is a list of all of the chains aside from the one calling the function
+            that are waiting for the hash of the most recent block
+
+        """
         if self.blocks[-1].hash:
+            # If the most recent block already has a hash, then there is no hash to be mined.
+            # Therefore we return false.
             return False
         else:
+            # counter is a component of the nonce that we generate
             counter = randint(0, 65536)
+            # result is the hash that results from our hashing of the block with our current nonce
+            # it is initialized to a garbage value of "11111" to satisfy the while loop condition
             result = "11111"
+            # randstring is the other component of the nonce that we generate
             randstring = ''.join(choice(string.ascii_uppercase +
                                         string.digits + string.ascii_lowercase +
                                          '+' + '/') for _ in range(16))
+            # while the first 20 bits are not 0, or the hash created matches a previous hash
             while result[0:5] != "00000" or result in self.prev_hashes:
+                # increment the counter, generate a hash, store it in result
                 counter += 1
                 result = self.blocks[-1].genSHA1Hash(
                     ':'.join(["1", "20", self.blocks[-1].timestamp.strftime(
                     "%y%m%d%H%M%S"), str(self.blocks[-1]),
                     randstring, str(counter)]))
-            # print("Got a matching hash\n")
-            # print(result)
             if len(self.blocks) > 1:
+                # if there are multiple blocks, append the hash of the second block from the back
+                # to the list of previous hashes of the chain
+                # if this is the first block, there is no previous to worry about
                 self.prev_hashes.append(self.blocks[-2].hash)
             nonce = randstring + ":" + str(counter)
             for chain in otherchains:
+                # if the hash of any of the mirror chains with this nonce isn't the same
+                # one of the chains is corrupt, return false
                 if chain.blocks[-1].hashBlock(nonce) != result:
                     return False
+            # put the hash on all of the chains' final blocks, including this one
             otherchains.append(self)
             for chain in otherchains:
                 chain.blocks[-1].hash = result
