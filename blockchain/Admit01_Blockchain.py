@@ -86,7 +86,7 @@ class Block:
             self.timestamp = timestamp # a datetime timestamp object
             self.data = transactions # a list of transactions
             self.prev_hash = prev_hash # the hash of the previous block in the chain
-            self.hash = ""  # the new hash for this block, generated in hashcash format
+            self.hash = "testhash"  # the new hash for this block, generated in hashcash format
                             # where data content of hashcash is a string representation of the block
 
     # generates a sha256 hash given a string
