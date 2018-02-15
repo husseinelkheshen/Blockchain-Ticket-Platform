@@ -96,10 +96,13 @@ class Chain:
 # The Transaction class, pretty simple, to, from, value of transaction.
 class Transaction:
     def __init__(self, target, source, value, ticket_num):
-        self.target = target
-        self.source = source
-        self.value = value
-        self.ticket_num = ticket_num #
+        if not target or not source or (value < 0) or (ticket_num < 0):
+            self. target = self.source = self.value = self.ticket_num = None
+        else:
+            self.target = target
+            self.source = source
+            self.value = value
+            self.ticket_num = ticket_num #
         
 
 class User:

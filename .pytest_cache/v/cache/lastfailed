@@ -1,7 +1,4 @@
 {
-  "tests/back_end/Test_Transaction.py::test_badsource": true,
-  "tests/back_end/Test_Transaction.py::test_badtarget": true,
-  "tests/back_end/Test_Transaction.py::test_badvalue": true,
   "tests/back_end/Test_Transaction.py::test_goodvenuetouser": true,
   "tests/back_end/Test_Transaction.py::test_venuetovenue": true
 }
