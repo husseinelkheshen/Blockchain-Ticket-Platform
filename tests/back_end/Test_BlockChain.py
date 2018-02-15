@@ -137,9 +137,7 @@ def test_falseticketid():
     #
     # Return no ticket if ticket id is incorrect
     #
-    assert (chaintrans2.target is None and
-            chaintrans2.source is None and
-            chaintrans2.value is None)
+    assert chaintrans2 is None
 
 def test_newtransaction():
     #
