@@ -248,6 +248,18 @@ class User:
         event.blockchain.blocks.append(new_block)
         event.venue.events[event.id][1].blocks.append(new_block)
 
+        # mine one new block
+        if ticket.event.blockchain.mineNewBlock([ticket.event.blockchain]):
+            new_block_hash = ticket.event.blockchain.blocks[-1].hash
+            # add record and hash to ticket's history
+            ticket.history.append((new_block_index, new_block_hash))
+        else:
+            del ticket.event.blockchain.blocks[-1]
+            del ticket.event.venue.events[event.id][1].blocks[-1]
+            return False
+
+
+
         # UNFINISHED mine one new block
         new_block_hash = None
 
@@ -260,7 +272,7 @@ class User:
         self.inventory.append(ticket)
 
         # subtract appropriate funds from user's wallet
-        self.wallet = self.wallet - ticket.list_value
+        self.wallet -= ticket.list_value
 
         # mark ticket as sold
         ticket.for_sale = False
@@ -333,13 +345,16 @@ class User:
         new_ticket.event.blockchain.blocks.append(new_block)
         new_ticket.event.venue.events[event.id][1].blocks.append(new_block)
 
-        # UNFINISHED mine one new block
-        new_block_hash = None
-
-        # UNFINISHED broadcast the nonce to the other blockchain
-
-        # add record and hash to ticket's history
-        new_ticket.history.append((new_block_index, new_block_hash))
+        # mine one new block
+        if new_ticket.event.blockchain.mineNewBlock([new_ticket.event.blockchain]):
+            new_block_hash = new_ticket.event.blockchain.blocks[-1].hash
+            # add record and hash to ticket's history
+            new_ticket.history.append((new_block_index, new_block_hash))
+            owned_ticket.history.append((new_block_index, new_block_hash))
+        else:
+            del new_ticket.event.blockchain.blocks[-1]
+            del new_ticket.event.venue.events[event.id][1].blocks[-1]
+            return False
 
         # remove upgraded ticket from user inventory and add new ticket
         self.inventory.remove(owned_ticket)
