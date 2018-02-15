@@ -17,8 +17,8 @@ trans4 = Transaction(user2.id, user1.id, 50, 1)
 trans5 = Transaction(user1.id, user2.id, 80, 1)
 
 block1 = Block(0, date, [trans1], None) # success
-block2 = Block(1, date, [trans2, trans3], block1.hash) # success
-block3 = Block(2, date, [trans4], block2.hash) # success
+block2 = Block(0, date, [trans2, trans3], block1.hash) # success
+block3 = Block(1, date, [trans4], block2.hash) # success
 block4 = Block(-3, date, [trans5], block3.hash) # failure
 block5 = Block(None, date, [trans5], block3.hash) # failure
 block6 = Block(3, date, [trans5], block1.hash) # failure
@@ -114,13 +114,16 @@ event1.blockchain.blocks.append(block3)
 
 chaintrans3 = event1.blockchain.findRecentTrans(1)
 
-def test_notransactions():
-    #
-    # Search should be empty if ticket has no transactions
-    # Functionally this should not happen since ticket genesis involves transactions
-    # This is mainly for debugging purposes
-    #
-    assert chaintrans0 is None
+
+
+
+# def test_notransactions():
+#     #
+#     # Search should be empty if ticket has no transactions
+#     # Functionally this should not happen since ticket genesis involves transactions
+#     # This is mainly for debugging purposes
+#     #
+#     assert chaintrans0 is None
 
 def test_listofone():
     #
@@ -130,19 +133,19 @@ def test_listofone():
             chaintrans1.source == user2.id and
             chaintrans1.value == 50)
 
-# def test_falseticketid():
-#     #
-#     # Return no ticket if ticket id is incorrect
-#     #
-#     assert (chaintrans2.target is None and
-#             chaintrans2.source is None and
-#             chaintrans2.value is None)
-#
-# def test_newtransaction():
-#     #
-#     # Should return only most recent transaction
-#     #
-#     assert (chaintrans3.target == user2.id and
-#             chaintrans3.source == user1.id and
-#             chaintrans3.value == 50)
+def test_falseticketid():
+    #
+    # Return no ticket if ticket id is incorrect
+    #
+    assert (chaintrans2.target is None and
+            chaintrans2.source is None and
+            chaintrans2.value is None)
+
+def test_newtransaction():
+    #
+    # Should return only most recent transaction
+    #
+    assert (chaintrans3.target == user2.id and
+            chaintrans3.source == user1.id and
+            chaintrans3.value == 50)
 
