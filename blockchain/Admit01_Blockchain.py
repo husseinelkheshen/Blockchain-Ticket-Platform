@@ -1,8 +1,8 @@
+from random import *
 import datetime as date
 import hashlib as hasher
-import string
-from random import *
 import pyqrcode as qr
+import string
 
 
 class Trackers:
@@ -75,16 +75,6 @@ class Block:
             self.prev_hash = prev_hash # the hash of the previous block in the chain
             self.hash = "" # the new hash for this block, including all of the above fields
 
-    # generates a hash for a block
-    # def hashBlock(self):
-    #     return self.generateHash(str(self.index) + str(self.timestamp) + str(self.data) + str(self.prev_hash))
-
-    # generates a genesis block, with a genesis transaction given a target.
-    # the hash for this genesis block is a sha256 hash of 512 random characters (ascii uppercase and digits)
-    @staticmethod
-    def genesisBlock(target): # target is the venue
-        return Block(0, date.datetime.now(), Transaction.genesisTransaction(target), genesisHash(512))
-
     # generates a sha256 hash given a string
     @staticmethod
     def generateHash(text):
@@ -95,10 +85,14 @@ class Block:
     # generates a hash of length random characters (ascii uppercase and digits)
     @staticmethod
     def genesisHash(length):
-        return generateHash(''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(length)))
+        return generateHash(
+            ''.join(random.choice(string.ascii_uppercase + string.digits)
+                    for _ in range(length)))
 
     def hashBlock(self, nonce):
-        return self.genSHA1Hash(':'.join(["1", "20", self.timestamp.strftime("%y%m%d%H%M%S"), str(self), nonce]))
+        return self.genSHA1Hash(':'.join(["1", "20",
+                                self.timestamp.strftime("%y%m%d%H%M%S"),
+                                str(self), nonce]))
 
     def genSHA1Hash(self, text):
         sha = hasher.sha1()
@@ -137,18 +131,21 @@ class Chain:
 
         return recentTrans
 
-
-
     def mineNewBlock(self, otherchains):
         if self.blocks[-1].hash:
             return False
         else:
             counter = randint(0, 65536)
             result = "11111"
-            randstring = ''.join(choice(string.ascii_uppercase + string.digits + string.ascii_lowercase + '+' + '/') for _ in range(16))
+            randstring = ''.join(choice(string.ascii_uppercase +
+                                        string.digits + string.ascii_lowercase +
+                                         '+' + '/') for _ in range(16))
             while result[0:5] != "00000" or result in self.prev_hashes:
                 counter += 1
-                result = self.blocks[-1].genSHA1Hash(':'.join(["1", "20", self.blocks[-1].timestamp.strftime("%y%m%d%H%M%S"), str(self.blocks[-1]), randstring, str(counter)]))
+                result = self.blocks[-1].genSHA1Hash(
+                    ':'.join(["1", "20", self.blocks[-1].timestamp.strftime(
+                    "%y%m%d%H%M%S"), str(self.blocks[-1]),
+                    randstring, str(counter)]))
             # print("Got a matching hash\n")
             # print(result)
             if len(self.blocks) > 1:
@@ -508,9 +505,10 @@ class Venue:
                     event_chain.blocks.append(new_block)
                     venue_chain.blocks.append(new_block)
                     # mine the new block
-                    if event.blockchain.mineNewBlock([venue_chain]):
+                    if event_chain.mineNewBlock([venue_chain]):
                         new_block_hash = event_chain.blocks[-1].hash
-                        new_ticket.history.append((new_block_index, new_block_hash))
+                        new_ticket.history.append((new_block_index,
+                                                   new_block_hash))
                         event.tickets.append(new_ticket)
                     else:
                         del event_chain.blocks[-1]
@@ -601,54 +599,3 @@ class Ticket:
         if valid_seller and list_price > 0.00:
             self.for_sale = True
             self.list_price = list_price
-
-
-# class HashcashHeader:
-#     def __init__(self, chain):
-#         date.datetime.tzname("CDT")
-#         if type(chain) != Chain:
-#             self.version = 1
-#             self.bits = 20
-#             self.date = chain.blocks[-1].time.strftime("%y%m%d%H%M%S")
-#             self.data = None
-#             self.randstring = ''.join(
-#                 random.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase) for _ in range(16))
-#             self.counter = 0
-#             self.hash = ""
-#             self.prev_hashes = list()
-#         else:
-#             self.version = 1
-#             self.bits = 20
-#             self.date = date.datetime.now().strftime("%y%m%d%H%M%S")
-#             self.data = str(chain.blocks[-1])
-#             self.randstring = ''.join(random.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase) for _ in range(16))
-#             self.counter = 0
-#             self.hash = ""
-#             self.prev_hashes = list()
-#
-#     def __str__(self):
-#         return ':'.join(self.version, self.bits, self.date, self.data, self.randstring, self.counter)
-#
-#     def generateAcceptableHeader(self, chains):
-#         self.counter = randint()
-#         result = "11111"
-#         # randstring = ''.join(random.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase + '+' + '/') for _ in range(16))
-#         while result[0:5] != "00000" or result[5:] in self.prev_hashes:
-#             self.counter += 1
-#             result = self.genSHA1Hash()
-#         print("Got a matching hash\n")
-#         print(result)
-#         self.prev_hashes.append(self.hash[5:])
-#         self.hash = result
-#         nonce = self.randstring + ":" + str(self.counter)
-#         for chain in chains:
-#             if chain.blocks[-1].hashBlock(nonce) != result:
-#                 return False
-#         for chain in chains:
-#             chain.blocks[-1].hash = result
-#         return True
-#
-#     def genSHA1Hash(self):
-#         sha = hasher.sha1()
-#         sha.update(str(self).encode('utf-8'))
-#         return sha.hexdigest()
