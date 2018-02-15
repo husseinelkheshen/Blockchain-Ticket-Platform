@@ -112,6 +112,25 @@ class Chain:
     def findRecentTrans(self, ticket_id):
         recentTrans = None
 
+        chainlength = len(Chain.blocks)
+        translength = 0
+        foundTrans = False
+
+        if(chainlength != 0):
+            for x in xrange(-1, -chainlength):
+                translength = len(Chain.Blocks[x].data)
+
+                for y in xrange(-1, -translength):
+                    if Chain.Blocks[x].data[y].ticket_num == ticket_id:
+                        recentTrans = Chain.Blocks[x].data[y]
+                        foundTrans = True
+                        break
+
+                if foundTrans:
+                    break
+
+        return recentTrans
+
     def mineNewBlock(self, otherchains):
         if self.blocks[-1].hash:
             return False
