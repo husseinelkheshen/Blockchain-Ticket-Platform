@@ -122,16 +122,6 @@ def test_notransactions():
     #
     assert chaintrans0 is None
 
-<<<<<<< HEAD
-# def test_listofone():
-#     #
-#     # Should return the only transaction in the list
-#     #
-#     assert (chaintrans1.target == user1.id and
-#             chaintrans1.source == user2.id and
-#             chaintrans1.value == 50)
-#
-=======
 def test_listofone():
     #
     # Should return the only transaction in the list
@@ -140,7 +130,6 @@ def test_listofone():
             chaintrans1.source == user2.id and
             chaintrans1.value == 50)
 
->>>>>>> hussein
 # def test_falseticketid():
 #     #
 #     # Return no ticket if ticket id is incorrect
