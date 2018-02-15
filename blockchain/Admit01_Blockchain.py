@@ -58,7 +58,10 @@ class Trackers:
 # The Block class, constituting an instance of a block in the chain
 class Block:
     def __init__(self, index, timestamp, transactions, prev_hash):
-        if prev_hash is None or len(prev_hash) == 0:
+        valid_index = (index is not None) and (index >= 0)
+        if(not valid_index or (timestamp is None) or (transactions is None)):
+            self. index = self.timestamp = self.data = self.prev_hash = self.hash = None
+        elif prev_hash is None or len(prev_hash) == 0:
             # genesis
             self.index = 0
             self.timestamp = timestamp
@@ -145,7 +148,8 @@ class Transaction:
     def __init__(self, target, source, value, ticket_num):
         has_target_or_source = (target != None) or (source is not None)
         has_ticket_num = (ticket_num is not None) and (ticket_num >= 0)
-        if not has_target_or_source or not has_ticket_num:
+        valid_value = (value is not None) and (value >= 0)
+        if not has_target_or_source or not has_ticket_num or not valid_value:
             self. target = self.source = self.value = self.ticket_num = None
         else:
             self.target = target
@@ -353,6 +357,12 @@ class User:
 
         # signify completion
         return True
+
+    def upgradeTicket(self, ticket):
+        return False
+
+    def upgradeTicket(self, ticket):
+        return False
 
     def search(self, text):
         # iteration 2

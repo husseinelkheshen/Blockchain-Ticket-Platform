@@ -1,4 +1,4 @@
-from back_end.Admit01_Blockchain import *
+from blockchain.Admit01_Blockchain import *
 from datetime import timedelta
 
 valid_datetime = date.datetime.now() + timedelta(days=7) # one week from now
@@ -20,25 +20,8 @@ trans5 = Transaction(user1.id, None, 50, 1) # failure
 trans6 = Transaction(None, user2.id, 50, 1) # failure
 trans7 = Transaction(user1.id, user2.id, -100, 1) # failure
 trans8 = Transaction(user1.id, user2.id, 50, -1) # failure
-
-
-def test_badsource():
-    #
-    # Transaction should fail if Null source to User
-    #
-    assert (trans5.target is None and
-            trans5.source is None and
-            trans5.value is None and
-            trans5.ticket_num is None)
-            
-def test_badtarget():
-    #
-    # Transaction should fail if invalid target
-    #
-    assert (trans6.target is None and
-            trans6.source is None and
-            trans6.value is None and
-            trans6.ticket_num is None)
+trans9 = Transaction(user1.id, user2.id, None, 1) # failure
+trans10 = Transaction(user1.id, user2.id, 50, None) # failure
             
 def test_badvalue():
     #
@@ -57,3 +40,21 @@ def test_badticketnum():
             trans8.source is None and
             trans8.value is None and
             trans8.ticket_num is None)
+
+def test_novalue():
+    #
+    # Transaction should fail if invalid transaction value
+    #
+    assert (trans9.target is None and
+            trans9.source is None and
+            trans9.value is None and
+            trans9.ticket_num is None)
+
+def test_noticketnum():
+    #
+    # Transaction should fail if invalid transaction value
+    #
+    assert (trans10.target is None and
+            trans10.source is None and
+            trans10.value is None and
+            trans10.ticket_num is None)
