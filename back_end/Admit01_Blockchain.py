@@ -47,7 +47,7 @@ class Block:
             self.index = 0
             self.timestamp = timestamp
             self.data = transactions
-            self.prev_hash = None
+            self.prev_hash = ""
             self.hash = ""
         else:
             self.index = index # numerical index, (matching the list index of the block?)
@@ -103,21 +103,22 @@ class Chain:
         if self.blocks[-1].hash:
             return False
         else:
-            counter = randint()
+            counter = randint(0, 65536)
             result = "11111"
-            randstring = ''.join(random.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase + '+' + '/') for _ in range(16))
+            randstring = ''.join(choice(string.ascii_uppercase + string.digits + string.ascii_lowercase + '+' + '/') for _ in range(16))
             while result[0:5] != "00000" or result in self.prev_hashes:
                 counter += 1
                 result = self.blocks[-1].genSHA1Hash(':'.join(["1", "20", self.blocks[-1].timestamp.strftime("%y%m%d%H%M%S"), str(self.blocks[-1]), randstring, str(counter)]))
-            print("Got a matching hash\n")
-            print(result)
+            # print("Got a matching hash\n")
+            # print(result)
             if len(self.blocks) > 1:
                 self.prev_hashes.append(self.blocks[-2].hash)
             nonce = randstring + ":" + str(counter)
             for chain in otherchains:
                 if chain.blocks[-1].hashBlock(nonce) != result:
                     return False
-            for chain in otherchains.append(self):
+            otherchains.append(self)
+            for chain in otherchains:
                 chain.blocks[-1].hash = result
             return True
 
