@@ -141,12 +141,81 @@ class User:
     def getID(self):
         """ Getter for User's ID number """
         return self.id
-
+        
     def buyTicket(self, ticket):
-        #
-        # ticket: Ticket object
-        #
-        return False
+        '''
+        Allows a User to buy a listed ticket
+        
+            ticket: Ticket object
+
+        '''
+
+        # check if involved objects are valid
+        if (self.id == None
+            or ticket.event == None
+            or ticket.seat == None
+            or ticket.face_value == None
+            or ticket.list_value == None
+            or ticket.for_sale == None
+            or ticket.history == None):
+            return False
+        
+        # check if the event has already transpired
+        if ticket.event.datetime < datetime.now():
+            return False
+
+        # check if ticket is for sale
+        if ticket.for_sale == True:
+            return False
+
+        # check if user calling has enough money in wallet
+        if ticket.list_value > self.wallet:
+            return False
+
+        # check if user already owns the ticket 
+        if ticket in self.inventory:
+            return False
+
+        # generate new transactions
+        new_transactions = []
+        new_transactions.append(Transaction(self.id,
+                                            ticket.event.id,
+                                            ticket.list_value,
+                                            ticket.ticket_num))
+
+        # post the transaction to a new block
+        prev_hash = None
+        new_block_index = len(event.blockchain.blocks)
+        if new_block_index > 0:
+            prev_hash = event.blockchain.blocks[-1].hash
+        new_block = Block(new_block_index,
+                          date.datetime.now()
+                          new_transactions,
+                          prev_hash)
+
+        # append the new block to both blockchains
+        event.blockchain.blocks.append(new_block)
+        event.venue.events[event.id][1].blocks.append(new_block)
+
+        # UNFINISHED mine one new block
+        new_block_hash = None
+
+        # UNFINISHED broadcast the nonce to the other blockchain
+
+        # add record and hash to ticket's history
+        ticket.history.append((new_block_index, new_block_hash))
+
+        # add ticket to user's inventory
+        self.inventory.append(ticket)
+
+        # subtract appropriate funds from user's wallet
+        self.wallet = self.wallet - ticket.list_value
+
+        # mark ticket as sold
+        ticket.for_sale = False
+
+        # signify completion
+        return True
 
     def upgradeTicket(self, ticket):
         return False
@@ -226,7 +295,9 @@ class Venue:
         return False
 
     def createEvent(self, name, datetime, desc):
-        return Event(name, datetime, desc)
+        new_event = Event(name, datetime, desc)
+        new_event.venue = self
+        return new_event
 
     def manageEvent(self, event):
         return False
@@ -292,6 +363,7 @@ class Event:
 
         """
         self.tickets = []    # can add tickets later
+        self.venue = None
         if not name or datetime < date.datetime.now():
             self.id = self.name = self.datetime = None
             self.desc = self.blockchain = None
