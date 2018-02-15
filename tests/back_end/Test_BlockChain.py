@@ -10,12 +10,12 @@ venue1 = Venue("Apollo Theater", "Chicago, IL")
 user1 = User("Ethan", "Reeder", "er@example.com")
 user2 = User("Ross", "Piper", "rp@example.com")
 
-trans1 = Transa
-trans2 = Transaction("user1", "user2", 50, 1)
-trans3 = Transaction("user2", "user1", 50, 1)
-trans4 = Transaction("user2", "user1", 50, 1)
-trans5 = Transaction("user1", "venue1", 50, 1)
-trans6 = Transaction("user1", "user2", 80, 1)
+trans1 = Transaction(venue1.id, None, 50, 1)
+trans2 = Transaction(user1.id, user2.id, 50, 1)
+trans3 = Transaction(user2.id, user1.id, 50, 1)
+trans4 = Transaction(user2.id, user1.id, 50, 1)
+trans5 = Transaction(user1.id, venue1.id, 50, 1)
+trans6 = Transaction(user1.id, user2.id, 80, 1)
 
 block1 = Block(0, date, trans1, 0, venue1) # success
 block2 = Block(1, date, trans2, block1.hash, venue1) # success
