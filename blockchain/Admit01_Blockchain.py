@@ -135,16 +135,21 @@ class Chain:
         foundTrans = False
 
         if chainlength != 0:
-            for block in list(range(-1, -chainlength)):
+            block = -1
+            while abs(block) <= chainlength:
                 translength = len(self.blocks[block].data)
-                for transaction in list(range(-1, -translength)):
-                    if self.blocks[block].data[transaction].ticket_num == ticket_id:
-                        recentTrans = self.blocks[block].data[transaction]
+                trans = -1
+                while abs(trans) <= translength:
+                    if self.blocks[block].data[trans].ticket_num == ticket_id:
+                        recentTrans = self.blocks[block].data[trans]
                         foundTrans = True
                         break
+                    trans -= 1
 
                 if foundTrans:
                     break
+
+                block -= 1
 
         return recentTrans
 
