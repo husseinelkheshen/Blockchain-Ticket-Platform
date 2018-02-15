@@ -122,3 +122,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Blockchain API
+BLOCKCHAIN_API = {'address': '128.135.203.175', 'port': 80}
