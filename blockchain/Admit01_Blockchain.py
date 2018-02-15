@@ -268,8 +268,95 @@ class User:
         # signify completion
         return True
 
-    def upgradeTicket(self, ticket):
-        return False
+    def upgradeTicket(self, owned_ticket, new_ticket):
+        '''
+        Allows a User to upgrade an owned ticket for another listed ticket
+
+            ticket: Ticket object
+
+        '''
+
+        # check if involved objects are valid
+        if (self.id == None
+            or owned_ticket == None
+            or new_ticket.event == None
+            or new_ticket.seat == None
+            or new_ticket.face_value == None
+            or new_ticket.list_value == None
+            or new_ticket.for_sale == None
+            or new_ticket.history == None):
+            return False
+
+        # check if the event has already transpired
+        if new_ticket.event.datetime < datetime.now():
+            return False
+
+        # check if ticket is for sale
+        if new_ticket.for_sale == False:
+            return False
+
+        # check if new ticket is more valuable than old ticket
+        if new_ticket.list_value < owned_ticket.list_value:
+            return False
+
+        # check if user owns ticket which will be upgraded
+        if owned_ticket not in self.inventory:
+            return False
+
+        # check if user already owns the target ticket
+        if new_ticket in self.inventory:
+            return False
+
+        # check if both tickets are for the same event
+        if owned_ticket.event != new_ticket.event:
+            return False
+
+        # generate new transactions
+        new_transactions = []
+        new_transactions.append(Transaction(self.id,
+                                            new_ticket.event.id,
+                                            new_ticket.list_value,
+                                            new_ticket.ticket_num))
+        # new_transactions.append(Transaction(other party))
+
+        # post the transactions to a new block
+        prev_hash = None
+        new_block_index = len(new_ticket.event.blockchain.blocks)
+        if new_block_index > 0:
+            prev_hash = event.blockchain.blocks[-1].hash
+        new_block = Block(new_block_index,
+                          date.datetime.now(),
+                          new_transactions,
+                          prev_hash)
+
+        # append the new block to both blockchains
+        new_ticket.event.blockchain.blocks.append(new_block)
+        new_ticket.event.venue.events[event.id][1].blocks.append(new_block)
+
+        # UNFINISHED mine one new block
+        new_block_hash = None
+
+        # UNFINISHED broadcast the nonce to the other blockchain
+
+        # add record and hash to ticket's history
+        new_ticket.history.append((new_block_index, new_block_hash))
+
+        # remove upgraded ticket from user inventory and add new ticket
+        self.inventory.remove(owned_ticket)
+        self.inventory.append(new_ticket)
+
+        # subtract appropriate funds from user's wallet
+        self.wallet -= (new_ticket.list_value - owned_ticket.list_value)
+
+        # add appropriate funds to seller's wallet (iteration 2)
+
+        # mark old ticket as for sale, and new as sold
+        owned_ticket.for_sale = True
+        new_ticket.for_sale = False
+
+        # signify completion
+        return True
+>>>>>>> eareeder
 
     def search(self, text):
         # iteration 2
