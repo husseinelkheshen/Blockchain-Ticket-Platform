@@ -1,4 +1,4 @@
-from back_end.Admit01_Blockchain import *
+from blockchain.Admit01_Blockchain import *
 
 valid_section = "Mezzanine"
 valid_row = "B"

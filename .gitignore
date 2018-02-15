@@ -5,3 +5,6 @@ back_end/__pycache__/Admit01_Blockchain.cpython-35.pyc
 tests/back_end/.cache/v/cache/lastfailed
 tests/back_end/__pycache__/Test_Seat.cpython-35-PYTEST.pyc
 *.pyc
+.pytest_cache/v/cache/lastfailed
+tests/back_end/.pytest_cache/v/cache/lastfailed
+.DS_Store
