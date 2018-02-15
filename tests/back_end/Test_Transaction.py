@@ -1,4 +1,4 @@
-from back_end.Admit01_Blockchain import *
+from blockchain.Admit01_Blockchain import *
 from datetime import timedelta
 
 valid_datetime = date.datetime.now() + timedelta(days=7) # one week from now
