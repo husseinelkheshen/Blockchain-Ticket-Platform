@@ -270,6 +270,7 @@ class User:
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> master
     def upgradeTicket(self, owned_ticket, new_ticket):
@@ -367,6 +368,10 @@ class User:
 >>>>>>> master
 =======
 >>>>>>> master
+=======
+    def upgradeTicket(self, ticket):
+        return False
+>>>>>>> parent of 79b9056... Merge branch 'master' of https://github.com/husseinelkheshen/Blockchain-Ticket-Platform
 
     def search(self, text):
         # iteration 2
