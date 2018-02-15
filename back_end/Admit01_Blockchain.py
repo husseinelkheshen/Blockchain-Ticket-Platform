@@ -1,5 +1,6 @@
 import datetime as date
 import hashlib as hasher
+import string
 from random import *
 import pyqrcode as qr
 
@@ -56,8 +57,8 @@ class Block:
             self.hash = "" # the new hash for this block, including all of the above fields
 
     # generates a hash for a block
-    def hashBlock(self):
-        return self.generateHash(str(self.index) + str(self.timestamp) + str(self.data) + str(self.prev_hash))
+    # def hashBlock(self):
+    #     return self.generateHash(str(self.index) + str(self.timestamp) + str(self.data) + str(self.prev_hash))
 
     # generates a genesis block, with a genesis transaction given a target.
     # the hash for this genesis block is a sha256 hash of 512 random characters (ascii uppercase and digits)
@@ -77,18 +78,48 @@ class Block:
     def genesisHash(length):
         return generateHash(''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(length)))
 
+    def hashBlock(self, nonce):
+        return self.genSHA1Hash(':'.join(["1", "20", self.timestamp.strftime("%y%m%d%H%M%S"), str(self), nonce]))
+
+    def genSHA1Hash(self, text):
+        sha = hasher.sha1()
+        sha.update(text.encode('utf-8'))
+        return sha.hexdigest()
+
+    def __str__(self):
+        return str(self.index) + str(self.data) + self.prev_hash
+
 
 class Chain:
     """ Wrapper for a list of Block objects and some helper methods """
     def __init__(self):
         self.blocks = []    # no need for a genesis block here
+        self.prev_hashes = []
 
     def findRecentTrans(self, ticket_id):
         return Transaction()
 
-    def mineNewBlock(self, transactions):
-        self.blocks.append(Block(len(self.blocks), date.datetime.now(), transactions,
-                                 HashcashHeader(self).generateAcceptableHeader()))
+    def mineNewBlock(self, otherchains):
+        if self.blocks[-1].hash:
+            return False
+        else:
+            counter = randint()
+            result = "11111"
+            randstring = ''.join(random.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase + '+' + '/') for _ in range(16))
+            while result[0:5] != "00000" or result in self.prev_hashes:
+                counter += 1
+                result = self.blocks[-1].genSHA1Hash(':'.join(["1", "20", self.blocks[-1].timestamp.strftime("%y%m%d%H%M%S"), str(self.blocks[-1]), randstring, str(counter)]))
+            print("Got a matching hash\n")
+            print(result)
+            if len(self.blocks) > 1:
+                self.prev_hashes.append(self.blocks[-2].hash)
+            nonce = randstring + ":" + str(counter)
+            for chain in otherchains:
+                if chain.blocks[-1].hashBlock(nonce) != result:
+                    return False
+            for chain in otherchains.append(self):
+                chain.blocks[-1].hash = result
+            return True
 
 
 
@@ -100,7 +131,7 @@ class Transaction:
         self.source = source
         self.value = value
         self.ticket_num = ticket_num #
-        
+
 
 class User:
     """
@@ -354,46 +385,52 @@ class Ticket:
             self.list_price = list_price
 
 
-class HashcashHeader:
-    def __init__(self, chain):
-        date.datetime.tzname("CDT")
-        if type(chain) != a1.Chain:
-            self.version = 1
-            self.bits = 20
-            self.date = date.datetime.now().strftime("%y%m%d%H%M%S")
-            self.data = None
-            self.randstring = ''.join(
-                random.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase) for _ in range(16))
-            self.counter = 0
-            self.hash = ""
-            self.prev_hashes = list()
-        else:
-            self.version = 1
-            self.bits = 20
-            self.date = date.datetime.now().strftime("%y%m%d%H%M%S")
-            self.data = chain.blocks[-1]
-            self.randstring = ''.join(random.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase) for _ in range(16))
-            self.counter = 0
-            self.hash = ""
-            self.prev_hashes = list()
-
-    def __str__(self):
-        return ':'.join(self.version, self.bits, self.date, self.data, self.randstring, self.counter)
-
-    def generateAcceptableHeader(self):
-        self.counter = randint()
-        result = "11111"
-        # randstring = ''.join(random.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase + '+' + '/') for _ in range(16))
-        while result[0:5] != "00000" or result[5:] in self.prev_hashes:
-            self.counter += 1
-            result = self.genSHA1Hash()
-        print("Got a matching hash\n")
-        print(result)
-        self.prev_hashes.append(self.hash[5:])
-        self.hash = result
-        return True
-
-    def genSHA1Hash(self):
-        sha = hasher.sha1()
-        sha.update(str(self).encode('utf-8'))
-        return sha.hexdigest()
+# class HashcashHeader:
+#     def __init__(self, chain):
+#         date.datetime.tzname("CDT")
+#         if type(chain) != Chain:
+#             self.version = 1
+#             self.bits = 20
+#             self.date = chain.blocks[-1].time.strftime("%y%m%d%H%M%S")
+#             self.data = None
+#             self.randstring = ''.join(
+#                 random.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase) for _ in range(16))
+#             self.counter = 0
+#             self.hash = ""
+#             self.prev_hashes = list()
+#         else:
+#             self.version = 1
+#             self.bits = 20
+#             self.date = date.datetime.now().strftime("%y%m%d%H%M%S")
+#             self.data = str(chain.blocks[-1])
+#             self.randstring = ''.join(random.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase) for _ in range(16))
+#             self.counter = 0
+#             self.hash = ""
+#             self.prev_hashes = list()
+#
+#     def __str__(self):
+#         return ':'.join(self.version, self.bits, self.date, self.data, self.randstring, self.counter)
+#
+#     def generateAcceptableHeader(self, chains):
+#         self.counter = randint()
+#         result = "11111"
+#         # randstring = ''.join(random.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase + '+' + '/') for _ in range(16))
+#         while result[0:5] != "00000" or result[5:] in self.prev_hashes:
+#             self.counter += 1
+#             result = self.genSHA1Hash()
+#         print("Got a matching hash\n")
+#         print(result)
+#         self.prev_hashes.append(self.hash[5:])
+#         self.hash = result
+#         nonce = self.randstring + ":" + str(self.counter)
+#         for chain in chains:
+#             if chain.blocks[-1].hashBlock(nonce) != result:
+#                 return False
+#         for chain in chains:
+#             chain.blocks[-1].hash = result
+#         return True
+#
+#     def genSHA1Hash(self):
+#         sha = hasher.sha1()
+#         sha.update(str(self).encode('utf-8'))
+#         return sha.hexdigest()
