@@ -113,14 +113,13 @@ class Chain:
         recentTrans = None
 
         chainlength = len(self.blocks)
-        translength = 0
         foundTrans = False
 
         if(chainlength != 0):
-            for x in range(-1, (-1*chainlength)):
+            for x in list(range(-1, (-1*chainlength))):
                 translength = len(self.blocks[x].data)
 
-                for y in range(-1, (-1*translength)):
+                for y in list(range(-1, (-1*translength))):
                     if self.blocks[x].data[y].ticket_num == ticket_id:
                         recentTrans = self.blocks[x].data[y]
                         foundTrans = True
