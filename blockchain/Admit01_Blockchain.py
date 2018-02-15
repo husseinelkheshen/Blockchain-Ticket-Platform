@@ -356,7 +356,6 @@ class User:
 
         # signify completion
         return True
->>>>>>> eareeder
 
     def search(self, text):
         # iteration 2
