@@ -1,28 +1,15 @@
 from back_end.Admit01_Blockchain import *
+from datetime import timedelta
 
-event1 = Event("event1", date.datetime.now(), "test")
-seat1 = Seat("seat1", "A", 1)
-ticket1 = Ticket(event1, 100, seat1)
-ticket1.id = 1
+valid_datetime = date.datetime.now() + timedelta(days=7) # one week from now
 
-event2 = Event("event2", date.datetime.now(), "test")
-seat2 = Seat("seat2", "C", 2)
-ticket2 = Ticket(event2, 50, seat2)
-ticket2.id = 2
+event1 = Event("event1", valid_datetime, "test")
 
 user1 = User("Ethan", "Reeder", "er@example.com")
-user1.id = "user1"
-user1.inventory[0] == ticket1
-
 user2 = User("Ross", "Piper", "rp@example.com")
-user2.id = "user2"
-user2.inventory[0] == ticket2
 
 venue1 = Venue("Apollo Theater", "Chicago, IL")
-venue1.id = "venue1"
-
 venue2 = Venue("Apollo Theater", "Chicago, IL")
-venue2.id = "venue2"
 
 trans3 = Transaction("venue1", "user1", 50, 1) # success
 trans4 = Transaction("venue2", "venue1", 50, 1) # success
