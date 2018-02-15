@@ -3,6 +3,10 @@ install:
 	pip3 install pyqrcode
 	python3 -m pip install pytest
 
+# Run a comprehensive acceptance test
+acceptance_test:
+	cd blockchain; python3 AcceptanceTest.py
+
 # Run the full test suite
 test_suite:
 	make unit_tests
