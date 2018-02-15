@@ -19,6 +19,7 @@ def login(request):
 
         if user and user.is_active:
             auth_login(request, user) 
+            messages.success(request, "Successfully logged in.")
             return redirect("home") # redirect to homepage
         else: # login failed
             messages.error(request, "Invalid login credentials.")
