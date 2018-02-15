@@ -103,17 +103,17 @@ def test_notime():
             block8.timestamp is None and
             block8.data is None)
 
-# chaintrans0 = event1.blockchain.findRecentTrans(0) # failure
-#
-# event1.blockchain.blocks.append(block2)
-#
-# chaintrans1 = event1.blockchain.findRecentTrans(1) # success
-# chaintrans2 = event1.blockchain.findRecentTrans(0) # failure
-#
-# event1.blockchain.blocks.append(block3)
-#
-# chaintrans3 = event1.blockchain.findRecentTrans(1)
-#
+chaintrans0 = event1.blockchain.findRecentTrans(0) # failure
+
+event1.blockchain.blocks.append(block2)
+
+chaintrans1 = event1.blockchain.findRecentTrans(1) # success
+chaintrans2 = event1.blockchain.findRecentTrans(0) # failure
+
+event1.blockchain.blocks.append(block3)
+
+chaintrans3 = event1.blockchain.findRecentTrans(1)
+
 # def test_notransactions():
 #     #
 #     # Search should be empty if ticket has no transactions
