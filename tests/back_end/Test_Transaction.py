@@ -11,6 +11,7 @@ user2 = User("Ross", "Piper", "rp@example.com")
 venue1 = Venue("Apollo Theater", "Chicago, IL")
 venue2 = Venue("United Center", "Chicago, IL")
 
+trans0 = Transaction("venue1", None, 50, 1)
 trans1 = Transaction("venue1", "user1", 50, 1) # success
 trans2 = Transaction("venue2", "venue1", 50, 1) # success
 trans3 = Transaction("user2", "venue2", 50, 1) # success
@@ -23,7 +24,7 @@ trans8 = Transaction("user1", "user2", 50, -1) # failure
 
 def test_badsource():
     #
-    # Transaction should fail if invalid source
+    # Transaction should fail if Null source to User
     #
     assert (trans5.target is None and
             trans5.source is None and

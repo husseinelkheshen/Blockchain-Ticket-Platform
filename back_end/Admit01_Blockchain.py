@@ -84,7 +84,9 @@ class Chain:
         self.blocks = []    # no need for a genesis block here
 
     def findRecentTrans(self, ticket_id):
-        return Transaction()
+        recentTrans = None
+
+
 
     def mineNewBlock(self, transactions):
         self.blocks.append(Block(len(self.blocks), date.datetime.now(), transactions,
@@ -96,7 +98,8 @@ class Chain:
 # The Transaction class, pretty simple, to, from, value of transaction.
 class Transaction:
     def __init__(self, target, source, value, ticket_num):
-        if not target or not source or (value < 0) or (ticket_num < 0):
+        if ((not target or (value < 0) or (ticket_num < 0))
+                or (not source and target not in Trackers.registered_venues)):
             self. target = self.source = self.value = self.ticket_num = None
         else:
             self.target = target
