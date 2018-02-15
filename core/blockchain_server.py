@@ -15,13 +15,13 @@ class TicketList(Resource):
         return {"list tickets": "TODO"}
 
 
-class TicketCreate(Resource):
-    def put(self):
+class TicketBuy(Resource):
+    def post(self):
         return {"put ticket": "TODO"}
 
 
 api.add_resource(TicketList, "/tickets")
-api.add_resource(TicketCreate, "/tickets/create")
+api.add_resource(TicketBuy, "/tickets/buy")
 api.add_resource(Ticket, "/tickets/<ticket_id>")
 
 if __name__ == "__main__":
