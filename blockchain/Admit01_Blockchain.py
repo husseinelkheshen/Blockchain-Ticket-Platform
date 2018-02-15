@@ -113,17 +113,17 @@ class Chain:
         recentTrans = None
 
 
-        chainlength = len(Chain.blocks)
+        chainlength = len(self.blocks)
         translength = 0
         foundTrans = False
 
         if(chainlength != 0):
             for x in xrange(-1, -chainlength):
-                translength = len(Chain.Blocks[x].data)
+                translength = len(self.blocks[x].data)
 
                 for y in xrange(-1, -translength):
-                    if Chain.Blocks[x].data[y].ticket_num == ticket_id:
-                        recentTrans = Chain.Blocks[x].data[y]
+                    if self.blocks[x].data[y].ticket_num == ticket_id:
+                        recentTrans = self.blocks[x].data[y]
                         foundTrans = True
                         break
 
