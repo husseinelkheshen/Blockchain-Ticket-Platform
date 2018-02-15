@@ -109,8 +109,6 @@ class Chain:
     def findRecentTrans(self, ticket_id):
         recentTrans = None
 
-
-
     def mineNewBlock(self, otherchains):
         if self.blocks[-1].hash:
             return False
