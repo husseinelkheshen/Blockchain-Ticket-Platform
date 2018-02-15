@@ -1,5 +1,4 @@
-
-from back_end.Admit01_Blockchain import *
+from blockchain.Admit01_Blockchain import *
 import datetime as date
 
     # def test_hashcash(self):
