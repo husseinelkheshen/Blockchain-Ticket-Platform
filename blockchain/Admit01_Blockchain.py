@@ -513,9 +513,7 @@ class Venue:
         return False
 
     def createEvent(self, name, datetime, desc):
-        new_event = Event(name, datetime, desc)
-        new_event.venue = self
-        return new_event
+        return None
 
     def manageEvent(self, event):
         return False
