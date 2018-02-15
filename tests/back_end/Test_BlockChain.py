@@ -19,12 +19,14 @@ trans5 = Transaction(user1.id, user2.id, 80, 1)
 block1 = Block(0, date, [trans1], None) # success
 block2 = Block(1, date, [trans2, trans3], block1.hash) # success
 block3 = Block(2, date, [trans4], block2.hash) # success
-block4 = Block(2, date, [trans5], block3.hash) # failure
-block5 = Block(3, date, [trans5], block1.hash) # failure
-block6 = Block(3, date.datetime.now() - timedelta(days=7), [trans5], block3.hash) # failure
-block7 = Block(3, date, None, block3.hash) # failure
+block4 = Block(-3, date, [trans5], block3.hash) # failure
+block5 = Block(None, date, [trans5], block3.hash) # failure
+block6 = Block(3, date, [trans5], block1.hash) # failure
+block7 = Block(3, date.datetime.now() - timedelta(days=7), [trans5], block3.hash) # failure
 block8 = Block(3, None, [trans5], block3.hash) # failure
-            
+block9 = Block(3, date, None, block3.hash) # failure
+block10 = Block(2, date, [trans5], block3.hash) # failure
+
 def test_goodparameters():
     #
     # Block should be added if all parameters are valid and no source
@@ -53,14 +55,22 @@ def test_goodtransactions():
             block3.timestamp == date and
             block3.data[0] == trans4)
 
-# def test_badindex():
-#     #
-#     # Block should reject repeated index
-#     #
-#     assert (block6.index is None and
-#             block6.timestamp is None and
-#             block6.data is None)
-#
+def test_badindex():
+    #
+    # Block should reject negative index
+    #
+    assert (block4.index is None and
+            block4.timestamp is None and
+            block4.data is None)
+
+def test_noindex():
+    #
+    # Block should reject negative index
+    #
+    assert (block5.index is None and
+            block5.timestamp is None and
+            block5.data is None)
+
 # def test_repeathash():
 #     #
 #     # Block should reject repeated hash
@@ -81,9 +91,9 @@ def test_notrans():
     #
     # Block should reject blocks with no transaction
     #
-    assert (block7.index is None and
-            block7.timestamp is None and
-            block7.data is None)
+    assert (block9.index is None and
+            block9.timestamp is None and
+            block9.data is None)
 
 def test_notime():
     #
