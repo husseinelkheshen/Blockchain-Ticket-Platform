@@ -132,16 +132,14 @@ class Chain:
         recentTrans = None
 
         chainlength = len(self.blocks)
-        translength = 0
         foundTrans = False
 
-        if(chainlength != 0):
-            for x in xrange(-1, -chainlength):
-                translength = len(self.blocks[x].data)
-
-                for y in xrange(-1, -translength):
-                    if self.blocks[x].data[y].ticket_num == ticket_id:
-                        recentTrans = self.blocks[x].data[y]
+        if chainlength != 0:
+            for block in list(range(-1, -chainlength)):
+                translength = len(self.blocks[block].data)
+                for transaction in list(range(-1, -translength)):
+                    if self.blocks[block].data[transaction].ticket_num == ticket_id:
+                        recentTrans = self.blocks[block].data[transaction]
                         foundTrans = True
                         break
 
@@ -469,6 +467,11 @@ class User:
 
         return ticket_code    # call ticket_code.png('filename.png') to generate
 
+    def getOwnedTickets(self):
+        tickets = []
+        for ticket in self.inventory:
+            tickets.append(ticket.ticket_num)
+        return tickets
 
 class Venue:
     """
