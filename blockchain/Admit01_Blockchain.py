@@ -148,7 +148,8 @@ class Transaction:
     def __init__(self, target, source, value, ticket_num):
         has_target_or_source = (target != None) or (source is not None)
         has_ticket_num = (ticket_num is not None) and (ticket_num >= 0)
-        if not has_target_or_source or not has_ticket_num:
+        valid_value = (value is not None) and (value >= 0)
+        if not has_target_or_source or not has_ticket_num or not valid_value:
             self. target = self.source = self.value = self.ticket_num = None
         else:
             self.target = target
@@ -268,11 +269,6 @@ class User:
         # signify completion
         return True
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> master
     def upgradeTicket(self, owned_ticket, new_ticket):
         '''
         Allows a User to upgrade an owned ticket for another listed ticket
@@ -361,17 +357,12 @@ class User:
 
         # signify completion
         return True
-<<<<<<< HEAD
-=======
+
     def upgradeTicket(self, ticket):
         return False
->>>>>>> master
-=======
->>>>>>> master
-=======
+
     def upgradeTicket(self, ticket):
         return False
->>>>>>> parent of 79b9056... Merge branch 'master' of https://github.com/husseinelkheshen/Blockchain-Ticket-Platform
 
     def search(self, text):
         # iteration 2
