@@ -10,7 +10,7 @@ venue1 = Venue("Apollo Theater", "Chicago, IL")
 user1 = User("Ethan", "Reeder", "er@example.com")
 user2 = User("Ross", "Piper", "rp@example.com")
 
-trans1 = Transaction(venue1.id, None, 50, 1)
+trans1 = Transaction(venue1.id, None, 50, 0)
 trans2 = Transaction(user1.id, user2.id, 50, 1)
 trans3 = Transaction(user2.id, user1.id, 50, 2)
 trans4 = Transaction(user2.id, user1.id, 50, 1)
@@ -36,16 +36,18 @@ def test_goodparameters():
     assert (block1.index == 0 and
             block1.timestamp == date and
             block1.data[0] == trans1 and
-            block1.prev_hash is None)
+            block1.prev_hash == "")
 
-# def test_goodexchange():
-#     #
-#     # Block should accept multiple exchanges between same parties
-#     #
-#     assert (block3.index == 2 and
-#             block3.timestamp == date and
-#             block3.data == trans3)
-#
+def test_goodexchange():
+    #
+    # Block should accept multiple exchanges between same parties
+    #
+    assert (block2.index == 1 and
+            block2.timestamp == date and
+            block2.data[0] == trans2 and
+            block2.data[1] == trans3 and
+            block2.prev_hash == block1.prev_hash)
+
 # def test_goodtransactions():
 #     #
 #     # Block should accept multiple transactions in one direction

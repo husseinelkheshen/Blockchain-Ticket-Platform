@@ -58,6 +58,9 @@ class Trackers:
 # The Block class, constituting an instance of a block in the chain
 class Block:
     def __init__(self, index, timestamp, transactions, prev_hash):
+        valid_index = (index is not None) and (index >= 0)
+        if(not valid_index or timestamp is None or transactions is None):
+            self. index = self.timestamp = self.data = self.prev_hash = self.hash = None
         if prev_hash is None or len(prev_hash) == 0:
             # genesis
             self.index = 0
