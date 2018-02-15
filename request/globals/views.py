@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 
 # Create your views here.
@@ -14,7 +15,7 @@ def login(request):
             return redirect("home") # redirect to homepage
         else: # login failed
             messages.error(request, "Invalid login credentials.")
-            return redirect("")
+            return redirect("login")
     else: # display login page
         return render(request, "login.html")
 
