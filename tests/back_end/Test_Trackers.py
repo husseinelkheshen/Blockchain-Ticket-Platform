@@ -1,4 +1,4 @@
-from back_end.Admit01_Blockchain import *
+from blockchain.Admit01_Blockchain import *
 
 first_id = Trackers.getNextUserVenueID()
 next_id = Trackers.getNextUserVenueID()

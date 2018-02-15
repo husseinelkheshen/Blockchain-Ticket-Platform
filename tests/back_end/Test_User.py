@@ -1,4 +1,4 @@
-from back_end.Admit01_Blockchain import *
+from blockchain.Admit01_Blockchain import *
 
 user1 = User("Ethan", "Reeder", "er@example.com") # success
 user2 = User("Ross", "Piper", "er@example.com") # failure

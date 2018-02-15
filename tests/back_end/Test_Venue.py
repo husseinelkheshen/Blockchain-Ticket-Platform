@@ -1,4 +1,4 @@
-from back_end.Admit01_Blockchain import *
+from blockchain.Admit01_Blockchain import *
 
 venue1 = Venue("Apollo Theater", "Chicago, IL") # success
 venue2 = Venue("Apollo Theater", "Chicago, IL") # failure
