@@ -10,6 +10,7 @@ back_end_unit_tests:
 	python3 -m pytest tests/back_end/Test_Trackers.py
 	python3 -m pytest tests/back_end/Test_User.py
 	python3 -m pytest tests/back_end/Test_Venue.py
+        python3 -m pytest tests/back_end/Test_Chains_And_Mining.py
 
 # Delete all pytest cache files
 clean:
