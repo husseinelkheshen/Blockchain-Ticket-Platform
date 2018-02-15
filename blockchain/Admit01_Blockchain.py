@@ -146,8 +146,9 @@ class Chain:
 # The Transaction class, pretty simple, to, from, value of transaction.
 class Transaction:
     def __init__(self, target, source, value, ticket_num):
-        if ((not target or (value < 0) or (ticket_num < 0))
-                or (not source and target not in Trackers.registered_venues)):
+        has_target_or_source = (target != None) or (source is not None)
+        has_ticket_num = (ticket_num is not None) and (ticket_num >= 0)
+        if not has_target_or_source or not has_ticket_num:
             self. target = self.source = self.value = self.ticket_num = None
         else:
             self.target = target
