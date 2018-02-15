@@ -57,7 +57,20 @@ class Trackers:
 
 # The Block class, constituting an instance of a block in the chain
 class Block:
+    """
+    Class for defining Blocks, which are the units within the chain which
+    store the list of most recent Transactions along with their timestamps
+    """
     def __init__(self, index, timestamp, transactions, prev_hash):
+        """
+        Block constructor
+
+            index: int
+            timestamp: datetime object
+            transactions: list of Transactions
+            prev_hash: string
+
+        """
         valid_index = (index is not None) and (index >= 0)
         if(not valid_index or (timestamp is None) or (transactions is None)):
             self. index = self.timestamp = self.data = self.prev_hash = self.hash = None
@@ -107,12 +120,18 @@ class Block:
 class Chain:
     """ Wrapper for a list of Block objects and some helper methods """
     def __init__(self):
+        """ Chain constructor """
         self.blocks = []    # no need for a genesis block here
         self.prev_hashes = []
 
     def findRecentTrans(self, ticket_id):
+        """
+        Finds the most recent transaction in which a given ticket
+        was involved.
+        """
         recentTrans = None
 
+<<<<<<< HEAD
 
         chainlength = len(self.blocks)
         translength = 0
@@ -123,6 +142,16 @@ class Chain:
                 translength = len(self.blocks[x].data)
 
                 for y in xrange(-1, -translength):
+=======
+        chainlength = len(self.blocks)
+        foundTrans = False
+
+        if(chainlength != 0):
+            for x in list(range(-1, (-1*chainlength))):
+                translength = len(self.blocks[x].data)
+
+                for y in list(range(-1, (-1*translength))):
+>>>>>>> hussein
                     if self.blocks[x].data[y].ticket_num == ticket_id:
                         recentTrans = self.blocks[x].data[y]
                         foundTrans = True
@@ -185,7 +214,21 @@ class Chain:
 
 # The Transaction class, pretty simple, to, from, value of transaction.
 class Transaction:
+    """
+    Class for defining Transactions, which store information about
+    Ticket transfers between Users and Venues, as well as the
+    creation and destruction of Ticket objects.
+    """
     def __init__(self, target, source, value, ticket_num):
+        """
+        Transaction constructor
+
+            target: int
+            source: int
+            value: int
+            ticket_num: int
+
+        """
         has_target_or_source = (target != None) or (source is not None)
         has_ticket_num = (ticket_num is not None) and (ticket_num >= 0)
         valid_value = (value is not None) and (value >= 0)
