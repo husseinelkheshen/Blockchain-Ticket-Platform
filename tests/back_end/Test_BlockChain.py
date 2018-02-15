@@ -71,22 +71,6 @@ def test_noindex():
             block5.timestamp is None and
             block5.data is None)
 
-# def test_repeathash():
-#     #
-#     # Block should reject repeated hash
-#     #
-#     assert (block7.index is None and
-#             block7.timestamp is None and
-#             block7.data is None)
-#
-# def test_badtime():
-#     #
-#     # Block should reject blocks with old time as a parameter
-#     #
-#     assert (block8.index is None and
-#             block8.timestamp is None and
-#             block8.data is None)
-
 def test_notrans():
     #
     # Block should reject blocks with no transaction

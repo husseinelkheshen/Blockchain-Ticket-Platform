@@ -80,7 +80,7 @@ class Block:
             self.timestamp = timestamp
             self.data = transactions
             self.prev_hash = ""
-            self.hash = ""
+            self.hash = "testhash"
         else:
             self.index = index # numerical index, (matching the list index of the block?)
             self.timestamp = timestamp # a datetime timestamp object
