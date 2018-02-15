@@ -3,7 +3,6 @@
   "tests/back_end/Test_BlockChain.py::test_badtime": true,
   "tests/back_end/Test_BlockChain.py::test_falseticketid": true,
   "tests/back_end/Test_BlockChain.py::test_goodexchange": true,
-  "tests/back_end/Test_BlockChain.py::test_goodparameters": true,
   "tests/back_end/Test_BlockChain.py::test_goodtransactions": true,
   "tests/back_end/Test_BlockChain.py::test_goodvenuesale": true,
   "tests/back_end/Test_BlockChain.py::test_listofone": true,

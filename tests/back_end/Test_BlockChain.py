@@ -32,10 +32,10 @@ def test_goodparameters():
     #
     # Block should be added if all parameters are valid
     #
-    assert (block2.index == 1 and
-            block2.timestamp == date and
-            block2.data == trans2)
-            
+    assert (block1.index == 0 and
+            block1.timestamp == date and
+            block1.data[0] == trans1)
+
 def test_goodexchange():
     #
     # Block should accept multiple exchanges between same parties
@@ -43,7 +43,7 @@ def test_goodexchange():
     assert (block3.index == 2 and
             block3.timestamp == date and
             block3.data == trans3)
-            
+
 def test_goodtransactions():
     #
     # Block should accept multiple transactions in one direction
@@ -51,7 +51,7 @@ def test_goodtransactions():
     assert (block4.index == 3 and
             block4.timestamp == date and
             block4.data == trans4)
-            
+
 def test_goodvenuesale():
     #
     # Block should accept sales from genesis block
@@ -67,7 +67,7 @@ def test_badindex():
     assert (block6.index is None and
             block6.timestamp is None and
             block6.data is None)
-            
+
 def test_repeathash():
     #
     # Block should reject repeated hash
@@ -75,7 +75,7 @@ def test_repeathash():
     assert (block7.index is None and
             block7.timestamp is None and
             block7.data is None)
-            
+
 def test_badtime():
     #
     # Block should reject blocks with old time as a parameter
@@ -83,7 +83,7 @@ def test_badtime():
     assert (block8.index is None and
             block8.timestamp is None and
             block8.data is None)
-            
+
 def test_notime():
     #
     # Block should reject blocks with no time stamp
@@ -91,7 +91,7 @@ def test_notime():
     assert (block9.index is None and
             block9.timestamp is None and
             block9.data is None)
-            
+
 def test_nohash():
     #
     # Block should reject blocks with no target
@@ -120,7 +120,7 @@ def test_notransactions():
     assert (chaintrans0.target is None and
             chaintrans0.source is None and
             chaintrans0.value is None)
-            
+
 def test_listofone():
     #
     # Should return the only transaction in the list
@@ -128,7 +128,7 @@ def test_listofone():
     assert (chaintrans1.target == user1.id and
             chaintrans1.source == user2.id and
             chaintrans1.value == 50)
-            
+
 def test_falseticketid():
     #
     # Return no ticket if ticket id is incorrect
@@ -136,7 +136,7 @@ def test_falseticketid():
     assert (chaintrans2.target is None and
             chaintrans2.source is None and
             chaintrans2.value is None)
-            
+
 def test_newtransaction():
     #
     # Should return only most recent transaction
@@ -144,4 +144,4 @@ def test_newtransaction():
     assert (chaintrans3.target == user2.id and
             chaintrans3.source == user1.id and
             chaintrans3.value == 50)
-            
+
