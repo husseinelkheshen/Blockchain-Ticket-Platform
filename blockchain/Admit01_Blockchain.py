@@ -139,7 +139,6 @@ class Chain:
             block = -1
             while abs(block) <= chainlength:
                 translength = len(self.blocks[block].data)
-                # assert(translength == 2)
                 trans = -1
                 while abs(trans) <= translength:
                     if self.blocks[block].data[trans].ticket_num == ticket_id:
