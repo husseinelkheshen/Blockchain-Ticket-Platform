@@ -35,16 +35,19 @@ def test_minenewblock():
     # transaction = Transaction.genesisTransaction(event)
     blockchain = Chain()
     mirror = Chain()
-    initblock = Block(0, date.datetime.now(), [Transaction("target", "source", 20, 1)], "fakehash")
+    initblock = Block(0, date.datetime.now(), [Transaction("target", "source", 20, 1)], "")
     blockchain.blocks.append(initblock)
     mirror.blocks.append(initblock)
+    assert(blockchain.mineNewBlock([mirror]) == True)
     secondblock = Block(1, date.datetime.now(), [Transaction("newtarget", "target", 30, 1)], blockchain.blocks[-1].hash)
     blockchain.blocks.append(secondblock)
     mirror.blocks.append(secondblock)
+    # tests successful mining of second block
     assert(blockchain.mineNewBlock([mirror]) == True)
     thirdblock = Block(2, date.datetime.now(), [Transaction("anothertarget", "newtarget", 25, 1)], blockchain.blocks[-1].hash)
     blockchain.blocks.append(thirdblock)
     mirror.blocks.append(thirdblock)
+    # tests successful mining of third block
     assert(blockchain.mineNewBlock([mirror]) == True)
     ######
     ### testing constant truths of mining new blocks
@@ -53,6 +56,7 @@ def test_minenewblock():
     assert(blockchain.blocks[1].hash == blockchain.blocks[2].prev_hash)
     assert(mirror.blocks[0].hash == mirror.blocks[1].prev_hash)
     assert(mirror.blocks[1].hash == mirror.blocks[2].prev_hash)
+    # prev_hashes equal, current hashes equal
     assert(blockchain.blocks[1].prev_hash == mirror.blocks[1].prev_hash)
     assert(blockchain.blocks[2].prev_hash == mirror.blocks[2].prev_hash)
     assert(blockchain.blocks[1].hash == mirror.blocks[1].hash)
@@ -60,7 +64,7 @@ def test_minenewblock():
     # tests hashes aren't the same
     assert(blockchain.blocks[0].hash != blockchain.blocks[1].hash)
     assert(blockchain.blocks[1].hash != blockchain.blocks[2].hash)
-    # hashes after genesis hash are the same and equal to "00000"
+    # testing 20 bits of 0, "00000"
     assert(blockchain.blocks[1].hash[0:5] == blockchain.blocks[2].hash[0:5])
     assert(mirror.blocks[1].hash[0:5] == mirror.blocks[2].hash[0:5])
     assert(blockchain.blocks[1].hash[0:5] == "00000")
