@@ -43,28 +43,41 @@ def select_venue(venue_list):
         if not valid_id:
             print('\nThat\'s not a valid venue id, let\'s try again...')
     v_index = [y[0] for y in venue_list].index(venue_id)
-    print('\nExcellent! Let\'s take a look at the events currently listed in ' +
-          venue_list[v_index][2] + ' at ' + venue_list[v_index][1] + '.')
 
     return v_index
 
 def load_events(venue):
     """ Loading events into the selected venue """
+    print('\nExcellent! Let\'s take a look at the events currently listed in ' +
+          venue.location + ' at ' + venue.name + '.')
     dt1 = datetime.now() + timedelta(days=7)
     dt2 = datetime.now() + timedelta(days=23)
-    event1 = Event("Lady Gaga", dt1, "World Tour")
-    event2 = Event("Hamilton", dt2, "2016 Tony Award Winner")
+    event1 = Event("Lady Gaga", dt1, "Pop music concert")
+    event2 = Event("Hamilton", dt2, "Award-winning musical")
     event1.venue = venue
     event2.venue = venue
     venue.events[event1.id] = (event1, copy.deepcopy(event1.blockchain))
     venue.events[event2.id] = (event2, copy.deepcopy(event2.blockchain))
 
+def list_events(venue):
+    gap = ' '
+    print('\nID' + (gap * 13) + 'Name' + (gap * 11) +
+          'Description' + (gap * 14) + 'Date\t\tTime')
+    for event_id in venue.events:
+        event = venue.events[event_id][0]
+        e_id = '{:<15}'.format(str(event.id))
+        name = '{:<15}'.format(event.name)
+        desc = '{:<25}'.format(event.desc)
+        dt = event.datetime.strftime('%m/%d/%Y\t%H:%M')
+        print(e_id + name + desc + dt)
+
 def main():
     """ Main method """
     load_venues()
     venue_list = list_venues()
-    venue_index = select_venue(venue_list)
-    venue = venue_list[venue_index][3]
+    venue_i = select_venue(venue_list)
+    venue = venue_list[venue_i][3]
     load_events(venue)
+    list_events(venue)
 
 if __name__ == '__main__': main()

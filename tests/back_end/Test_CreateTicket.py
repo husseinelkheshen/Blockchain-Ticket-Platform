@@ -6,6 +6,7 @@ import copy
 valid_datetime = datetime.now() + timedelta(days=7) # one week from now
 venue1 = Venue("Wrigley Field", "Chicago, IL")
 event1 = Event("Lady Gaga", valid_datetime, "Stadium world tour")
+event1.venue = venue1
 seat1 = Seat("Floor Center", "G", 23)
 
 venue1.events[event1.id] = (event1, copy.deepcopy(event1.blockchain))
