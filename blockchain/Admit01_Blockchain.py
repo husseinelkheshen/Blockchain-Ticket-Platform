@@ -1,8 +1,8 @@
+from random import *
 import datetime as date
 import hashlib as hasher
-import string
-from random import *
 import pyqrcode as qr
+import string
 
 
 class Trackers:
