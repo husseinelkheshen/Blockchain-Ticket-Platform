@@ -17,32 +17,29 @@ trans4 = Transaction(user2.id, user1.id, 50, 1)
 trans5 = Transaction(user1.id, user2.id, 80, 1)
 
 block1 = Block(0, date, [trans1], None) # success
-block2 = Block(0, date, [trans2, trans3], block1.hash) # success
-block3 = Block(1, date, [trans4], block2.hash) # success
+block2 = Block(1, date, [trans2, trans3], block1.hash) # success
+block3 = Block(2, date, [trans4], block2.hash) # success
 block4 = Block(-3, date, [trans5], block3.hash) # failure
 block5 = Block(None, date, [trans5], block3.hash) # failure
-block6 = Block(3, date, [trans5], block1.hash) # failure
-block7 = Block(3, date.datetime.now() - timedelta(days=7), [trans5], block3.hash) # failure
-block8 = Block(3, None, [trans5], block3.hash) # failure
-block9 = Block(3, date, None, block3.hash) # failure
-block10 = Block(2, date, [trans5], block3.hash) # failure
+block6 = Block(3, None, [trans5], block3.hash) # failure
+block7 = Block(3, date, None, block3.hash) # failure
+block8 = Block(2, date, [trans5], block3.hash) # failure
 
 def test_goodparameters():
-    #
-    # Block should be added if all parameters are valid and no source
-    # This simulates the first block in a chain
-    #
+    """
+    Test that a Block successfully creates if there is no prev_hash
+    This simulates the first Block in a Chain
+    """
     assert (block1.index == 0 and
             block1.timestamp == date and
             block1.data[0] == trans1 and
             block1.prev_hash == "")
 
 def test_goodexchange():
-    #
-    # Block should accept multiple transactions in one block
-    # Simulates UpgradeTicket
-    #
-    assert (#block2.index == 1 and
+    """
+    Test that a Block successfully creates if
+    """
+    assert (block2.index == 1 and
             block2.timestamp == date and
             block2.data[0] == trans2 and
             block2.data[1] == trans3)
@@ -71,21 +68,21 @@ def test_noindex():
             block5.timestamp is None and
             block5.data is None)
 
-def test_notrans():
-    #
-    # Block should reject blocks with no transaction
-    #
-    assert (block9.index is None and
-            block9.timestamp is None and
-            block9.data is None)
-
 def test_notime():
     #
     # Block should reject blocks with no time stamp
     #
-    assert (block8.index is None and
-            block8.timestamp is None and
-            block8.data is None)
+    assert (block6.index is None and
+            block6.timestamp is None and
+            block6.data is None)
+
+def test_notrans():
+    #
+    # Block should reject blocks with no transaction
+    #
+    assert (block7.index is None and
+            block7.timestamp is None and
+            block7.data is None)
 
 chaintrans0 = event1.blockchain.findRecentTrans(0) # failure
 
@@ -97,8 +94,6 @@ chaintrans2 = event1.blockchain.findRecentTrans(0) # failure
 event1.blockchain.blocks.append(block3)
 
 chaintrans3 = event1.blockchain.findRecentTrans(1)
-
-
 
 
 def test_notransactions():
