@@ -102,12 +102,12 @@ def test_nohash():
 
 chaintrans0 = event1.blockchain.findRecentTrans(0) # failure
 
-event1.blockchain = [block2]
+event1.blockchain.blocks.append(block2)
 
 chaintrans1 = event1.blockchain.findRecentTrans(1) # success
 chaintrans2 = event1.blockchain.findRecentTrans(0) # failure
 
-chain1.blocks = [block2, block3]
+event1.blockchain.blocks.append(block3)
 
 chaintrans3 = event1.blockchain.findRecentTrans(1)
 
