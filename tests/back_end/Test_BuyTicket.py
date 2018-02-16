@@ -45,7 +45,7 @@ testEvent1.id = 2
 testVenue.events[testEvent1.id] = (testEvent1, copy.deepcopy(testEvent1.blockchain))
 
 
-testEvent2 = Event("Class2", testDatetime1, "Tuesday and Thursday")
+testEvent2 = Event("Class2", testDatetime2, "Tuesday and Thursday")
 testEvent2.venue = testVenue
 testEvent2.id = 3
 testVenue.events[testEvent2.id] = (testEvent2, copy.deepcopy(testEvent2.blockchain))
