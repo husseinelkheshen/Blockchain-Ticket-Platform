@@ -480,8 +480,8 @@ class User:
                 current_owner = ticket.mostRecentTransaction().target
                 # confirm Ticket ownership
                 if self.id == current_owner:
-                    ticket_data = ("venue_id = " + str(venue_id) +
-                                   "\nevent_id = " + str(event_id) +
+                    ticket_data = ("venue_id = " + str(venue.id) +
+                                   "\nevent_id = " + str(event.id) +
                                    "\nticket_num = " + str(ticket.ticket_num) +
                                    "\ncurrent_owner = " + str(current_owner))
                     # generate ticket code
