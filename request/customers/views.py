@@ -1,6 +1,6 @@
-from django import messages
+from django.contrib import messages
 from django.shortcuts import render, get_object_or_404
-from django.decorators import login_required
+from django.contrib.auth.decorators import login_required
 
 from globals import blockchain_api as bcAPI
 from .models import Customer
