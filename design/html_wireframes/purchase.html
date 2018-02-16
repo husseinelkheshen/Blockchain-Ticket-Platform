@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/stylesheet.css">
+	<link rel="shortcut icon" type="image/png" href="images/favicon.png"/>
+	<title>Admit 01 | Purchase Ticket</title>
+</head>
+
+<body style="background-color: #fffbf4">
+	<nav id="navigation" class="navbar nav-content-fill navbar-inverse color-white navbar-toggleable-sm">
+		<div class="container">
+			<div class="nav-brand">
+				<a class="nav-link d-none d-sm-inline-block" href="index.html"><img id="logo"
+					src="images/logo_white_700.png"/></a> <!-- Logo display for desktop -->
+				<a class="nav-link active d-sm-none" href="index.html"><img id="textlogo"
+					src="images/textlogo_white.png"/></a> <!-- Logo display for mobile -->
+				
+				<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#navCollapseToggler" aria-controls="navCollapseToggler"
+				aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button><!-- Toggle collapse button -->
+
+			</div>
+			
+			<div id="navCollapseToggler" class="collapse navbar-collapse">
+				<div class="navbar-nav ml-auto">
+					<a class="nav-link" href="#">My Account</a>
+					<a class="nav-link" href="#">Login or Register</a>
+					<a class="nav-link" href="#">Logout</a>
+				</div><!-- navbar-nav -->
+			</div><!-- collapse -->
+		</div><!-- container -->
+	</nav>
+<div id="search-container">
+	<div id="search">
+		<form >
+			<input type="text" id="searchbar" name="search" placeholder="Search Events"
+			style="font-family: 'Abel', sans-serif"/>
+			<input type="submit" value="Go" id="searchbtn" style="font-family: 'Abel', sans-serif"/>
+		</form>
+	</div>
+</div>
+<main>
+	<div class="container mx-auto rounded border mb-2 text-left" style="width: 95%;
+	border: 1px solid #003470; background-color: white; padding: 10px;
+	margin-top: 1rem;">
+		<h1>PURCHASE TICKETS</h1>
+		<div class="container">
+			<div class="row text-left mx-auto mb-3" style="border: 1px solid #003470; min-height: 200px; width: 100%; padding: 10px; max-width: 700px; color: #1b2838">
+				<div id="ticket-summary" class="col-8" style="border-right: 1px dotted #003470">
+					<style type="text/css">
+						#ticket-summary p, #ticket-summary h2 {
+							margin: 0;
+							padding: 0;
+						}
+					</style>
+					<p><span><h2>EVENT NAME </h2></span></p>
+					<p>
+						<span style="font-size: 20px">SECTION {Section} </span><span>RowSeat</span>-<span>RowSeat</span>
+					</p>
+					<p class="mb-2">
+						<span style="font-size: 14px">VENUE NAME at HH:MM on MM/DD/YY</span>
+					</p>
+					<form>
+						<fieldset>
+								<div>
+									<label>Upgrade From Your Old Tickets</label>
+
+									<div class="form-check">
+										<label class="form-check-label">
+											<input class="form-check-input" type="checkbox" disabled="true"> Yes
+										</label>
+									</div><!-- form-check -->
+								</div><!-- form-group -->
+							</fieldset><!-- form-group -->
+					</form>
+
+				</div>
+				<div class="col-4">
+					<h2>PRICE</h2>
+					<h3>${Price}</h3>
+				</div>
+			</div>
+			<div id="wallet-purchase-summary" class="mx-auto row" style="max-width: 500px">
+				<style type="text/css">
+					#wallet-purchase-summary p {
+						margin: 0;
+						padding: 0;
+					}
+				</style>
+				<h3 class="col-12">Your Wallet</h3>
+				<div class="mb-2 col-12 col-sm-6">
+					<img style="width:100px" src="images/wallet-icon.png">
+					<p><a href="#">+ Add money to Wallet</a></p>
+				</div>
+				<div class="col-12 col-sm-6 text-left text-sm-right">
+					<p> &nbsp;&nbsp;$Money in Wallet</p>
+					<p><u>- $Price of Tickets</u></p>
+					<p> &nbsp;&nbsp;$MiW - PoT</p>
+				</div>
+				<div class="col-12 text-center">
+					<button class="btn d-block mx-auto" type="submit" value="Purchase"
+					style="color: #c8c8c8; background-color: #1b2838; font-family: 'Abel', sans-serif">Purchase</button>
+					<p> or </p>
+					<p><a href="my_account.html">Cancel</a></p>
+				</div>
+			</div><!-- Wallet Display Container-->
+		</div><!-- container -->
+	</div><!-- confirm ticket purchase container-->
+
+</main>
+
+<script src="js/jquery.slim.min.js"></script>
+<script src="js/tether.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/scripts.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+</body>
+
+</html>
