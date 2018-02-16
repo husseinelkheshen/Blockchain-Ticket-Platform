@@ -16,7 +16,8 @@ venue1.createTicket(venue1.events[event1.id][0], 550, seat1)    # success
 venue1.createTicket(venue1.events[event1.id][0], 365, seat1)    # failure
 venue1.createTicket(venue1.events[event1.id][0], 365, None)     # failure
 venue1.createTicket(venue1.events[event1.id][0], -5, seat2)     # failure
-venue1.createTicket(None, 700, seat2)     # failure
+venue1.createTicket(venue1.events[event1.id][0], None, seat2)     # failure
+venue1.createTicket(None, 700, seat2)                           # failure
 
 most_recent_event_block = venue1.events[event1.id][0].blockchain.blocks[-1]
 most_recent_venue_block = venue1.events[event1.id][1].blocks[-1]
