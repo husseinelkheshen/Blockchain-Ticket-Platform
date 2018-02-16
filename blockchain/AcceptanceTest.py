@@ -95,6 +95,17 @@ def ticket_count(event):
 
     return unsold
 
+def create_tickets(venue, event):
+    """ Create some tickets for the event """
+    print('\nLet\'s create some tickets for this event.')
+    done = False
+    while not done:
+        section = input('What section is the seat in? (e.g. Mezzanine, GA): ')
+        row = input('What row is the seat in? (A string, e.g. C, H, AA): ')
+        seat_no = int(input('What is the seat number? (An int): '))
+        seat = Seat(section, row, seat_no)
+        seat_selected = seat.section is not None
+
 def main():
     """ Main method """
     load_venues()

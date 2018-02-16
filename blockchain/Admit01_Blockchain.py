@@ -557,6 +557,8 @@ class Venue:
                 event == self.events[event.id][0]):
                 # make sure Ticket for this Seat does not already exist
                 assert seat is not None
+                # make sure Ticket has a positive face value
+                assert face_value >= 0
                 valid_ticket = True
                 for ticket in event.tickets:
                     if ticket.seat == seat:
