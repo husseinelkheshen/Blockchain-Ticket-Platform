@@ -19,8 +19,8 @@ user1.buyTicket(ticket1)    # user1 buys ticket1
 #     ticket1.for_sale = False
 #     list_price = 200
 #     ticket1.listTicket(list_price, user1.getID())
-#     assert (ticket1.isForSale() and
-#             ticket1.list_price == list_price)
+#     assert ticket1.isForSale()
+#     assert ticket1.list_price == list_price
 
 def test_badlistprice():
     """ List prices must be non-negative """
