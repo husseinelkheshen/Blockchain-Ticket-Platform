@@ -1,7 +1,3 @@
-#
-# Tests for upgradeTicket
-#
-
 from back_end.Admit01_Blockchain import *
 
 #
@@ -83,7 +79,7 @@ def test_upgradeTicket_valid():
 	testUser2.buyTicket(testTicket5)
 	assert not testUser2.upgradeTicket(testTicket5, testTicket6)
 	assert testUser2.wallet == 400
-    assert testUser2.inventory[0] == testTicket5
+	assert testUser2.inventory[0] == testTicket5
 
 #
 # Test upgrading tickets user does not own
