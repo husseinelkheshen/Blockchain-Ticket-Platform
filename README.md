@@ -20,8 +20,13 @@ To login as a venue (someone who can list tickets), use the following credential
 
 You can logout by visiting the logout link in the navbar as well.
 
+The completed wireframes in HTML/CSS can be viewed from 'design/html_wireframes' in any browser. Bootstrap has already been downloaded into thhe project, and Popper.js is being grabbed from a CDN.
+
 ### How to Run the Unit Test Cases
 You can use the Makefile to do so by executing 'make unit_tests' from the main directory. Please not that some of these tests may take upwards of two minutes to execute due to the rigor of the mining, and it occurring on the local machine.
+
+To run the jasmine test cases for form validation, you just need to open 'tests.html' in the 'tests/frontend' folder  any browser that formats CSS remotely corretly. Jasmine provides a css formatted standalone testing framework for testing javascript used in HTML. If you want to know the details of installation they are on 
+https://github.com/jasmine/jasmine#installation, using the installation instructions for the standalone distribution. Very few changes were made to the validation tests, everywhere a change was made was marked with a "NOTE:" comment and some exclamation points. Explanation for changes are written in comments around changes. Likely more will get written as validation becomes more rigorous. The tests were all passing at the time of writing this. The jasmine tests themselves are written in the file 'validation_tests.js', and test the code written in 'validation.js'. Both of these files can alo be cound in the 'tests/frontend' folder.
 
 ### Suggestions for Acceptance Tests
 To walk through our backend acceptance test, run this from terminal in the main directory:
@@ -41,6 +46,10 @@ The request, database, and blockchain servers have been created and can successf
 
 Additionally, a primitive version of a web application has been implemented, and can be accessed via a browser. Users can, if already registered in the system (at this point, registration can only be done through Django's admin interface, which is accessible at 128.135.203.173:8000/admin), login to the site. The authentication system is fully capable and implemented. The site recognizes that a user is signed in through a sessions framework. 
 
+The html/css wireframes have been fully marked up for all pages that serve the stated goals of compeleting Upgrade Ticket, Generate Ticket Code, Buy, Ticket, with the exception of the Create and List ticket. Since have still yet to implement mass generation of ticket blocks and have yet to determine how we will streamline the process venues creating tickets from the website, we thought it best not to waste the time marking up a wireframe that probably wouldn't get used. Time was spent instead marking up the Account page for users since many of the design goals for the week focused on how to create tickets for users. The Logo has also been finalized, and a favicon for the website.
+
+The idea behind the CSS wireframes is that a home page will be required, which is what is found in 'index.html'. This homepage is incomplete as the explore feature will likely be implemented on it as well. An event page would be needed to buy tickets from, found in 'event_page.html', an actual ticket purchase confirmation page on 'purchase.html'. Wireframes for a login/resistration page in the form of 'login_register.html' and an account page on 'my_account.html' were provided as well.
+
 #### Back end
 On the back end, we have fully implemented the blockchain framework and currently have our transactions posting to two nodes (one held by the Event class, another held by the Venue class), though we are currently only using single-node validation. We will develop a three-point consensus mechanism in the second sprint, as planned.
 
@@ -53,6 +62,8 @@ Pablo worked on creating virtual machines for the request, database, and blockch
 
 Euirim worked on setting up the virtual machines with frameworks that would help us expediate development. He also setup the Django-based web application and coded the client-facing html that displayed a very primitive interface. Euirim also integrated the database server with the Django hosting request server.
 
+Samantha wrote all of the HTML/CSS, Provided all the UI design, logo desin, and wrote the Jasmine font end validation tests.
+
 #### Back end
 Ross and Ethan paired to develop and test the *Trackers*, *User*, *Venue*, *Event*, *Seat*, and *Ticket* classes.
 
@@ -64,3 +75,5 @@ We met together as a larger team on a few occassions to integrate our components
 There were several several, code correctness, test rigor, formatting and changes to the unit tests, none of which changed the scope or diminished the coverage of the tests.
 
 The only major change is that we incorporated the *Host* class into the *Venue* class, since we could no longer see a logical purpose for a standalone *Host* class. *Venue* objects now have access to the union of all use cases from the previous definition of *Host* and those from the previous definition of *Venue*.
+
+A minor change, as already discussed, resulted from ambiguity about how list ticket will be implemented on a venue wide scale, which meant holding off on UI design of it for the time being.
