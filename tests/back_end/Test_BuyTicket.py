@@ -49,7 +49,7 @@ testTicket5 = Ticket(testEvent1, 100, testSeat1)
 testTicket5.for_sale = True
 
 testTicket6 = Ticket(testEvent2, 0, testSeat2)
-testTicket.for_sale = True
+testTicket6.for_sale = True
 
 #
 # Test purchasing of tickets with funds in wallet
