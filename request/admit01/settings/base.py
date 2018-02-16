@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'customers',
-    'globals'
+    'globals',
+    'venues'
 ]
 
 MIDDLEWARE = [
