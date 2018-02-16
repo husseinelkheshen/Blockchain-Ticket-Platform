@@ -302,6 +302,9 @@ class User:
         if ticket in self.inventory:
             return False
 
+        # check if correct source
+        owner = ticket.event.blockchain.findRecentTrans(ticket.ticket_num).target
+
         # generate new transactions
         new_transactions = []
         new_transactions.append(Transaction(self.id,
@@ -332,13 +335,6 @@ class User:
             del ticket.event.blockchain.blocks[-1]
             del ticket.event.venue.events[event.id][1].blocks[-1]
             return False
-
-
-
-        # UNFINISHED mine one new block
-        new_block_hash = None
-
-        # UNFINISHED broadcast the nonce to the other blockchain
 
         # add record and hash to ticket's history
         ticket.history.append((new_block_index, new_block_hash))
