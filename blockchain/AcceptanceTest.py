@@ -156,6 +156,7 @@ def list_users():
         print('{:<30}'.format(user.fname + ' ' + user.lname) + email)
 
 def create_user_profile():
+    """ Create a new user profile for the user """
     print('\nBefore you can buy a ticket to this awesome event, you\'ll need '
           'to set up a user profile. For your reference, here is a list of '
           'our current users.')
@@ -178,6 +179,15 @@ def create_user_profile():
           'account. That should be enough to get you started!')
 
     return user
+
+def select_a_ticket(event):
+    print('\nNow that you have a profile set up and have some money to spend, '
+          'let\'s pick a ticket for ' + event.name + '.')
+    print('\nPrice' + (' ' * 10) + 'Seat')
+    for ticket in event.tickets:
+        seat = ticket.seat
+        print('{:<15}'.format(str(ticket.price)) + '(' + seat.section + ', ' +
+              seat.row + ', ' + seat.seat_no + ')')
 
 def main():
     """ Main method """
