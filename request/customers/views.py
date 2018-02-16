@@ -7,7 +7,7 @@ from .models import Customer
 
 # Create your views here.
 @login_required
-def buy_ticket(request, ticket_num):
+def buy_ticket(request, event_id, ticket_num):
     """
     Tell the blockchain server that the logged in customer intends 
     to purchase the ticket with the given ticket_num.
@@ -17,8 +17,12 @@ def buy_ticket(request, ticket_num):
 
     # build data
     data = {
-        "user": customer.id,         
-        "ticket_num": ticket_num,
+        "user": {
+            "id": customer.id,
+            "email": customer.user.email
+        },
+        "event": event_id,
+        "ticket_num": ticket_num
     }
 
     # send POST request to blockchain server with data.
