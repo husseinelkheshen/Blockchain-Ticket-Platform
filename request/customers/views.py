@@ -17,7 +17,7 @@ def buy_ticket(request, ticket_num):
 
     # build data
     data = {
-        "user": customer_id,         
+        "user": customer.id,         
         "ticket_num": ticket_num,
     }
 
@@ -43,7 +43,7 @@ def list_customer_tickets(request):
     # get customer
     customer = get_object_or_404(Customer, user=request.user)
 
-    # use customer_id to query blockchain server to 
+    # use customer id to query blockchain server to 
     # get the list of the customer's tickets. 
     # Expect JSON response with list of tickets, each with the name
     # of the event, details of the seat, the ticket id (num), and the venue.
