@@ -281,21 +281,21 @@ class User:
             or ticket.event == None
             or ticket.seat == None
             or ticket.face_value == None
-            or ticket.list_value == None
+            or ticket.list_price == None
             or ticket.for_sale == None
             or ticket.history == None):
             return False
 
         # check if the event has already transpired
-        if ticket.event.datetime < datetime.now():
+        if ticket.event.datetime < date.datetime.now():
             return False
 
         # check if ticket is for sale
-        if ticket.for_sale == True:
+        if ticket.for_sale == False:
             return False
 
         # check if user calling has enough money in wallet
-        if ticket.list_value > self.wallet:
+        if ticket.list_price > self.wallet:
             return False
 
         # check if user already owns the ticket
@@ -309,25 +309,25 @@ class User:
         new_transactions = []
         new_transactions.append(Transaction(self.id,
                                             owner,
-                                            ticket.list_value,
+                                            ticket.list_price,
                                             ticket.ticket_num))
 
         # post the transaction to a new block
         prev_hash = None
-        new_block_index = len(event.blockchain.blocks)
+        new_block_index = len(ticket.event.blockchain.blocks)
         if new_block_index > 0:
-            prev_hash = event.blockchain.blocks[-1].hash
+            prev_hash = ticket.event.blockchain.blocks[-1].hash
         new_block = Block(new_block_index,
                           date.datetime.now(),
                           new_transactions,
                           prev_hash)
 
         # append the new block to both blockchains
-        event.blockchain.blocks.append(new_block)
-        event.venue.events[event.id][1].blocks.append(new_block)
+        ticket.event.blockchain.blocks.append(new_block)
+        ticket.event.venue.events[ticket.event.id][1].blocks.append(new_block)
 
         # mine one new block
-        if ticket.event.blockchain.mineNewBlock([ticket.event.blockchain]):
+        if ticket.event.blockchain.mineNewBlock([ticket.event.venue.events[ticket.event.id][1]]):
             new_block_hash = ticket.event.blockchain.blocks[-1].hash
             # add record and hash to ticket's history
             ticket.history.append((new_block_index, new_block_hash))
@@ -343,7 +343,7 @@ class User:
         self.inventory.append(ticket)
 
         # subtract appropriate funds from user's wallet
-        self.wallet -= ticket.list_value
+        self.wallet -= ticket.list_price
 
         # mark ticket as sold
         ticket.for_sale = False
@@ -365,13 +365,13 @@ class User:
             or new_ticket.event == None
             or new_ticket.seat == None
             or new_ticket.face_value == None
-            or new_ticket.list_value == None
+            or new_ticket.list_price == None
             or new_ticket.for_sale == None
             or new_ticket.history == None):
             return False
 
         # check if the event has already transpired
-        if new_ticket.event.datetime < datetime.now():
+        if new_ticket.event.datetime < date.datetime.now():
             return False
 
         # check if ticket is for sale
@@ -379,7 +379,7 @@ class User:
             return False
 
         # check if new ticket is more valuable than old ticket
-        if new_ticket.list_value < owned_ticket.list_value:
+        if new_ticket.list_price < owned_ticket.list_price:
             return False
 
         # check if user owns ticket which will be upgraded
@@ -401,18 +401,18 @@ class User:
         new_transactions = []
         new_transactions.append(Transaction(self.id,
                                             owner,
-                                            new_ticket.list_value,
+                                            new_ticket.list_price,
                                             new_ticket.ticket_num))
         new_transactions.append(Transaction(owner,
                                             self.id,
-                                            owned_ticket.list_value,
+                                            owned_ticket.list_price,
                                             owned_ticket.ticket_num))
 
         # post the transactions to a new block
         prev_hash = None
         new_block_index = len(new_ticket.event.blockchain.blocks)
         if new_block_index > 0:
-            prev_hash = event.blockchain.blocks[-1].hash
+            prev_hash = new_ticket.event.blockchain.blocks[-1].hash
         new_block = Block(new_block_index,
                           date.datetime.now(),
                           new_transactions,
@@ -438,7 +438,7 @@ class User:
         self.inventory.append(new_ticket)
 
         # subtract appropriate funds from user's wallet
-        self.wallet -= (new_ticket.list_value - owned_ticket.list_value)
+        self.wallet -= (new_ticket.list_price - owned_ticket.list_price)
 
         # add appropriate funds to seller's wallet (iteration 2)
 

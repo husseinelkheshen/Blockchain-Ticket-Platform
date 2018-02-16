@@ -1,13 +1,19 @@
 from blockchain.Admit01_Blockchain import *
+import datetime as date
 
 #
 # Creation of Peripheral Objects
 #
-testDatetime1 = datetime(2018, 3, 31, 0, 0, 0, 0)
-testDatetime2 = datetime(2017, 3, 31, 0, 0, 0, 0)
+testDatetime1 = date.datetime(2018, 3, 31, 0, 0, 0, 0)
+testDatetime2 = date.datetime(2017, 3, 31, 0, 0, 0, 0)
 
 testSeat1 = Seat("Cheap Seats", "C", 5)
 testSeat2 = Seat("Steak Sauce", "A", 1)
+
+#
+# Creation of Test Venue
+#
+testVenue = Venue("venue", "DC")
 
 #
 # Creation of Test Users
@@ -34,31 +40,31 @@ testEvent3 = Event("Class3", testDatetime2, "Tuesday and Thursday")
 #
 # Creation of Test Tickets
 #
-testTicket1 = Ticket(testEvent1, 100, testSeat1)
+testTicket1 = testVenue.createTicket(testEvent1, 100, testSeat1)
 testTicket1.for_sale = True
 
-testTicket2 = Ticket(testEvent1, 550, testSeat2)
+testTicket2 = testVenue.createTicket(testEvent1, 550, testSeat2)
 testTicket2.for_sale = False
 
-testTicket3 = Ticket(testEvent1, 500, testSeat1)
+testTicket3 = testVenue.createTicket(testEvent1, 500, testSeat1)
 testTicket3.for_sale = True
 
-testTicket4 = Ticket(testEvent1, 0, testSeat2)
+testTicket4 = testVenue.createTicket(testEvent1, 0, testSeat2)
 testTicket4.for_sale = True
 
-testTicket5 = Ticket(testEvent1, 100, testSeat1)
+testTicket5 = testVenue.createTicket(testEvent1, 100, testSeat1)
 testTicket5.for_sale = True
 
-testTicket6 = Ticket(testEvent2, 200, testSeat1)
+testTicket6 = testVenue.createTicket(testEvent2, 200, testSeat1)
 testTicket6.for_sale = True
 
-testTicket7 = Ticket(testEvent3, 600, testSeat2)
+testTicket7 = testVenue.createTicket(testEvent3, 600, testSeat2)
 testTicket7.for_sale = True
 
-testTicket8 = Ticket(testEvent1, 100, testSeat1)
+testTicket8 = testVenue.createTicket(testEvent1, 100, testSeat1)
 testTicket8.for_sale = True
 
-testTicket9 = Ticket(testEvent1, 100, testSeat2)
+testTicket9 = testVenue.createTicket(testEvent1, 100, testSeat2)
 testTicket9.for_sale = True
 
 #
