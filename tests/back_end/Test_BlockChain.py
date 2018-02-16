@@ -23,7 +23,6 @@ block4 = Block(-3, date, [trans5], block3.hash) # failure
 block5 = Block(None, date, [trans5], block3.hash) # failure
 block6 = Block(3, None, [trans5], block3.hash) # failure
 block7 = Block(3, date, None, block3.hash) # failure
-block8 = Block(2, date, [trans5], block3.hash) # failure
 
 def test_goodparameters():
     """
@@ -35,54 +34,54 @@ def test_goodparameters():
             block1.data[0] == trans1 and
             block1.prev_hash == "")
 
-def test_goodexchange():
+def test_goodmultitrans():
     """
-    Test that a Block successfully creates if
+    Test that a Block successfully creates if it contains multiple transactions
     """
     assert (block2.index == 1 and
             block2.timestamp == date and
             block2.data[0] == trans2 and
-            block2.data[1] == trans3)
+            block2.data[1] == trans3 and
+            block2.prev_hash == block1.hash)
 
-def test_goodtransactions():
-    #
-    # Block should accept multiple transactions from one source to one target
-    #
-    assert (#block3.index == 2 and
+def test_goodtrans():
+    """ Test that a Block successfully creates if it contains one transactions """
+    assert (block3.index == 2 and
             block3.timestamp == date and
-            block3.data[0] == trans4)
+            block3.data[0] == trans4 and
+            block3.prev_hash == block2.hash)
 
 def test_badindex():
-    #
-    # Block should reject negative index
-    #
+    """ Test that a Block fails if it contains an invalid index (negative) """
     assert (block4.index is None and
             block4.timestamp is None and
-            block4.data is None)
+            block4.data is None and
+            block4.prev_hash is None and
+            block4.hash is None)
 
 def test_noindex():
-    #
-    # Block should reject negative index
-    #
+    """ Test that a Block fails if it contains an index is None """
     assert (block5.index is None and
             block5.timestamp is None and
-            block5.data is None)
+            block5.data is None and
+            block5.prev_hash is None and
+            block5.hash is None)
 
 def test_notime():
-    #
-    # Block should reject blocks with no time stamp
-    #
+    """ Test that a Block fails if it containsNone no timestamp """
     assert (block6.index is None and
             block6.timestamp is None and
-            block6.data is None)
+            block6.data is None and
+            block6.prev_hash is None and
+            block6.hash is None)
 
 def test_notrans():
-    #
-    # Block should reject blocks with no transaction
-    #
+    """ Test that a Block fails if it containsNone no Transaction """
     assert (block7.index is None and
             block7.timestamp is None and
-            block7.data is None)
+            block7.data is None and
+            block7.prev_hash is None and
+            block7.hash is None)
 
 chaintrans0 = event1.blockchain.findRecentTrans(0) # failure
 
