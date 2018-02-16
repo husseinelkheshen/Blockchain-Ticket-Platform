@@ -16,13 +16,13 @@ trans3 = Transaction(user2.id, user1.id, 50, 2)
 trans4 = Transaction(user2.id, user1.id, 50, 1)
 trans5 = Transaction(user1.id, user2.id, 80, 1)
 
-block1 = Block(0, date, [trans1], None) # success
-block2 = Block(1, date, [trans2, trans3], block1.hash) # success
-block3 = Block(2, date, [trans4], block2.hash) # success
-block4 = Block(-3, date, [trans5], block3.hash) # failure
-block5 = Block(None, date, [trans5], block3.hash) # failure
-block6 = Block(3, None, [trans5], block3.hash) # failure
-block7 = Block(3, date, None, block3.hash) # failure
+block1 = Block(0, valid_date, [trans1], None) # success
+block2 = Block(1, valid_date, [trans2, trans3], "testhash") # success
+block3 = Block(2, valid_date, [trans4], "testhash") # success
+block4 = Block(-3, valid_date, [trans5], "testhash") # failure
+block5 = Block(None, valid_date, [trans5], "testhash") # failure
+block6 = Block(3, None, [trans5], "testhash") # failure
+block7 = Block(3, valid_date, None, "testhash") # failure
 
 def test_goodparameters():
     """
@@ -30,7 +30,7 @@ def test_goodparameters():
     This simulates the first Block in a Chain
     """
     assert (block1.index == 0 and
-            block1.timestamp == date and
+            block1.timestamp == valid_date and
             block1.data[0] == trans1 and
             block1.prev_hash == "")
 
@@ -39,17 +39,17 @@ def test_goodmultitrans():
     Test that a Block successfully creates if it contains multiple transactions
     """
     assert (block2.index == 1 and
-            block2.timestamp == date and
+            block2.timestamp == valid_date and
             block2.data[0] == trans2 and
             block2.data[1] == trans3 and
-            block2.prev_hash == block1.hash)
+            block2.prev_hash == "testhash")
 
 def test_goodtrans():
     """ Test that a Block successfully creates if it contains one transactions """
     assert (block3.index == 2 and
-            block3.timestamp == date and
+            block3.timestamp == valid_date and
             block3.data[0] == trans4 and
-            block3.prev_hash == block2.hash)
+            block3.prev_hash == "testhash")
 
 def test_badindex():
     """ Test that a Block fails if it contains an invalid index (negative) """

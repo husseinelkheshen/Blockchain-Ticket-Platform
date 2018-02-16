@@ -24,11 +24,9 @@ back_end_unit_tests:
 	python3 -m pytest tests/back_end/Test_Trackers.py
 	python3 -m pytest tests/back_end/Test_User.py
 	python3 -m pytest tests/back_end/Test_Venue.py
+	python3 -m pytest tests/back_end/Test_GetOwnedTickets.py
 	python3 -m pytest tests/back_end/Test_Transaction.py
 	python3 -m pytest tests/back_end/Test_BlockChain.py
-	python3 -m pytest tests/back_end/Test_BuyTicket.py
-	python3 -m pytest tests/back_end/Test_UpgradeTicket.py
-	python3 -m pytest tests/back_end/Test_Ticket.py
 	make clean
 
 # Delete all pytest cache files
