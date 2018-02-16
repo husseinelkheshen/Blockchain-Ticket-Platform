@@ -291,7 +291,7 @@ class User:
             return False
 
         # check if ticket is for sale
-        if ticket.for_sale == True:
+        if ticket.for_sale == False:
             return False
 
         # check if user calling has enough money in wallet
@@ -352,12 +352,12 @@ class User:
         return True
 
     def upgradeTicket(self, owned_ticket, new_ticket):
-        '''
+        """
         Allows a User to upgrade an owned ticket for another listed ticket
 
             ticket: Ticket object
 
-        '''
+        """
 
         # check if involved objects are valid
         if (self.id == None
@@ -652,23 +652,35 @@ class Seat:
             self.seat_no = seat_no
 
 
-# The Ticket class, pretty simple and self explanatory
 class Ticket:
+    """
+    Class to uniquely identify a Ticket with relevant attributes
+    including Seat, value and History
+    """
     def __init__(self, event, face_value, seat):
-        #
-        # event: Event object
-        # face_value: int
-        # seat: Seat object
-        # history: list of (block_no (int), hash (int))
-        #
-        self.ticket_num = event.next_ticket_num
-        event.next_ticket_num += 1
-        self.event = event
-        self.seat = seat
-        self.face_value = face_value
-        self.list_price = face_value # upon inception, list price = face_value
-        self.for_sale = False
-        self.history = []    # history is list of tuples of (block index, hash)
+        """
+        Ticket constructor
+
+            event: Event object
+            face_value: int
+            seat: Seat object
+
+        """
+
+        valid_face_value = (face_value is not None) and (face_value >= 0)
+
+        if (not valid_face_value or event is None or seat is None):
+            self.ticket_num = self.event = self.seat = None
+            self.face_value = self.list_price = self.for_sale = self.history = None
+        else:
+            self.ticket_num = event.next_ticket_num
+            event.next_ticket_num += 1
+            self.event = event
+            self.seat = seat
+            self.face_value = face_value
+            self.list_price = face_value # upon inception, list price = face_value
+            self.for_sale = False
+            self.history = []    # history is list of tuples of (block index, hash)
 
     def isForSale(self):
         return self.for_sale
