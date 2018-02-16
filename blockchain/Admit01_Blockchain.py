@@ -57,7 +57,20 @@ class Trackers:
 
 # The Block class, constituting an instance of a block in the chain
 class Block:
+    """
+    Class for defining Blocks, which are the units within the chain which
+    store the list of most recent Transactions along with their timestamps
+    """
     def __init__(self, index, timestamp, transactions, prev_hash):
+        """
+        Block constructor
+
+            index: int
+            timestamp: datetime object
+            transactions: list of Transactions
+            prev_hash: string
+
+        """
         valid_index = (index is not None) and (index >= 0)
         if(not valid_index or (timestamp is None) or (transactions is None)):
             self. index = self.timestamp = self.data = self.prev_hash = self.hash = None
@@ -107,29 +120,36 @@ class Block:
 class Chain:
     """ Wrapper for a list of Block objects and some helper methods """
     def __init__(self):
+        """ Chain constructor """
         self.blocks = []    # no need for a genesis block here
         self.prev_hashes = []
 
     def findRecentTrans(self, ticket_id):
+        """
+        Finds the most recent transaction in which a given ticket
+        was involved.
+        """
         recentTrans = None
 
-
         chainlength = len(self.blocks)
-        translength = 0
         foundTrans = False
+        # assert(chainlength == 2)
 
-        if(chainlength != 0):
-            for x in xrange(-1, -chainlength):
-                translength = len(self.blocks[x].data)
-
-                for y in xrange(-1, -translength):
-                    if self.blocks[x].data[y].ticket_num == ticket_id:
-                        recentTrans = self.blocks[x].data[y]
+        if chainlength != 0:
+            block = -1
+            while abs(block) <= chainlength:
+                translength = len(self.blocks[block].data)
+                trans = -1
+                while abs(trans) <= translength:
+                    if self.blocks[block].data[trans].ticket_num == ticket_id:
+                        recentTrans = self.blocks[block].data[trans]
                         foundTrans = True
                         break
+                    trans -= 1
 
                 if foundTrans:
                     break
+                block -= 1
 
         return recentTrans
 
@@ -185,7 +205,21 @@ class Chain:
 
 # The Transaction class, pretty simple, to, from, value of transaction.
 class Transaction:
+    """
+    Class for defining Transactions, which store information about
+    Ticket transfers between Users and Venues, as well as the
+    creation and destruction of Ticket objects.
+    """
     def __init__(self, target, source, value, ticket_num):
+        """
+        Transaction constructor
+
+            target: int
+            source: int
+            value: int
+            ticket_num: int
+
+        """
         has_target_or_source = (target != None) or (source is not None)
         has_ticket_num = (ticket_num is not None) and (ticket_num >= 0)
         valid_value = (value is not None) and (value >= 0)
@@ -268,10 +302,13 @@ class User:
         if ticket in self.inventory:
             return False
 
+        # get correct source
+        owner = ticket.event.blockchain.findRecentTrans(ticket.ticket_num).source
+
         # generate new transactions
         new_transactions = []
         new_transactions.append(Transaction(self.id,
-                                            ticket.event.id,
+                                            owner,
                                             ticket.list_value,
                                             ticket.ticket_num))
 
@@ -289,10 +326,15 @@ class User:
         event.blockchain.blocks.append(new_block)
         event.venue.events[event.id][1].blocks.append(new_block)
 
-        # UNFINISHED mine one new block
-        new_block_hash = None
-
-        # UNFINISHED broadcast the nonce to the other blockchain
+        # mine one new block
+        if ticket.event.blockchain.mineNewBlock([ticket.event.blockchain]):
+            new_block_hash = ticket.event.blockchain.blocks[-1].hash
+            # add record and hash to ticket's history
+            ticket.history.append((new_block_index, new_block_hash))
+        else:
+            del ticket.event.blockchain.blocks[-1]
+            del ticket.event.venue.events[event.id][1].blocks[-1]
+            return False
 
         # add record and hash to ticket's history
         ticket.history.append((new_block_index, new_block_hash))
@@ -301,7 +343,7 @@ class User:
         self.inventory.append(ticket)
 
         # subtract appropriate funds from user's wallet
-        self.wallet = self.wallet - ticket.list_value
+        self.wallet -= ticket.list_value
 
         # mark ticket as sold
         ticket.for_sale = False
@@ -352,13 +394,19 @@ class User:
         if owned_ticket.event != new_ticket.event:
             return False
 
+        # get correct source
+        owner = ticket.event.blockchain.findRecentTrans(ticket.ticket_num).source
+
         # generate new transactions
         new_transactions = []
         new_transactions.append(Transaction(self.id,
-                                            new_ticket.event.id,
+                                            owner,
                                             new_ticket.list_value,
                                             new_ticket.ticket_num))
-        # new_transactions.append(Transaction(other party))
+        new_transactions.append(Transaction(owner,
+                                            self.id,
+                                            owned_ticket.list_value,
+                                            owned_ticket.ticket_num))
 
         # post the transactions to a new block
         prev_hash = None
@@ -374,13 +422,16 @@ class User:
         new_ticket.event.blockchain.blocks.append(new_block)
         new_ticket.event.venue.events[event.id][1].blocks.append(new_block)
 
-        # UNFINISHED mine one new block
-        new_block_hash = None
-
-        # UNFINISHED broadcast the nonce to the other blockchain
-
-        # add record and hash to ticket's history
-        new_ticket.history.append((new_block_index, new_block_hash))
+        # mine one new block
+        if new_ticket.event.blockchain.mineNewBlock([new_ticket.event.blockchain]):
+            new_block_hash = new_ticket.event.blockchain.blocks[-1].hash
+            # add record and hash to ticket's history
+            new_ticket.history.append((new_block_index, new_block_hash))
+            owned_ticket.history.append((new_block_index, new_block_hash))
+        else:
+            del new_ticket.event.blockchain.blocks[-1]
+            del new_ticket.event.venue.events[event.id][1].blocks[-1]
+            return False
 
         # remove upgraded ticket from user inventory and add new ticket
         self.inventory.remove(owned_ticket)
@@ -438,6 +489,11 @@ class User:
 
         return ticket_code    # call ticket_code.png('filename.png') to generate
 
+    def getOwnedTickets(self):
+        tickets = []
+        for ticket in self.inventory:
+            tickets.append(ticket.ticket_num)
+        return tickets
 
 class Venue:
     """
@@ -479,9 +535,7 @@ class Venue:
         return False
 
     def createEvent(self, name, datetime, desc):
-        new_event = Event(name, datetime, desc)
-        new_event.venue = self
-        return new_event
+        return None
 
     def manageEvent(self, event):
         return False
@@ -503,6 +557,8 @@ class Venue:
                 event == self.events[event.id][0]):
                 # make sure Ticket for this Seat does not already exist
                 assert seat is not None
+                # make sure Ticket has a positive face value
+                assert face_value >= 0
                 valid_ticket = True
                 for ticket in event.tickets:
                     if ticket.seat == seat:
