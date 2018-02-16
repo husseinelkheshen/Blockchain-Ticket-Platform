@@ -278,9 +278,9 @@ def generate_ticket(user, venue, event, ticket):
     print('\nOutstanding, you\'re ready for the concert! We\'re validating ' +
           'your ownership status on the blockchain and generating your ticket...')
     qrcode = user.generateTicketCode(venue, event, ticket)
-    qrcode.png('your_ticket.png')
+    qrcode.png('../demo_ticket.png', scale = 10)
     print('\nCongratulations! Your ticket is waiting for you in the ' +
-          'main directory as \'your_ticket.png\'. Have fun at ' + event.name + '.')
+          'main directory as \'demo_ticket.png\'. Have fun at ' + event.name + '!\n')
 
 def main():
     """ Main method """
