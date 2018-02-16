@@ -276,9 +276,11 @@ class User:
 
         """
 
+        if ticket is None:
+            return False
+
         # check if involved objects are valid
         if (self.id == None
-            or ticket is None
             or ticket.event == None
             or ticket.seat == None
             or ticket.face_value == None
@@ -359,6 +361,9 @@ class User:
             ticket: Ticket object
 
         """
+
+        if new_ticket is None:
+            return False
 
         # check if involved objects are valid
         if (self.id == None
@@ -476,8 +481,8 @@ class User:
                 current_owner = ticket.mostRecentTransaction().target
                 # confirm Ticket ownership
                 if self.id == current_owner:
-                    ticket_data = ("venue_id = " + str(venue_id) +
-                                   "\nevent_id = " + str(event_id) +
+                    ticket_data = ("venue_id = " + str(venue.id) +
+                                   "\nevent_id = " + str(event.id) +
                                    "\nticket_num = " + str(ticket.ticket_num) +
                                    "\ncurrent_owner = " + str(current_owner))
                     # generate ticket code

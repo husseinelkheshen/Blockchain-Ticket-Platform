@@ -45,7 +45,7 @@ testEvent1.id = 2
 testVenue.events[testEvent1.id] = (testEvent1, copy.deepcopy(testEvent1.blockchain))
 
 
-testEvent2 = Event("Class2", testDatetime1, "Tuesday and Thursday")
+testEvent2 = Event("Class2", testDatetime2, "Tuesday and Thursday")
 testEvent2.venue = testVenue
 testEvent2.id = 3
 testVenue.events[testEvent2.id] = (testEvent2, copy.deepcopy(testEvent2.blockchain))
@@ -65,12 +65,6 @@ testTicket3.listTicket(testTicket3.face_value, testVenue.id)
 
 testTicket4 = testVenue.createTicket(testVenue.events[testEvent1.id][0], 0, testSeat4)
 testTicket4.listTicket(testTicket4.face_value, testVenue.id)
-
-testTicket5 = testVenue.createTicket(testVenue.events[testEvent1.id][0], 100, testSeat5)
-testTicket5.listTicket(testTicket5.face_value, testVenue.id)
-
-testTicket6 = testVenue.createTicket(testVenue.events[testEvent1.id][0], 0, testSeat6)
-testTicket6.listTicket(testTicket6.face_value, testVenue.id)
 
 def test_noTicket():
     """ Test to make sure that no effect happens when None is passed to buyTicket """
