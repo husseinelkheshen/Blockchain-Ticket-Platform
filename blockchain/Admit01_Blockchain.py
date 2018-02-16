@@ -379,7 +379,7 @@ class User:
             return False
 
         # check if new ticket is more valuable than old ticket
-        if new_ticket.list_price < owned_ticket.list_price:
+        if new_ticket.list_price <= owned_ticket.list_price:
             return False
 
         # check if user owns ticket which will be upgraded
@@ -395,7 +395,7 @@ class User:
             return False
 
         # get correct source
-        owner = ticket.event.blockchain.findRecentTrans(ticket.ticket_num).source
+        owner = owned_ticket.event.blockchain.findRecentTrans(owned_ticket.ticket_num).source
 
         # generate new transactions
         new_transactions = []
@@ -420,7 +420,7 @@ class User:
 
         # append the new block to both blockchains
         new_ticket.event.blockchain.blocks.append(new_block)
-        new_ticket.event.venue.events[event.id][1].blocks.append(new_block)
+        new_ticket.event.venue.events[new_ticket.event.id][1].blocks.append(new_block)
 
         # mine one new block
         if new_ticket.event.blockchain.mineNewBlock([new_ticket.event.venue.events[new_ticket.event.id][1]]):
@@ -430,7 +430,7 @@ class User:
             owned_ticket.history.append((new_block_index, new_block_hash))
         else:
             del new_ticket.event.blockchain.blocks[-1]
-            del new_ticket.event.venue.events[event.id][1].blocks[-1]
+            del new_ticket.event.venue.events[new_ticket.event.id][1].blocks[-1]
             return False
 
         # remove upgraded ticket from user inventory and add new ticket
@@ -448,12 +448,6 @@ class User:
 
         # signify completion
         return True
-
-    def upgradeTicket(self, ticket):
-        return False
-
-    def upgradeTicket(self, ticket):
-        return False
 
     def search(self, text):
         # iteration 2
