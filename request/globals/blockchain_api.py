@@ -1,35 +1,28 @@
 import requests
+from requests.exceptions import ConnectionError
 
-from django import settings
+from django.conf import settings
 
 def get(path):
     """
-    Send GET request to given path on blockchain server, and, if 
-    succcessful, return a decoding of the response. Assumes that
-    response is JSON.
+    Send GET request to given path on blockchain server and return
+    a tuple with the decoding of the response as well as the status
+    code.
     """
-    r = request.get(
+    r = requests.get(
             settings.BLOCKCHAIN_API["host"] + "/" + path, 
             timeout=settings.API_TIMEOUT)
     
-    # if request fails
-    if r.status_code != 200:
-        return None
-    
-    return r.json()
+    return (r.json(), r.status_code)
 
 def post(path, data):
     """
     Send POST request with given data to given path on blockchain 
-    server, and, if succcessful, return a decoding of the response. 
-    Assumes that response is JSON.
+    server, and return a tuple with decoding of the response and
+    the status code. 
     """
-    r = request.get(
+    r = requests.get(
             settings.BLOCKCHAIN_API["host"] + "/" + path, 
             timeout=settings.API_TIMEOUT)
     
-    # if request fails
-    if r.status_code != 200:
-        return None
-    
-    return r.json()
+    return (r.json(), r.status_code)

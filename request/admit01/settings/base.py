@@ -104,6 +104,7 @@ AUTH_PASSWORD_VALIDATORS = [ {
     },
 ]
 
+LOGIN_URL = "/login"
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
@@ -125,7 +126,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # Blockchain API
-BLOCKCHAIN_API = {'host': '128.135.203.175', 'port': 80}
+BLOCKCHAIN_API = {'host': 'http://128.135.203.175', 'port': 80}
 
 # Global API settings
 API_TIMEOUT = 5
+
