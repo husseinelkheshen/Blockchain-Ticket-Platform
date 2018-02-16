@@ -72,6 +72,9 @@ testTicket5.listTicket(testTicket5.face_value, testVenue.id)
 testTicket6 = testVenue.createTicket(testVenue.events[testEvent1.id][0], 0, testSeat6)
 testTicket6.listTicket(testTicket6.face_value, testVenue.id)
 
+def test_noTicket():
+    """ Test to make sure that no effect happens when None is passed to buyTicket """
+    assert testUser1.buyTicket(None) == False
 
 def test_buyTicket_EmptiesWallet():
     """

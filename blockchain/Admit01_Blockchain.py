@@ -278,6 +278,7 @@ class User:
 
         # check if involved objects are valid
         if (self.id == None
+            or ticket is None
             or ticket.event == None
             or ticket.seat == None
             or ticket.face_value == None
@@ -361,6 +362,7 @@ class User:
 
         # check if involved objects are valid
         if (self.id == None
+            or new_Ticket == None
             or owned_ticket == None
             or new_ticket.event == None
             or new_ticket.seat == None
