@@ -115,11 +115,24 @@ def test_buyTicket_AlreadySold():
     assert not testTicket1.for_sale
     assert testUser2.wallet == 500
 
-
 def test_buyTicket_NotForSale():
     """ Test to make sure you can't purchase a ticket not for sale """
     assert not testUser2.buyTicket(testTicket2)
     assert testTicket2 not in testUser2.inventory
     assert not testTicket1.for_sale
     assert testUser2.wallet == 500
+
+testTicket4.listTicket(100, testUser4.id)
+
+# assert testTicket4.for_sale == True
+# # assert testTicket4.list_price == 100
+#
+# def test_buyTicket_User_to_User():
+#     """ Test to make sure a user can sell to a user """
+#     # assert testUser3.buyTicket(testTicket4)
+#     # assert testTicket4 in testUser3.inventory
+#     # assert not testTicket4.for_sale
+#     # assert testUser3.wallet == 850
+#     # assert testTicket4 not in testUser4.inventory
+#     # assert testUser4.wallet == 100
 

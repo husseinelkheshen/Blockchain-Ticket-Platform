@@ -693,10 +693,15 @@ class Ticket:
 
     def listTicket(self, list_price, seller_id):
         # confirm that whoever is trying to list the Ticket actually owns it
-        valid_seller = (seller_id == self.mostRecentTransaction().target)
-        # enforce that list_price is positive and non-zero
-        if valid_seller and list_price >= 0.00:
-            self.for_sale = True
-            self.list_price = list_price
+        mostRecentTrans = self.mostRecentTransaction()
+        if mostRecentTrans is not None:
+            valid_seller = (seller_id == mostRecentTrans.target)
+            # enforce that list_price is positive and non-zero
+            if valid_seller and list_price >= 0.00:
+                self.for_sale = True
+                self.list_price = list_price
+            else:
+                print("invalid listing")
         else:
-            print("invalid listing")
+            print("unable to verify")
+
