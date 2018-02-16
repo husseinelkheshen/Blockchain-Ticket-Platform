@@ -92,21 +92,3 @@ def test_buyTicket_availability2():
 	assert(testUser2.inventory[0] == None
 	       and testTicket1.for_sale == False
 	       and testUser2.wallet == 500)
-
-#
-# Test purchasing of tickets when user does not exist
-#
-def test_buyTicket_userDNE():
-	assert not testUser5.buyTicket(testTicket5)
-
-#
-# Test buyTicket when ticket does not exist
-#
-def test_buyTicket_ticketDNE():
-	assert not testUser3.buyTicket(testTicket7)
-
-#
-# Test buyTicket when event has transpired
-#
-def test_buyTicket_eventDNE():
-	assert not testUser3.buyTicket(testTicket6)

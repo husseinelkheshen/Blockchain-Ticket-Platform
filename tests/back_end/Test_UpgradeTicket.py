@@ -64,7 +64,7 @@ testTicket9.for_sale = True
 #
 # Test upgrading tickets validly for sale
 #
-def test_upgradeTicket_valid():
+def test_upgradeTicket_valid1():
 	testUser3.buyTicket(testTicket1)
 	assert (testUser3.upgradeTicket(testTicket1, testTicket3)
 	        and testUser3.wallet == 500
@@ -75,7 +75,7 @@ def test_upgradeTicket_valid():
 #
 # Test upgrading tickets between different events
 #
-def test_upgradeTicket_valid():
+def test_upgradeTicket_valid2():
 	testUser2.buyTicket(testTicket5)
 	assert not testUser2.upgradeTicket(testTicket5, testTicket6)
 	assert testUser2.wallet == 400
