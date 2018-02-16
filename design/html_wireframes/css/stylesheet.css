@@ -16,6 +16,47 @@ body{
 .rale-heading {
 	font-family: 'Raleway', sans-serif;
 }
+.ticketlist {
+	max-height: 400px;
+	width: 80%;
+	max-width: 400px;
+	border: 2px solid #003470;
+	border-radius: 5px;
+	margin: 0 auto;
+	overflow-y: scroll;
+}
+.ticketlist ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	text-align: left;
+	letter-spacing: 1px;
+	font-size: 13px;
+}
+.ticketlist ul li {
+	height: 75px;
+	border: 1px solid black;
+	border-style: solid none;
+	margin: 0;
+}
+.ticketlist span {
+	font-size: 10px;
+}
+.ticketlist a {
+	letter-spacing: 2px;
+	font-size: 12px;
+}
+.ticketlist p {
+	margin: 0;
+	padding: 0;
+}
+.ticketlist h4 {
+	margin: 0;
+	padding: 0;
+}
+.ticket-info {
+	margin: 0;
+}
 
 #navigation {
 	background-color: #003470;

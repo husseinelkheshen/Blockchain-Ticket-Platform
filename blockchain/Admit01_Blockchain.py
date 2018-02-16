@@ -705,4 +705,3 @@ class Ticket:
                 print("invalid listing")
         else:
             print("unable to verify")
-

@@ -31,8 +31,8 @@
 			
 			<div id="navCollapseToggler" class="collapse navbar-collapse">
 				<div class="navbar-nav ml-auto">
-					<a class="nav-link" href="#">My Account</a>
-					<a class="nav-link" href="#">Login or Register</a>
+					<a class="nav-link" href="my_account.html">My Account</a>
+					<a class="nav-link" href="login_register.html">Login or Register</a>
 					<a class="nav-link" href="#">Logout</a>
 				</div><!-- navbar-nav -->
 			</div><!-- collapse -->
@@ -83,8 +83,8 @@
 			</div><!-- form-group -->
 
 			<div class="form-group col-6 col-lg-3">
-				<label class="form-control-label" for="seattype">Number of Tickets</label>
-					<select class="form-control" id="seattype" style="font-family: 'Abel', sans-serif">
+				<label class="form-control-label" for="numseats">Number of Tickets</label>
+					<select class="form-control" id="numseats" style="font-family: 'Abel', sans-serif">
 						<option>1</option>
 						<option>2</option>
 						<option>3</option>
@@ -118,42 +118,7 @@
 			</div><!-- row -->
 		</fieldset><!-- form-group -->
 		</form>
-		<div id="ticketlist">
-			<style>
-				#ticketlist {
-					max-height: 400px;
-					width: 80%;
-					max-width: 400px;
-					border: 2px solid #003470;
-					border-radius: 5px;
-					margin: 0 auto;
-					overflow-y: scroll;
-				}
-				#ticketlist ul {
-					list-style: none;
-					padding: 0;
-					margin: 0;
-					text-align: left;
-					letter-spacing: 1px;
-					font-size: 13px;
-				}
-				#ticketlist ul li {
-					height: 75px;
-					border: 1px solid black;
-					border-style: solid none;
-					margin: 0;
-				}
-				#ticketlist span {
-					font-size: 10px;
-				}
-				#ticketlist a {
-					letter-spacing: 2px;
-					font-size: 12px;
-				}
-				.ticket-info {
-					margin: 0;
-				}
-			</style>
+		<div class="ticketlist">
 			<ul>
 				<li class="row">
 					<div class="col-12">SECTION {section} <span>RowSeat - RowSeat</span></div>
