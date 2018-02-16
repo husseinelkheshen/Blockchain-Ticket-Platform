@@ -556,7 +556,8 @@ class Venue:
         # make sure Venue is valid
         if self.id is not None:
             # make sure Event is valid
-            if (event.id is not None and
+            if (event is not None and
+                event.id is not None and
                 event.id in self.events and
                 event == self.events[event.id][0]):
                 # make sure Ticket for this Seat does not already exist
