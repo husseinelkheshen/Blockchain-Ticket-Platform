@@ -25,6 +25,7 @@ back_end_unit_tests:
 	python3 -m pytest tests/back_end/Test_User.py
 	python3 -m pytest tests/back_end/Test_Venue.py
 	python3 -m pytest tests/back_end/Test_Transaction.py
+	python3 -m pytest tests/back_end/Test_BlockChain.py
 	make clean
 
 # Delete all pytest cache files
