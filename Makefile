@@ -28,6 +28,7 @@ back_end_unit_tests:
 	python3 -m pytest tests/back_end/Test_Transaction.py
 	python3 -m pytest tests/back_end/Test_BlockChain.py
 	python3 -m pytest tests/back_end/Test_Ticket.py
+	python3 -m pytest tests/back_end/Test_BuyTicket.py
 
 	make clean
 
