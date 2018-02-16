@@ -302,13 +302,13 @@ class User:
         if ticket in self.inventory:
             return False
 
-        # check if correct source
-        owner = ticket.event.blockchain.findRecentTrans(ticket.ticket_num).target
+        # get correct source
+        owner = ticket.event.blockchain.findRecentTrans(ticket.ticket_num).source
 
         # generate new transactions
         new_transactions = []
         new_transactions.append(Transaction(self.id,
-                                            ticket.event.id,
+                                            owner,
                                             ticket.list_value,
                                             ticket.ticket_num))
 
@@ -394,13 +394,19 @@ class User:
         if owned_ticket.event != new_ticket.event:
             return False
 
+        # get correct source
+        owner = ticket.event.blockchain.findRecentTrans(ticket.ticket_num).source
+
         # generate new transactions
         new_transactions = []
         new_transactions.append(Transaction(self.id,
-                                            new_ticket.event.id,
+                                            owner,
                                             new_ticket.list_value,
                                             new_ticket.ticket_num))
-        # new_transactions.append(Transaction(other party))
+        new_transactions.append(Transaction(owner,
+                                            self.id,
+                                            owned_ticket.list_value,
+                                            owned_ticket.ticket_num))
 
         # post the transactions to a new block
         prev_hash = None
