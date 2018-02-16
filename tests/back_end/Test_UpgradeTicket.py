@@ -87,7 +87,7 @@ def test_upgradeTicket_valid1():
 	testUser3.buyTicket(testTicket1)
 	assert testUser3.upgradeTicket(testTicket1, testTicket3)
 	assert testUser3.wallet == 500
-	assert testUser3.inventory[0] == testTicket3
+	assert testTicket3 in testUser3.inventory
 	assert testTicket1.for_sale == True
 	assert testTicket2.for_sale == False
 
@@ -98,7 +98,7 @@ def test_upgradeTicket_valid2():
 	testUser2.buyTicket(testTicket5)
 	assert not testUser2.upgradeTicket(testTicket5, testTicket6)
 	assert testUser2.wallet == 400
-	assert testUser2.inventory[0] == testTicket5
+	assert testTicket5 in testUser2.inventory
 
 #
 # Test upgrading tickets user does not own
@@ -117,12 +117,6 @@ def test_upgradeTicket_notforsale():
 #
 def test_upgradeTicket_less():
 	assert not testUser3.upgradeTicket(testTicket3, testTicket4)
-
-#
-# Test upgrading invalid tickets
-#
-def test_upgradeTicket_invalid():
-	assert not testUser3.upgradeTicket(testTicket3, None)
 
 #
 # Test upgrading tickets for events that have transpired
