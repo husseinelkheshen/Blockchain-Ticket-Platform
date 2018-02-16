@@ -100,6 +100,7 @@ def create_tickets(venue, event):
     print('\nLet\'s create some tickets for this event.')
     done = False
     while not done:
+        bad_ticket = False
         seat_selected = False
         while not seat_selected:
             section = input('What section is the seat in? (e.g. Mezzanine, GA): ')
@@ -115,8 +116,10 @@ def create_tickets(venue, event):
         print('Currently mining new blocks...')
         ticket = venue.createTicket(event, face_value, seat)
         if ticket is None:
-            print('\nWhoops, something went wrong. We couldn\'t create that ' +
-                  'ticket. Likely, that seat has already been ticketed.')
+            bad_ticket = True
+            print('\nWhoops, something went wrong. We couldn\'t create that '
+                  'ticket. Likely, that seat has already been ticketed. '
+                  'Let\'s try that again...')
         else:
             print('\nWonderful. We\'ve created a ticket for seat (' + section +
                   ', ' + row + str(seat_no) + ') at ' + event.name + '. Its ' +
@@ -128,10 +131,53 @@ def create_tickets(venue, event):
             if yn.upper() == 'Y':
                 # list the Ticket as For Sale
                 ticket.listTicket(face_value, venue.id)
-        print('\nWould you like to create another ticket for this event?')
-        yn = input('Enter Y/N: ')
-        done = (yn.upper() != 'Y')
+        if not bad_ticket:
+            print('\nWould you like to create another ticket for this event?')
+            yn = input('Enter Y/N: ')
+            done = (yn.upper() != 'Y')
+        else:
+            done = False
     ticket_count(event)
+    print('\nNice job making those tickets. You\'re a natural!')
+
+def load_users():
+    """ Load some dummy users """
+    User('Ross', 'Piper', 'rp@admit01.com')
+    User('Ethan', 'Reeder', 'er@admit01.com')
+    User('Jane', 'Doe', 'jd@uchicago.edu')
+    User('Hillary', 'Clinton', 'hrc@emails.gov')
+    User('Marlon', 'Brando', 'don@corleone.family')
+
+def list_users():
+    """ List all registered users """
+    print('\nHere is a list of our current users.\n')
+    print('Name' + (' ' * 26) + 'Email Address')
+    for email, user in Trackers.registered_users.items():
+        print('{:<30}'.format(user.fname + ' ' + user.lname) + email)
+
+def create_user_profile():
+    print('\nBefore you can buy a ticket to this awesome event, you\'ll need '
+          'to set up a user profile. For your reference, here is a list of '
+          'our current users.')
+    list_users()
+    print('\nTo set up your user account, we\'ll need some information from you.')
+    print('Note that you can not use an email address already registered by '
+          'an existing user, and both name fields must be filled.')
+    done = False
+    while not done:
+        fname = input('\nFirst name: ')
+        lname = input('Last name:  ')
+        email = input('Email address: ')
+        user = User(fname, lname, email)
+        done = user.id is not None
+        if not done:
+            print('\nWhoops, looks like you messed up! Let\'s try that again, shall we?')
+    user.wallet = 1000000.00
+    print('\nCongratulations, ' + fname + '! To celebrate your new account, we\'ve gone ahead ' +
+          'and wired $' + '{0:.2f}'.format(user.wallet) + ' into your ' +
+          'account. That should be enough to get you started!')
+
+    return user
 
 def main():
     """ Main method """
@@ -143,5 +189,7 @@ def main():
     event = venue.events[select_event(venue)][0]
     ticket_count(event)
     create_tickets(venue, event)
+    load_users()
+    user = create_user_profile()
 
 if __name__ == '__main__': main()
