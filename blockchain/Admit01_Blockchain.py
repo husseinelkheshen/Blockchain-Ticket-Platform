@@ -291,7 +291,7 @@ class User:
             return False
 
         # check if ticket is for sale
-        if ticket.for_sale == True:
+        if ticket.for_sale == False:
             return False
 
         # check if user calling has enough money in wallet
@@ -352,12 +352,12 @@ class User:
         return True
 
     def upgradeTicket(self, owned_ticket, new_ticket):
-        '''
+        """
         Allows a User to upgrade an owned ticket for another listed ticket
 
             ticket: Ticket object
 
-        '''
+        """
 
         # check if involved objects are valid
         if (self.id == None
