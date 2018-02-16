@@ -25,7 +25,7 @@ SECRET_KEY = 'ah#c09r&p=t-w*o(kmx7aygs!_6cgfzaz_a%!p^r4s&xe9u)g4'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '128.135.203.173']
+ALLOWED_HOSTS = ['localhost', '128.135.203.173', '128.135.203.175']
 
 
 # Application definition
@@ -37,6 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'customers',
+    'globals'
 ]
 
 MIDDLEWARE = [
@@ -54,7 +57,7 @@ ROOT_URLCONF = 'admit01.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ["templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -87,9 +90,7 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
-
-AUTH_PASSWORD_VALIDATORS = [
-    {
+AUTH_PASSWORD_VALIDATORS = [ {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
     {
@@ -103,6 +104,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+LOGIN_URL = "/login"
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
@@ -124,4 +126,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # Blockchain API
-BLOCKCHAIN_API = {'address': '128.135.203.175', 'port': 80}
+BLOCKCHAIN_API = {'host': 'http://128.135.203.175', 'port': 80}
+
+# Global API settings
+API_TIMEOUT = 5
+
