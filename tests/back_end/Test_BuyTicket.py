@@ -60,53 +60,53 @@ def test_buyTicket_funds1():
 	       and testTicket1.for_sale == False
 	       and testUser1.wallet == 0)
 
-def test_buyTicket_funds2():
-	testUser4.buyTicket(testTicket4)
-	assert(testUser4.inventory[0] == testTicket4
-	       and testTicket4.for_sale == False
-	       and testUser4.wallet == 0)
-
-def test_buyTicket_funds3():
-	testUser4.buyTicket(testTicket3)
-	assert(testUser4.inventory[0] == None
-	       and testTicket3.for_sale == True
-	       and testUser4.wallet == 0)
-
-def test_buyTicket_funds4():
-	testUser3.buyTicket(testTicket3)
-	assert(testUser3.inventory[0] == testTicket3
-	       and testTicket3.for_sale == False
-	       and testUser3.wallet == 950)
-
+# def test_buyTicket_funds2():
+# 	testUser4.buyTicket(testTicket4)
+# 	assert(testUser4.inventory[0] == testTicket4
+# 	       and testTicket4.for_sale == False
+# 	       and testUser4.wallet == 0)
 #
-# Test purchasing of tickets based on availability
+# def test_buyTicket_funds3():
+# 	testUser4.buyTicket(testTicket3)
+# 	assert(testUser4.inventory[0] == None
+# 	       and testTicket3.for_sale == True
+# 	       and testUser4.wallet == 0)
 #
-def test_buyTicket_availability1():
-	testUser2.buyTicket(testTicket1)
-	assert(testUser.inventory[0] == None
-	       and testTicket1.for_sale == False
-	       and testUser.wallet == 500)
-
-def test_buyTicket_availability2():
-	testUser2.buyTicket(testTicket2)
-	assert(testUser2.inventory[0] == None
-	       and testTicket1.for_sale == False
-	       and testUser2.wallet == 500)
-
+# def test_buyTicket_funds4():
+# 	testUser3.buyTicket(testTicket3)
+# 	assert(testUser3.inventory[0] == testTicket3
+# 	       and testTicket3.for_sale == False
+# 	       and testUser3.wallet == 950)
 #
-# Test purchasing of tickets when user does not exist
+# #
+# # Test purchasing of tickets based on availability
+# #
+# def test_buyTicket_availability1():
+# 	testUser2.buyTicket(testTicket1)
+# 	assert(testUser.inventory[0] == None
+# 	       and testTicket1.for_sale == False
+# 	       and testUser.wallet == 500)
 #
-def test_buyTicket_userDNE():
-	assert not testUser5.buyTicket(testTicket5)
-
+# def test_buyTicket_availability2():
+# 	testUser2.buyTicket(testTicket2)
+# 	assert(testUser2.inventory[0] == None
+# 	       and testTicket1.for_sale == False
+# 	       and testUser2.wallet == 500)
 #
-# Test buyTicket when ticket does not exist
+# #
+# # Test purchasing of tickets when user does not exist
+# #
+# def test_buyTicket_userDNE():
+# 	assert not testUser5.buyTicket(testTicket5)
 #
-def test_buyTicket_ticketDNE():
-	assert not testUser3.buyTicket(testTicket7)
-
+# #
+# # Test buyTicket when ticket does not exist
+# #
+# def test_buyTicket_ticketDNE():
+# 	assert not testUser3.buyTicket(testTicket7)
 #
-# Test buyTicket when event has transpired
-#
-def test_buyTicket_eventDNE():
-	assert not testUser3.buyTicket(testTicket6)
+# #
+# # Test buyTicket when event has transpired
+# #
+# def test_buyTicket_eventDNE():
+# 	assert not testUser3.buyTicket(testTicket6)

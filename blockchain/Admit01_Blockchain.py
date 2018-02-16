@@ -269,12 +269,12 @@ class User:
         return self.id
 
     def buyTicket(self, ticket):
-        '''
+        """
         Allows a User to buy a listed ticket
 
             ticket: Ticket object
 
-        '''
+        """
 
         # check if involved objects are valid
         if (self.id == None
