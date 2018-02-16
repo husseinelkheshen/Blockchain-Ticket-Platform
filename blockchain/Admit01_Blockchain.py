@@ -423,7 +423,7 @@ class User:
         new_ticket.event.venue.events[event.id][1].blocks.append(new_block)
 
         # mine one new block
-        if new_ticket.event.blockchain.mineNewBlock([new_ticket.event.blockchain]):
+        if new_ticket.event.blockchain.mineNewBlock([new_ticket.event.venue.events[new_ticket.event.id][1]]):
             new_block_hash = new_ticket.event.blockchain.blocks[-1].hash
             # add record and hash to ticket's history
             new_ticket.history.append((new_block_index, new_block_hash))
@@ -681,7 +681,7 @@ class Ticket:
         # confirm that whoever is trying to list the Ticket actually owns it
         valid_seller = (seller_id == self.mostRecentTransaction().target)
         # enforce that list_price is positive and non-zero
-        if valid_seller and list_price > 0.00:
+        if valid_seller and list_price >= 0.00:
             self.for_sale = True
             self.list_price = list_price
         else:
