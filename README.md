@@ -14,7 +14,8 @@ Before doing anything else, you must execute 'make install' from the main direct
 You can use the Makefile to do so by executing 'make unit_tests' from the main directory.
 
 ### Suggestions for Acceptance Tests
-@ Euirim please elaborate on how to do acceptance tests on the UI-end
+use: make acceptance_test
+This will walk you through all of the use cases, and finally save a .png file of the QR code of the ticket you will end up with.
 
 ### What is Implemented?
 
