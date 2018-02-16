@@ -21,7 +21,7 @@ To login as a venue (someone who can list tickets), use the following credential
 You can logout by visiting the logout link in the navbar as well.
 
 ### How to Run the Unit Test Cases
-You can use the Makefile to do so by executing 'make unit_tests' from the main directory.
+You can use the Makefile to do so by executing 'make unit_tests' from the main directory. Please not that some of these tests may take upwards of two minutes to execute due to the rigor of the mining, and it occurring on the local machine.
 
 ### Suggestions for Acceptance Tests
 To walk through our backend acceptance test, run this from terminal in the main directory:
@@ -61,6 +61,6 @@ Hayden and Hussein paired to develop and test the *Block*, *Chain*, and *Transac
 We met together as a larger team on a few occassions to integrate our components and complete the implementations of the use cases.
 
 ### Changes from Implementation Plan
-There were several minor formatting and code correctness changes to the unit tests, none of which changed the scope or diminished the coverage of the tests.
+There were several several, code correctness, test rigor, formatting and changes to the unit tests, none of which changed the scope or diminished the coverage of the tests.
 
 The only major change is that we incorporated the *Host* class into the *Venue* class, since we could no longer see a logical purpose for a standalone *Host* class. *Venue* objects now have access to the union of all use cases from the previous definition of *Host* and those from the previous definition of *Venue*.
