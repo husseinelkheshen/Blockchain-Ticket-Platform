@@ -302,10 +302,13 @@ class User:
         if ticket in self.inventory:
             return False
 
+        # get correct source
+        owner = ticket.event.blockchain.findRecentTrans(ticket.ticket_num).source
+
         # generate new transactions
         new_transactions = []
         new_transactions.append(Transaction(self.id,
-                                            ticket.event.id,
+                                            owner,
                                             ticket.list_value,
                                             ticket.ticket_num))
 
@@ -323,10 +326,15 @@ class User:
         event.blockchain.blocks.append(new_block)
         event.venue.events[event.id][1].blocks.append(new_block)
 
-        # UNFINISHED mine one new block
-        new_block_hash = None
-
-        # UNFINISHED broadcast the nonce to the other blockchain
+        # mine one new block
+        if ticket.event.blockchain.mineNewBlock([ticket.event.blockchain]):
+            new_block_hash = ticket.event.blockchain.blocks[-1].hash
+            # add record and hash to ticket's history
+            ticket.history.append((new_block_index, new_block_hash))
+        else:
+            del ticket.event.blockchain.blocks[-1]
+            del ticket.event.venue.events[event.id][1].blocks[-1]
+            return False
 
         # add record and hash to ticket's history
         ticket.history.append((new_block_index, new_block_hash))
@@ -335,7 +343,7 @@ class User:
         self.inventory.append(ticket)
 
         # subtract appropriate funds from user's wallet
-        self.wallet = self.wallet - ticket.list_value
+        self.wallet -= ticket.list_value
 
         # mark ticket as sold
         ticket.for_sale = False
@@ -386,13 +394,19 @@ class User:
         if owned_ticket.event != new_ticket.event:
             return False
 
+        # get correct source
+        owner = ticket.event.blockchain.findRecentTrans(ticket.ticket_num).source
+
         # generate new transactions
         new_transactions = []
         new_transactions.append(Transaction(self.id,
-                                            new_ticket.event.id,
+                                            owner,
                                             new_ticket.list_value,
                                             new_ticket.ticket_num))
-        # new_transactions.append(Transaction(other party))
+        new_transactions.append(Transaction(owner,
+                                            self.id,
+                                            owned_ticket.list_value,
+                                            owned_ticket.ticket_num))
 
         # post the transactions to a new block
         prev_hash = None
@@ -408,13 +422,16 @@ class User:
         new_ticket.event.blockchain.blocks.append(new_block)
         new_ticket.event.venue.events[event.id][1].blocks.append(new_block)
 
-        # UNFINISHED mine one new block
-        new_block_hash = None
-
-        # UNFINISHED broadcast the nonce to the other blockchain
-
-        # add record and hash to ticket's history
-        new_ticket.history.append((new_block_index, new_block_hash))
+        # mine one new block
+        if new_ticket.event.blockchain.mineNewBlock([new_ticket.event.blockchain]):
+            new_block_hash = new_ticket.event.blockchain.blocks[-1].hash
+            # add record and hash to ticket's history
+            new_ticket.history.append((new_block_index, new_block_hash))
+            owned_ticket.history.append((new_block_index, new_block_hash))
+        else:
+            del new_ticket.event.blockchain.blocks[-1]
+            del new_ticket.event.venue.events[event.id][1].blocks[-1]
+            return False
 
         # remove upgraded ticket from user inventory and add new ticket
         self.inventory.remove(owned_ticket)
@@ -535,6 +552,7 @@ class Venue:
             seat: Seat object
 
         """
+        new_ticket = None
         # make sure Venue is valid
         if self.id is not None:
             # make sure Event is valid
@@ -543,9 +561,13 @@ class Venue:
                 event == self.events[event.id][0]):
                 # make sure Ticket for this Seat does not already exist
                 assert seat is not None
+                # make sure Ticket has a positive face value
+                assert face_value >= 0
                 valid_ticket = True
                 for ticket in event.tickets:
-                    if ticket.seat == seat:
+                    if (ticket.seat.section == seat.section and
+                        ticket.seat.row == seat.row and
+                        ticket.seat.seat_no == seat.seat_no):
                         valid_ticket = False
                         break
                 if valid_ticket:
@@ -575,6 +597,8 @@ class Venue:
                         del event_chain.blocks[-1]
                         del venue_chain.blocks[-1]
                         print("Transaction aborted: could not mine block")
+
+        return new_ticket
 
 
     def manageTicket(self, event, ticket_class):
@@ -660,3 +684,5 @@ class Ticket:
         if valid_seller and list_price > 0.00:
             self.for_sale = True
             self.list_price = list_price
+        else:
+            print("invalid listing")

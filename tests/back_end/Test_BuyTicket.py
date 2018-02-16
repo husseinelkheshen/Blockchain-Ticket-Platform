@@ -1,14 +1,10 @@
-#
-# Tests for buyTicket
-#
-
-from ../../back_end/Admit01_Blockchain.py import *
+from blockchain.Admit01_Blockchain import *
 
 #
 # Creation of Peripheral Objects
 #
-testDatetime1 = datetime(2018, 3, 31, 0, 0, 0, 0)
-testDatetime2 = datetime(2017, 3, 31, 0, 0, 0, 0)
+testDatetime1 = date.datetime(2018, 3, 31, 0, 0, 0, 0)
+testDatetime2 = date.datetime(2017, 3, 31, 0, 0, 0, 0)
 
 testSeat1 = Seat("Cheap Seats", "C", 5)
 testSeat2 = Seat("Steak Sauce", "A", 1)
