@@ -1,0 +1,9 @@
+{
+  "tests/back_end/Test_UpgradeTicket.py::test_upgradeTicket_equal": true,
+  "tests/back_end/Test_UpgradeTicket.py::test_upgradeTicket_less": true,
+  "tests/back_end/Test_UpgradeTicket.py::test_upgradeTicket_notforsale": true,
+  "tests/back_end/Test_UpgradeTicket.py::test_upgradeTicket_transpired": true,
+  "tests/back_end/Test_UpgradeTicket.py::test_upgradeTicket_unowned": true,
+  "tests/back_end/Test_UpgradeTicket.py::test_upgradeTicket_valid1": true,
+  "tests/back_end/Test_UpgradeTicket.py::test_upgradeTicket_valid2": true
+}

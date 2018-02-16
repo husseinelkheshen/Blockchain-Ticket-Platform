@@ -367,6 +367,7 @@ class User:
 
         # check if involved objects are valid
         if (self.id == None
+            or new_ticket == None
             or owned_ticket == None
             or new_ticket.event == None
             or new_ticket.seat == None
@@ -480,8 +481,8 @@ class User:
                 current_owner = ticket.mostRecentTransaction().target
                 # confirm Ticket ownership
                 if self.id == current_owner:
-                    ticket_data = ("venue_id = " + str(venue_id) +
-                                   "\nevent_id = " + str(event_id) +
+                    ticket_data = ("venue_id = " + str(venue.id) +
+                                   "\nevent_id = " + str(event.id) +
                                    "\nticket_num = " + str(ticket.ticket_num) +
                                    "\ncurrent_owner = " + str(current_owner))
                     # generate ticket code
@@ -693,10 +694,14 @@ class Ticket:
 
     def listTicket(self, list_price, seller_id):
         # confirm that whoever is trying to list the Ticket actually owns it
-        valid_seller = (seller_id == self.mostRecentTransaction().target)
-        # enforce that list_price is positive and non-zero
-        if valid_seller and list_price >= 0.00:
-            self.for_sale = True
-            self.list_price = list_price
+        mostRecentTrans = self.mostRecentTransaction()
+        if mostRecentTrans is not None:
+            valid_seller = (seller_id == mostRecentTrans.target)
+            # enforce that list_price is positive and non-zero
+            if valid_seller and list_price >= 0.00:
+                self.for_sale = True
+                self.list_price = list_price
+            else:
+                print("invalid listing")
         else:
-            print("invalid listing")
+            print("unable to verify")

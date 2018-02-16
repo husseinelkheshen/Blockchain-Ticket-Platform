@@ -115,11 +115,9 @@ def test_buyTicket_AlreadySold():
     assert not testTicket1.for_sale
     assert testUser2.wallet == 500
 
-
 def test_buyTicket_NotForSale():
     """ Test to make sure you can't purchase a ticket not for sale """
     assert not testUser2.buyTicket(testTicket2)
     assert testTicket2 not in testUser2.inventory
     assert not testTicket1.for_sale
     assert testUser2.wallet == 500
-

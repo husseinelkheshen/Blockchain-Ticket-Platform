@@ -80,10 +80,8 @@ testTicket8.listTicket(testTicket8.face_value, testVenue.id)
 testTicket9 = testVenue.createTicket(testEvent1, 100, testSeat9)
 testTicket9.listTicket(testTicket9.face_value, testVenue.id)
 
-#
-# Test upgrading tickets validly for sale
-#
 def test_upgradeTicket_valid1():
+	""" Test upgrading tickets validly for sale """
 	testUser3.buyTicket(testTicket1)
 	assert testUser3.upgradeTicket(testTicket1, testTicket3)
 	assert testUser3.wallet == 500
@@ -91,42 +89,30 @@ def test_upgradeTicket_valid1():
 	assert testTicket1.for_sale == True
 	assert testTicket2.for_sale == False
 
-#
-# Test upgrading tickets between different events
-#
 def test_upgradeTicket_valid2():
+	""" Test upgrading tickets between different events """
 	testUser2.buyTicket(testTicket5)
 	assert not testUser2.upgradeTicket(testTicket5, testTicket6)
 	assert testUser2.wallet == 400
 	assert testTicket5 in testUser2.inventory
 
-#
-# Test upgrading tickets user does not own
-#
 def test_upgradeTicket_unowned():
+	""" Test upgrading tickets user does not own """
 	assert not testUser4.upgradeTicket(testTicket6, testTicket4)
 
-#
-# Test upgrading tickets not for sale
-#
 def test_upgradeTicket_notforsale():
+	""" Test upgrading tickets not for sale """
 	assert not testUser3.upgradeTicket(testTicket3, testTicket2)
 
-#
-# Test upgrading tickets that are worth less than current
-#
 def test_upgradeTicket_less():
+	""" Test upgrading tickets that are worth less than current """
 	assert not testUser3.upgradeTicket(testTicket3, testTicket4)
 
-#
-# Test upgrading tickets for events that have transpired
-#
 def test_upgradeTicket_transpired():
+	""" Test upgrading tickets for events that have transpired """
 	assert not testUser3.upgradeTicket(testTicket3, testTicket7)
 
-#
-# Test upgrading tickets equal to current
-#
 def test_upgradeTicket_equal():
+	""" Test upgrading tickets equal to current """
 	testUser1.buyTicket(testTicket8)
 	assert not testUser1.upgradeTicket(testTicket8, testTicket9)
