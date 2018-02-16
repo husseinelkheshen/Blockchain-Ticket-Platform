@@ -103,8 +103,8 @@ def create_tickets(venue, event):
         bad_ticket = False
         seat_selected = False
         while not seat_selected:
-            section = input('What section is the seat in? (e.g. Mezzanine, GA): ')
-            row = input('What row is the seat in? (A string, e.g. C, H, AA): ')
+            section = str(input('\nWhat section is the seat in? (e.g. Mezzanine, GA): '))
+            row = str(input('What row is the seat in? (A string, e.g. C, H, AA): '))
             seat_no = int(input('What is the seat number? (An int): '))
             seat = Seat(section, row, seat_no)
             seat_selected = seat.section is not None
@@ -127,13 +127,13 @@ def create_tickets(venue, event):
                   'and it\'s been posted to the blockchain for ' + venue.name +
                   ' and the blockchain for its event.')
             print('\nWould you like to list this ticket as \'For Sale\'?')
-            yn = input('Enter Y/N: ')
+            yn = str(input('Enter Y/N: '))
             if yn.upper() == 'Y':
                 # list the Ticket as For Sale
                 ticket.listTicket(face_value, venue.id)
         if not bad_ticket:
             print('\nWould you like to create another ticket for this event?')
-            yn = input('Enter Y/N: ')
+            yn = str(input('Enter Y/N: '))
             done = (yn.upper() != 'Y')
         else:
             done = False
@@ -150,7 +150,6 @@ def load_users():
 
 def list_users():
     """ List all registered users """
-    print('\nHere is a list of our current users.\n')
     print('Name' + (' ' * 26) + 'Email Address')
     for email, user in Trackers.registered_users.items():
         print('{:<30}'.format(user.fname + ' ' + user.lname) + email)
@@ -166,9 +165,9 @@ def create_user_profile():
           'an existing user, and both name fields must be filled.')
     done = False
     while not done:
-        fname = input('\nFirst name: ')
-        lname = input('Last name:  ')
-        email = input('Email address: ')
+        fname = str(input('\nFirst name: '))
+        lname = str(input('Last name:  '))
+        email = str(input('Email address: '))
         user = User(fname, lname, email)
         done = user.id is not None
         if not done:
@@ -183,11 +182,11 @@ def create_user_profile():
 def select_a_ticket(event):
     print('\nNow that you have a profile set up and have some money to spend, '
           'let\'s pick a ticket for ' + event.name + '.')
-    print('\nPrice' + (' ' * 10) + 'Seat')
+    print('\nFor Sale?\tPrice' + (' ' * 10) + 'Seat')
     for ticket in event.tickets:
         seat = ticket.seat
-        print('{:<15}'.format(str(ticket.price)) + '(' + seat.section + ', ' +
-              seat.row + ', ' + seat.seat_no + ')')
+        print('Yes' if ticket.isForSale() else 'No' + '\t' + '{:<15}'.format(str(ticket.price)) +
+              '(' + seat.section + ', ' + seat.row + ', ' + seat.seat_no + ')')
 
 def main():
     """ Main method """
@@ -201,5 +200,6 @@ def main():
     create_tickets(venue, event)
     load_users()
     user = create_user_profile()
+    select_a_ticket(event)
 
 if __name__ == '__main__': main()
