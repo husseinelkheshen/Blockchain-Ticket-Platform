@@ -118,7 +118,7 @@ def create_tickets(venue, event):
         if ticket is None:
             bad_ticket = True
             print('\nWhoops, something went wrong. We couldn\'t create that '
-                  'ticket. Likely, that seat has already been ticketed. '
+                  'ticket. Either the seat has already been ticketed or you entered an invalid price. '
                   'Let\'s try that again...')
         else:
             print('\nWonderful. We\'ve created a ticket for seat (' + section +
@@ -182,11 +182,13 @@ def create_user_profile():
 def select_a_ticket(event):
     print('\nNow that you have a profile set up and have some money to spend, '
           'let\'s pick a ticket for ' + event.name + '.')
-    print('\nFor Sale?\tPrice' + (' ' * 10) + 'Seat')
+    print('\nFor Sale?' + (' ' * 6) + 'Price' + (' ' * 10) + 'Seat')
     for ticket in event.tickets:
         seat = ticket.seat
-        print('Yes' if ticket.isForSale() else 'No' + '\t' + '{:<15}'.format(str(ticket.price)) +
-              '(' + seat.section + ', ' + seat.row + ', ' + seat.seat_no + ')')
+        print('{:<15}'.format(('Yes' if ticket.isForSale() else 'No')) +
+              '{:<15}'.format('{0:.2f}'.format(ticket.list_price)) +
+              '(' + seat.section + ', ' + seat.row + ', ' +
+              str(seat.seat_no) + ')')
 
 def main():
     """ Main method """
