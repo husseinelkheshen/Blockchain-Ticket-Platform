@@ -473,6 +473,9 @@ class User:
         return ticket_code    # call ticket_code.png('filename.png') to generate
 
     def getOwnedTickets(self):
+        """
+        Gets list of ticket_ids in a user's inventory
+        """
         tickets = []
         for ticket in self.inventory:
             tickets.append(ticket.ticket_num)
