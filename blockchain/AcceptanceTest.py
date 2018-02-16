@@ -86,11 +86,11 @@ def ticket_count(event):
     Prints the current count of available tickets for an event and
     returns a list of unsold tickets
     """
-    print('Great! Let\'s take a look at what tickets are available for ' +
-          event.name + ' at ' + event.venue.name)
+    print('\nGreat! Let\'s take a look at what tickets are available for ' +
+          event.name + ' at ' + event.venue.name + '.')
     count = len(event.tickets)
     unsold = len([ticket for ticket in event.tickets if ticket.isForSale()])
-    print('There are currently', count, 'tickets for this event.')
+    print('\nThere are currently', count, 'tickets for this event.')
     print(unsold, 'of these are currently listed for sale.')
 
     return unsold
@@ -100,11 +100,38 @@ def create_tickets(venue, event):
     print('\nLet\'s create some tickets for this event.')
     done = False
     while not done:
-        section = input('What section is the seat in? (e.g. Mezzanine, GA): ')
-        row = input('What row is the seat in? (A string, e.g. C, H, AA): ')
-        seat_no = int(input('What is the seat number? (An int): '))
-        seat = Seat(section, row, seat_no)
-        seat_selected = seat.section is not None
+        seat_selected = False
+        while not seat_selected:
+            section = input('What section is the seat in? (e.g. Mezzanine, GA): ')
+            row = input('What row is the seat in? (A string, e.g. C, H, AA): ')
+            seat_no = int(input('What is the seat number? (An int): '))
+            seat = Seat(section, row, seat_no)
+            seat_selected = seat.section is not None
+            if not seat_selected:
+                print('Whoops, something went wrong. Let\'s try that again...')
+        print('\nSplendid. How much will this ticket cost?')
+        face_value = float(input('Enter face value: $'))
+        print('\nPlease wait, we\'re doing blockchain stuff.')
+        print('Currently mining new blocks...')
+        ticket = venue.createTicket(event, face_value, seat)
+        if ticket is None:
+            print('\nWhoops, something went wrong. We couldn\'t create that ' +
+                  'ticket. Likely, that seat has already been ticketed.')
+        else:
+            print('\nWonderful. We\'ve created a ticket for seat (' + section +
+                  ', ' + row + str(seat_no) + ') at ' + event.name + '. Its ' +
+                  'face value is $' + '{0:.2f}'.format(ticket.face_value) + ', ' +
+                  'and it\'s been posted to the blockchain for ' + venue.name +
+                  ' and the blockchain for its event.')
+            print('\nWould you like to list this ticket as \'For Sale\'?')
+            yn = input('Enter Y/N: ')
+            if yn.upper() == 'Y':
+                # list the Ticket as For Sale
+                ticket.listTicket(face_value, venue.id)
+        print('\nWould you like to create another ticket for this event?')
+        yn = input('Enter Y/N: ')
+        done = (yn.upper() != 'Y')
+    ticket_count(event)
 
 def main():
     """ Main method """
@@ -115,5 +142,6 @@ def main():
     load_events(venue)
     event = venue.events[select_event(venue)][0]
     ticket_count(event)
+    create_tickets(venue, event)
 
 if __name__ == '__main__': main()

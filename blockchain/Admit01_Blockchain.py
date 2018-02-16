@@ -549,6 +549,7 @@ class Venue:
             seat: Seat object
 
         """
+        new_ticket = None
         # make sure Venue is valid
         if self.id is not None:
             # make sure Event is valid
@@ -561,7 +562,9 @@ class Venue:
                 assert face_value >= 0
                 valid_ticket = True
                 for ticket in event.tickets:
-                    if ticket.seat == seat:
+                    if (ticket.seat.section == seat.section and
+                        ticket.seat.row == seat.row and
+                        ticket.seat.seat_no == seat.seat_no):
                         valid_ticket = False
                         break
                 if valid_ticket:
@@ -591,6 +594,8 @@ class Venue:
                         del event_chain.blocks[-1]
                         del venue_chain.blocks[-1]
                         print("Transaction aborted: could not mine block")
+
+        return new_ticket
 
 
     def manageTicket(self, event, ticket_class):
@@ -676,3 +681,5 @@ class Ticket:
         if valid_seller and list_price > 0.00:
             self.for_sale = True
             self.list_price = list_price
+        else:
+            print("invalid listing")
