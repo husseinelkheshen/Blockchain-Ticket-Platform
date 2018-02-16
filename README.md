@@ -27,7 +27,7 @@ You can use the Makefile to do so by executing 'make unit_tests' from the main d
 To walk through our backend acceptance test, run this from terminal in the main directory:
 make acceptance_test
 
-This will walk you through all of the use cases, and finally save a .png file of the QR code of the ticket you will end up with.
+This will walk you through all of the use cases, and finally save a .png file of the QR code of the ticket you will end up with. You will want to use reasonable ticket values (less than for example 1000000) in order to get through the entire simulation. Your user will not have enough money to complete the simulation in this case. The program will handle this appropriately, but you will not get to the end of the use cases.
 
 You can test our application's authentication system by attempting to login on the preliminary site with correct and incorrect credentials (the credentials were enumerated in the **How to Run Our Code** section). 
 
