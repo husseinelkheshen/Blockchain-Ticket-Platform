@@ -59,7 +59,8 @@ def load_events(venue):
     venue.events[event1.id] = (event1, copy.deepcopy(event1.blockchain))
     venue.events[event2.id] = (event2, copy.deepcopy(event2.blockchain))
 
-def list_events(venue):
+def select_event(venue):
+    """ List events at the current venue and select one by ID """
     gap = ' '
     print('\nID' + (gap * 13) + 'Name' + (gap * 11) +
           'Description' + (gap * 14) + 'Date\t\tTime')
@@ -70,6 +71,29 @@ def list_events(venue):
         desc = '{:<25}'.format(event.desc)
         dt = event.datetime.strftime('%m/%d/%Y\t%H:%M')
         print(e_id + name + desc + dt)
+    print('\nPlease select an event to explore further.')
+    valid_id = False
+    while not valid_id:
+        e_id = int(input('Enter event id: '))
+        valid_id = e_id in venue.events
+        if not valid_id:
+            print('\nThat\'s not a valid event id, let\'s try again...')
+
+    return e_id
+
+def ticket_count(event):
+    """
+    Prints the current count of available tickets for an event and
+    returns a list of unsold tickets
+    """
+    print('Great! Let\'s take a look at what tickets are available for ' +
+          event.name + ' at ' + event.venue.name)
+    count = len(event.tickets)
+    unsold = len([ticket for ticket in event.tickets if ticket.isForSale()])
+    print('There are currently', count, 'tickets for this event.')
+    print(unsold, 'of these are currently listed for sale.')
+
+    return unsold
 
 def main():
     """ Main method """
@@ -78,6 +102,7 @@ def main():
     venue_i = select_venue(venue_list)
     venue = venue_list[venue_i][3]
     load_events(venue)
-    list_events(venue)
+    event = venue.events[select_event(venue)][0]
+    ticket_count(event)
 
 if __name__ == '__main__': main()
