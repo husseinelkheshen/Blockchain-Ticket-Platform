@@ -1,6 +1,7 @@
 # Install prerequisites
 install:
 	pip3 install pyqrcode
+	pip3 install pypng
 	python3 -m pip install pytest
 
 # Run a comprehensive acceptance test
