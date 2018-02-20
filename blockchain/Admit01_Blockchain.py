@@ -89,26 +89,25 @@ class Block:
             self.hash = ""  # the new hash for this block, generated in hashcash format
                             # where data content of hashcash is a string representation of the block
 
-    # generates a sha256 hash given a string
-    @staticmethod
-    def generateHash(text):
-        sha = hasher.sha256()
-        sha.update(text.encode('utf-8'))
-        return sha.hexdigest()
-
-    # generates a hash of length random characters (ascii uppercase and digits)
-    @staticmethod
-    def genesisHash(length):
-        return generateHash(
-            ''.join(random.choice(string.ascii_uppercase + string.digits)
-                    for _ in range(length)))
-
     def hashBlock(self, nonce):
-        return self.genSHA1Hash(':'.join(["1", "20",
-                                self.timestamp.strftime("%y%m%d%H%M%S"),
-                                str(self), nonce]))
+        """
+        Return a Block's hash given a nonce
 
-    def genSHA1Hash(self, text):
+            nonce: string
+
+        """
+        return Block.genSHA1Hash(':'.join(["1", "20",
+                                 self.timestamp.strftime("%y%m%d%H%M%S"),
+                                 str(self), nonce]))
+
+    @staticmethod
+    def genSHA1Hash(text):
+        """
+        Generates a hash given text input
+
+            text: string
+
+        """
         sha = hasher.sha1()
         sha.update(text.encode('utf-8'))
         return sha.hexdigest()
@@ -127,7 +126,10 @@ class Chain:
     def findRecentTrans(self, ticket_id):
         """
         Finds the most recent transaction in which a given ticket
-        was involved.
+        was involved
+
+            ticket_id: int
+
         """
         recentTrans = None
 
@@ -155,10 +157,9 @@ class Chain:
 
     def mineNewBlock(self, otherchains):
         """
-            Allows a Chain to mine the hash for the most recently appended block
-                otherchains: [Chain]
-            otherchains is a list of all of the chains aside from the one calling the function
-            that are waiting for the hash of the most recent block
+        Allows a Chain to mine the hash for the most recently appended block
+
+            otherchains: list of Chain objects
 
         """
         if self.blocks[-1].hash:
@@ -179,7 +180,7 @@ class Chain:
             while result[0:5] != "00000" or result in self.prev_hashes:
                 # increment the counter, generate a hash, store it in result
                 counter += 1
-                result = self.blocks[-1].genSHA1Hash(
+                result = Block.genSHA1Hash(
                     ':'.join(["1", "20", self.blocks[-1].timestamp.strftime(
                     "%y%m%d%H%M%S"), str(self.blocks[-1]),
                     randstring, str(counter)]))
@@ -358,7 +359,8 @@ class User:
         """
         Allows a User to upgrade an owned ticket for another listed ticket
 
-            ticket: Ticket object
+            owned_ticket: Ticket object
+            new_ticket: Ticket object
 
         """
 
@@ -469,11 +471,11 @@ class User:
             date_range: int
         """
         # iteration 2
-        return False
+        return []
 
     def explore(self):
         # iteration 2
-        return False
+        pass
 
     def generateTicketCode(self, venue, event, ticket):
         """
@@ -547,13 +549,16 @@ class Venue:
             self.id = self.name = self.events = self.location = None
 
     def validateTicket(self, code, chain):
-        return False
+        # iteration 2
+        pass
 
     def createEvent(self, name, datetime, desc):
-        return None
+        # iteration 2
+        pass
 
     def manageEvent(self, event):
-        return False
+        # iteration 2
+        pass
 
     def createTicket(self, event, face_value, seat):
         """
@@ -616,10 +621,12 @@ class Venue:
 
 
     def manageTicket(self, event, ticket_class):
-        return False
+        # iteration 2
+        pass
 
     def scheduleRelease(self, event, ticket_class, number):
-        return False
+        # iteration 2
+        pass
 
 
 class Event:
@@ -697,13 +704,25 @@ class Ticket:
             self.history = []    # history is list of tuples of (block index, hash)
 
     def isForSale(self):
+        """ Getter for for_sale attribute """
         return self.for_sale
 
     def mostRecentTransaction(self):
+        """
+        Find and return the most recent transaction that this Ticket
+        was involved in
+        """
         # TO-DO: add three-way consensus check here in iteration 2
         return self.event.blockchain.findRecentTrans(self.ticket_num)
 
     def listTicket(self, list_price, seller_id):
+        """
+        List this Ticket for sale at a specified price
+
+            list_price: float
+            seller_id: int
+
+        """
         # confirm that whoever is trying to list the Ticket actually owns it
         mostRecentTrans = self.mostRecentTransaction()
         if mostRecentTrans is not None:
