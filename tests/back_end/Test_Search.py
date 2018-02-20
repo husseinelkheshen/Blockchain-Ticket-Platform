@@ -31,8 +31,57 @@ event4.venue = venue2
 venue2.events[event4.id] = (event4, copy.deepcopy(event4.blockchain))
 
 def test_allevents():
-    """ A generic call to search() should return all Events """
+    """ An empty call to search() should return all Events """
     search_results = search()
     assert len(search_results) == 4
-    for event in [event1, event2, event3, event4]:
-        assert event in search_results
+    assert event1 in search_results
+    assert event2 in search_results
+    assert event3 in search_results
+    assert event4 in search_results
+
+def test_textsearch():
+    """ Run a search using a text-only query """
+    search_results = search(text='pop music')
+    assert len(search_results) == 3
+    assert event2 in search_results
+    assert event3 in search_results
+    assert event4 in search_results
+
+def test_locationsearch():
+    """ Run a search by location """
+    search_results = search(text='miami')
+    assert len(search_results) == 2
+    assert event3 in search_results
+    assert event4 in search_results
+
+def test_compoundtextsearch():
+    """ Run a search with description and location keywords """
+    search_results = search_results = search(text='pop music miami')
+    assert len(search_results) == 3
+    assert event2 in search_results
+    assert event3 in search_results
+    assert event4 in search_results
+
+def test_datefilter():
+    """ Run a search on a single date """
+    search_results = search(datetime=valid_datetime1)
+    assert len(search_results) == 1
+    assert event1 in search_results
+
+def test_daterange():
+    """ Run a search on a date range """
+    search_results = search(datetime=valid_datetime1, date_range=2)
+    assert len(search_results) == 2
+    assert event1 in search_results
+    assert event2 in search_results
+
+def test_compoundsearch():
+    """ Run a search with all parameters filled """
+    search_results = search('ellen', valid_datetime1 - timedelta(days=1), 4)
+    assert len(search_results) == 1
+    assert event1 in search_results
+
+def test_noresults():
+    """ Run a search that returns no Events """
+    search_results = search('hamilton new york')
+    assert len(search_results) == 0
