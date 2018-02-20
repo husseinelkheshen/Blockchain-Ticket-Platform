@@ -456,7 +456,18 @@ class User:
         # signify completion
         return True
 
-    def search(self, text):
+    @staticmethod
+    def search(text="", datetime=None, date_range=0):
+        """
+        A search function for retrieving a list of Events by given criteria
+
+        A call with none of the optional parameters filled will result in a
+        list of all the currently posted Events
+
+            text: a string
+            datetime: a Datetime object (only using date values)
+            date_range: int
+        """
         # iteration 2
         return False
 
