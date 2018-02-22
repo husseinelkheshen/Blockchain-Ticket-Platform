@@ -16,16 +16,13 @@ trans3 = Transaction(user2.id, user1.id, 50, 2)
 trans4 = Transaction(user2.id, user1.id, 50, 1)
 trans5 = Transaction(user1.id, user2.id, 80, 1)
 
-block1 = Block(0, date, [trans1], None) # success
-block2 = Block(1, date, [trans2, trans3], block1.hash) # success
-block3 = Block(2, date, [trans4], block2.hash) # success
-block4 = Block(-3, date, [trans5], block3.hash) # failure
-block5 = Block(None, date, [trans5], block3.hash) # failure
-block6 = Block(3, date, [trans5], block1.hash) # failure
-block7 = Block(3, date.datetime.now() - timedelta(days=7), [trans5], block3.hash) # failure
-block8 = Block(3, None, [trans5], block3.hash) # failure
-block9 = Block(3, date, None, block3.hash) # failure
-block10 = Block(2, date, [trans5], block3.hash) # failure
+block1 = Block(0, valid_date, [trans1], None) # success
+block2 = Block(1, valid_date, [trans2, trans3], "testhash") # success
+block3 = Block(2, valid_date, [trans4], "testhash") # success
+block4 = Block(-3, valid_date, [trans5], "testhash") # failure
+block5 = Block(None, valid_date, [trans5], "testhash") # failure
+block6 = Block(3, None, [trans5], "testhash") # failure
+block7 = Block(3, valid_date, None, "testhash") # failure
 
 def test_goodparameters():
     """
