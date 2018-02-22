@@ -556,7 +556,7 @@ class Venue:
         # iteration 2
         pass
 
-    def manageEvent(self, event):
+    def manageEvent(self, event, name, date, desc):
         # iteration 2
         pass
 
@@ -620,7 +620,7 @@ class Venue:
         return new_ticket
 
 
-    def manageTicket(self, event, ticket_class):
+    def manageTicket(self, event, new_price, section, row, seat_num):
         # iteration 2
         pass
 
