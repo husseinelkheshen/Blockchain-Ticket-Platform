@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/stylesheet.css">
+	<link rel="shortcut icon" type="image/png" href="images/favicon.png"/>
+	<title>Admit 01 | Event Page</title>
+</head>
+
+<body style="background-color: #fffbf4">
+	<nav id="navigation" class="navbar nav-content-fill navbar-inverse color-white navbar-toggleable-sm">
+		<div class="container">
+			<div class="nav-brand">
+				<a class="nav-link d-none d-sm-inline-block" href="index.html"><img id="logo"
+					src="images/logo_white_700.png"/></a> <!-- Logo display for desktop -->
+				<a class="nav-link active d-sm-none" href="index.html"><img id="textlogo"
+					src="images/textlogo_white.png"/></a> <!-- Logo display for mobile -->
+				
+				<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#navCollapseToggler" aria-controls="navCollapseToggler"
+				aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button><!-- Toggle collapse button -->
+
+			</div>
+			
+			<div id="navCollapseToggler" class="collapse navbar-collapse">
+				<div class="navbar-nav ml-auto">
+					<a class="nav-link" href="my_account.html">My Account</a>
+					<a class="nav-link" href="login_register.html">Login or Register</a>
+					<a class="nav-link" href="#">Logout</a>
+				</div><!-- navbar-nav -->
+			</div><!-- collapse -->
+		</div><!-- container -->
+	</nav>
+<div id="search-container">
+	<div id="search">
+		<form >
+			<input type="text" id="searchbar" name="search" placeholder="Search Events"
+			style="font-family: 'Abel', sans-serif"/>
+			<input type="submit" value="Go" id="searchbtn" style="font-family: 'Abel', sans-serif"/>
+		</form>
+	</div>
+</div>
+<main>
+	<div class="container-fluid mb-4"  style="height: 300px;
+	background-image: url('images/stock_concert.png'); background-size: cover;
+	background-position: center bottom;">
+		<div class="row align-items-end" style="height: 100%">
+			<section class="col-6 rale-heading" style="color: white">
+				<h1 style="font-size: 60px">Event Name</h1>
+			</section>
+			<section class="col-6 text-left text-sm-right rale-heading" style="color:white">
+				<h3>Event Month, Day, Year</h3>
+			</section>
+		</div>
+	</div><!-- event headline container -->
+	<div class="container mx-auto rounded border mb-4 text-center" style="width: 85%;
+	border: 1px solid #003470; background-color: white; padding: 10px">
+		<img class="mb-3" style="width: 100%; max-width: 500px" src="images/venue-stock.gif"/>
+		<form class="text-left">
+		<fieldset>
+		<div class="row">
+			<div class="form-group col-12 col-sm-5 row">
+				<label class="col-12">Search Available Tickets</label>
+
+				<div class="form-check  col-12 col-lg-6">
+					<label class="form-check-label">
+						<input class="form-check-input" type="checkbox"> Event Listed Tickets
+					</label>
+				</div><!-- form-check -->
+
+				<div class="form-check col-12 col-lg-6">
+					<label class="form-check-label">
+						<input class="form-check-input" type="checkbox"> Resale Tickets
+					</label>
+				</div><!-- form-check -->
+			</div><!-- form-group -->
+
+			<div class="form-group col-6 col-lg-3">
+				<label class="form-control-label" for="numseats">Number of Tickets</label>
+					<select class="form-control" id="numseats" style="font-family: 'Abel', sans-serif">
+						<option>1</option>
+						<option>2</option>
+						<option>3</option>
+						<option>4</option>
+						<option>5</option>
+						<option>6</option>
+						<option>7</option>
+						<option>8</option>
+						<option>9</option>
+						<option>10</option>
+						<option>11</option>
+						<option>12</option>
+					</select>
+			</div><!-- form-group -->
+
+			<div class="form-group col-6 col-lg-3">
+				<label class="form-control-label" for="seattype">Sort By</label>
+					<select class="form-control" id="seattype" style="font-family: 'Abel', sans-serif">
+						<option>Best Seats</option>
+						<option>Price Low to High</option>
+						<option>Best Price High to Low</option>
+						<option>Best Deal</option>
+						<option>Eligible for Upgrade</option>
+					</select>
+			</div><!-- form-group -->
+
+			<div class="form-group col-12">
+				<button class="btn d-block mx-auto" type="submit" value="Search"
+				style="color: #c8c8c8; background-color: #1b2838; font-family: 'Abel', sans-serif">Search</button>
+			</div><!-- form-group-->
+			</div><!-- row -->
+		</fieldset><!-- form-group -->
+		</form>
+		<div class="ticketlist">
+			<ul>
+				<li class="row">
+					<div class="col-12">SECTION {section} <span>RowSeat - RowSeat</span></div>
+					<div class="col-9 row">
+						<div class="ticket-info col-12 col-md-6">PRICE ${Price}</div>
+						<div class="ticket-info col-12 col-md-6">VALUE {Val}</div>
+					</div>
+					<div class="col-3"><a href="purchase.html">Purchase></a></div>
+				</li>
+				<li class="row">
+					<div class="col-12">SECTION {section} <span>RowSeat - RowSeat</span></div>
+					<div class="col-9 row">
+						<div class="ticket-info col-12 col-md-6">PRICE ${Price}</div>
+						<div class="ticket-info col-12 col-md-6">VALUE {Val}</div>
+					</div>
+					<div class="col-3"><a href="purchase.html">Purchase></a></div>
+				</li>
+				<li class="row">
+					<div class="col-12">SECTION {section} <span>RowSeat - RowSeat</span></div>
+					<div class="col-9 row">
+						<div class="ticket-info col-12 col-md-6">PRICE ${Price}</div>
+						<div class="ticket-info col-12 col-md-6">VALUE {Val}</div>
+					</div>
+					<div class="col-3"><a href="purchase.html">Purchase></a></div>
+				</li>
+				<li class="row">
+					<div class="col-12">SECTION {section} <span>RowSeat - RowSeat</span></div>
+					<div class="col-9 row">
+						<div class="ticket-info col-12 col-md-6">PRICE ${Price}</div>
+						<div class="ticket-info col-12 col-md-6">VALUE {Val}</div>
+					</div>
+					<div class="col-3"><a href="purchase.html">Purchase></a></div>
+				</li>
+				<li class="row">
+					<div class="col-12">SECTION {section} <span>RowSeat - RowSeat</span></div>
+					<div class="col-9 row">
+						<div class="ticket-info col-12 col-md-6">PRICE ${Price}</div>
+						<div class="ticket-info col-12 col-md-6">VALUE {Val}</div>
+					</div>
+					<div class="col-3"><a href="purchase.html">Purchase></a></div>
+				</li>
+				<li class="row">
+					<div class="col-12">SECTION {section} <span>RowSeat - RowSeat</span></div>
+					<div class="col-9 row">
+						<div class="ticket-info col-12 col-md-6">PRICE ${Price}</div>
+						<div class="ticket-info col-12 col-md-6">VALUE {Val}</div>
+					</div>
+					<div class="col-3"><a href="purchase.html">Purchase></a></div>
+				</li>
+				<li class="row">
+					<div class="col-12">SECTION {section} <span>RowSeat - RowSeat</span></div>
+					<div class="col-9 row">
+						<div class="ticket-info col-12 col-md-6">PRICE ${Price}</div>
+						<div class="ticket-info col-12 col-md-6">VALUE {Val}</div>
+					</div>
+					<div class="col-3"><a href="purchase.html">Purchase></a></div>
+				</li>
+				<li class="row">
+					<div class="col-12">SECTION {section} <span>RowSeat - RowSeat</span></div>
+					<div class="col-9 row">
+						<div class="ticket-info col-12 col-md-6">PRICE ${Price}</div>
+						<div class="ticket-info col-12 col-md-6">VALUE {Val}</div>
+					</div>
+					<div class="col-3"><a href="purchase.html">Purchase></a></div>
+				</li>
+			</ul>
+		</div>
+	</div><!-- buy tickets container-->
+
+</main>
+
+<script src="js/jquery.slim.min.js"></script>
+<script src="js/tether.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/scripts.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+</body>
+
+</html>
