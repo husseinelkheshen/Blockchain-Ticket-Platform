@@ -83,6 +83,14 @@ def test_notrans():
             block7.prev_hash is None and
             block7.hash is None)
 
+def test_notrans():
+    #
+    # Block should reject blocks with no transaction
+    #
+    assert (block9.index is None and
+            block9.timestamp is None and
+            block9.data is None)
+
 chaintrans0 = event1.blockchain.findRecentTrans(0) # failure
 
 event1.blockchain.blocks.append(block2)
