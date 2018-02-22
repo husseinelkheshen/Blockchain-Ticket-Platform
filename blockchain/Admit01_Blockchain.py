@@ -548,7 +548,7 @@ class Venue:
         else:
             self.id = self.name = self.events = self.location = None
 
-    def validateTicket(self, code, chain):
+    def validateTicketCode(self, event_id, ticket_num, user_id, hash, qrcode):
         # iteration 2
         pass
 
@@ -624,9 +624,9 @@ class Venue:
         # iteration 2
         pass
 
-    def scheduleRelease(self, event, ticket_class, number):
+    def scheduleRelease(self, event, ticket_class, date, number):
         # iteration 2
-        pass
+        return False
 
 
 class Event:
@@ -702,6 +702,7 @@ class Ticket:
             self.list_price = face_value # upon inception, list price = face_value
             self.for_sale = False
             self.history = []    # history is list of tuples of (block index, hash)
+            self.isScheduled = False
 
     def isForSale(self):
         """ Getter for for_sale attribute """
