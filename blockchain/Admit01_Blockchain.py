@@ -81,6 +81,7 @@ class Block:
             self.data = transactions
             self.prev_hash = ""
             self.hash = ""
+            self.nonce = ""
         else:
             self.index = index # numerical index, (matching the list index of the block?)
             self.timestamp = timestamp # a datetime timestamp object
@@ -88,6 +89,7 @@ class Block:
             self.prev_hash = prev_hash # the hash of the previous block in the chain
             self.hash = ""  # the new hash for this block, generated in hashcash format
                             # where data content of hashcash is a string representation of the block
+            self.nonce = ""
 
     def hashBlock(self, nonce):
         """
@@ -96,7 +98,7 @@ class Block:
             nonce: string
 
         """
-        return Block.genSHA1Hash(':'.join(["1", "20",
+        return Block.genSHA1Hash(':'.join(["1", "12",
                                  self.timestamp.strftime("%y%m%d%H%M%S"),
                                  str(self), nonce]))
 
@@ -171,17 +173,17 @@ class Chain:
             counter = randint(0, 65536)
             # result is the hash that results from our hashing of the block with our current nonce
             # it is initialized to a garbage value of "11111" to satisfy the while loop condition
-            result = "11111"
+            result = "111"
             # randstring is the other component of the nonce that we generate
             randstring = ''.join(choice(string.ascii_uppercase +
                                         string.digits + string.ascii_lowercase +
                                          '+' + '/') for _ in range(16))
-            # while the first 20 bits are not 0, or the hash created matches a previous hash
-            while result[0:5] != "00000" or result in self.prev_hashes:
+            # while the first 12 bits are not 0, or the hash created matches a previous hash
+            while result[0:3] != "000" or result in self.prev_hashes:
                 # increment the counter, generate a hash, store it in result
                 counter += 1
                 result = Block.genSHA1Hash(
-                    ':'.join(["1", "20", self.blocks[-1].timestamp.strftime(
+                    ':'.join(["1", "12", self.blocks[-1].timestamp.strftime(
                     "%y%m%d%H%M%S"), str(self.blocks[-1]),
                     randstring, str(counter)]))
             if len(self.blocks) > 1:
@@ -199,6 +201,7 @@ class Chain:
             otherchains.append(self)
             for chain in otherchains:
                 chain.blocks[-1].hash = result
+                chain.blocks[-1].nonce = nonce
             return True
 
 
@@ -652,6 +655,32 @@ class Event:
             self.datetime = datetime
             self.desc = desc
             self.blockchain = Chain()    # initialize an empty blockchain
+
+    def rwValidation(self):
+        # Validate event blockchain
+        # Validate venue blockchain
+        i = 1
+        valid = self.blockchain.blocks[0].hash == self.venue.events[self.id][1].blocks[0].hash \
+            and self.blockchain.blocks[0].prev_hash == self.venue.events[self.id][1].blocks[0].prev_hash
+        if not valid:
+            return False
+        while i < len(self.blockchain.blocks) - 1:
+            valid = self.blockchain.blocks[i].hashBlock(self.blockchain.blocks[i].nonce) == self.blockchain.blocks[i+1].prev_hash
+            if valid:
+                valid = self.venue.events[self.id][1].blocks[i].hashBlock(self.venue.events[self.id][1].blocks[i].nonce) == \
+                    self.venue.events[self.id][1].blocks[i+1].prev_hash
+                if valid:
+                    i += 1
+                else:
+                    return False
+            else:
+                return False
+        if self.blockchain.blocks[-1].hash == self.venue.events[self.id][1].blocks[-1].hash:
+            return True
+        else:
+            return False
+
+
 
 
 class Seat:

@@ -26,6 +26,7 @@ def test_validateticketcode():
     # check the the second user's code now works
     assert venue.validateTicketCode(event.id, ticket.ticket_num, ticket.mostRecentTransaction().target, event.blockchain[-1].hash, qrcode) is True
     user3 = User("Hayden", "Mans", "hm@example.com")
+    user3.wallet = 100000
     seat2 = Seat("General Admission", "N/A", 2)
     ticket2 = venue.createTicket(event, 20, seat2)
     ticket2.for_sale = True
