@@ -32,7 +32,6 @@ back_end_unit_tests:
 	python3 -m pytest tests/back_end/Test_BuyTicket.py
 	python3 -m pytest tests/back_end/Test_UpgradeTicket.py
 	python3 -m pytest tests/back_end/Test_ListTicket.py
-	make clean
 
 # Delete all pytest cache files
 clean:
