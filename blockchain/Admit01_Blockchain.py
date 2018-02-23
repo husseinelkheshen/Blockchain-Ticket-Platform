@@ -574,7 +574,7 @@ class Venue:
 
         else:
             event.name = name
-            event.date = new_date
+            event.datetime = new_date
             event.desc = desc
 
         return True
