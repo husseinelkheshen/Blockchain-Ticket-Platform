@@ -1,5 +1,5 @@
 from blockchain.Admit01_Blockchain import *
-import datetime as date
+from datetime import timedelta
 
 valid_date = date.datetime.now() + timedelta(days = 7)
 
