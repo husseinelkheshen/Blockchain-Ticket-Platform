@@ -5,6 +5,11 @@ from time import sleep
 from copy import deepcopy
 
 def test_rwvalidation():
+    """
+    This tests that the validation performed on the blockchains prior to any read or write
+     correctly judges the validity of the chain. It essentially confirms that no data has
+     been altered anywhere down the line
+    """
     venue = Venue("Max Palevsky", "Hyde Park")
     event = venue.createEvent("Rock Show", datetime.now() + timedelta(years=3),
                               "An event for students to rock out!")
