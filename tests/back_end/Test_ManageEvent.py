@@ -1,10 +1,9 @@
 from blockchain.Admit01_Blockchain import *
-from datetime import datetime
 from datetime import timedelta
 
-valid_datetime = datetime(2018, 4, 25, 19, 30)
-valid_date_new = datetime(2018, 3, 25, 19, 30)
-invalid_datetime = datetime(2018, 1, 25, 19, 30)
+valid_datetime = date.datetime.now() + timedelta(days = 7) # one week from now
+valid_date_new = date.datetime.now() + timedelta(days = 3) # 3 days from now
+invalid_datetime = date.datetime.now() - timedelta(days = 7) # one week ago
 
 venue1 = Venue("Wrigley Field", "Chicago, IL")
 event1 = Event("Lady Gaga", valid_datetime, "Stadium world tour")
