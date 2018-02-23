@@ -21,7 +21,7 @@ testVenue2 = Venue("Washington Square Park", "New York City, New York")
 testEvent11 = testVenue2.createEvent("Zero 7", testDatetime, "this is also a band")
 
 # To Note - simple weights are introduced to allow for proper testing of preferences
-testUser1 = User("Hellen", "Keller", "abcedfg@uchicago.edu")
+testUser1 = User("Hello", "World", "abcedfg@uchicago.edu")
 testUser1.preferences.update({"New York City, New York":5, "Chicago, IL":1})
 
 testUser2 = User("Abraham", "Lincoln", "fourscore@uchicago.edu")
@@ -29,12 +29,6 @@ testUser2 = User("Abraham", "Lincoln", "fourscore@uchicago.edu")
 testUser3 = User("John", "Doe", "jdoe@uchicago.edu")
 testUser3.preferences.update({"New York City, New York":6, "Chicago, IL":5, "Regenstein":1,
 							  "Washington Square Park":1, "Maroon 5":2, "Zero 7":1})
-
-"""
-testUser4 = User("Alpha", "Bet", "alphabet@uchicago.edu")
-testUser4.preferences.update({"New York City, New York":4, "Chicago, IL":5, "Regenstein":2,
-							  "Washington Square Park":1, "Maroon 5":1, "Zero 7":1})
-"""
 
 def test_eventslistsize():
 	"""
