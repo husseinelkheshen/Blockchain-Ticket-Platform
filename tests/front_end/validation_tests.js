@@ -469,3 +469,328 @@ describe("Test for validation of email address", function() {
 });
 
 
+
+/* !!!! ----------------- VALIDATION TESTS FOR MILESTONE 4A ----------------- !!!! */
+describe("Test for validation of password", function() {
+
+    // Valid password
+    /* 1. Must not be empty
+       2. Must have between 6 and 64 characters
+       3. Must contain at least one capital letter
+       5. Must contain at least one number character
+       4. May contain lower and uppercase letters, numbers, and the special characters
+            ! @ # $ %  ^ & * ( ) - _ = + / ? ' ;
+    */
+
+    /* Postitive Validation Tests*/
+    it("tests for positive validation of valid password", function() {
+        var a = validPass("pAssw0rd");
+        expect(a).toBe(true);
+    });
+    it("tests for validation of all valid letters, upper and lowercase, and numbers",
+    function() {
+        var a = validPass("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
+        expect(a).toBe(true);
+    });
+    it("tests for validation of all valid special characters",
+    function() {
+        var a = validPass("A1!@#$%^&*()-_=+/?';");
+        expect(a).toBe(true);
+    });
+    it("tests for valid 6 character password", function() {
+        var a = validPass("Abcd3f");
+        expect(a).toBe(true);
+    });
+    it("tests for valid 64 character password", function() {
+        var a = validPass("Correcthorsebatterystaplecorrecthorsebatterystaplecorrecthorse12");
+        expect(a).toBe(true);
+    });
+
+    /* Negative Validation Tests */
+    // Fails condition 1
+    it("tests for negative validation of empty input", function() {
+        var a = validPass(null);
+        expect(a).toBe(false);
+    });
+    // Fails conditions 1 and 2
+    it("tests for negative validation of 0 character input", function() {
+        var a = validPass("");
+        expect(a).toBe(false);
+    });
+    // Fails condition 2
+    it("tests for negative validation of 5 character input ", function() {
+        var a = validPass("Abc12");
+        expect(a).toBe(false);
+    });
+    // Fails condition 2
+    it("tests for negative validation of 65 character input ", function() {
+        var a = validPass("Correcthorsebatterystaplecorrecthorsebatterystaplecorrecthorse123");
+        expect(a).toBe(false);
+    });
+    // Fails condition 3
+    it("tests for negative validation of no capital letter in input", function() {
+        var a = validPass("samrey1");
+        expect(a).toBe(false);
+    });
+    // Fails condition 4
+    it("tests for negative validation of no number in input", function() {
+        var a = validPass("samrey");
+        expect(a).toBe(false);
+    });
+    /// Fails condition 5
+    it("tests for negative validation of special characters in input", function() {
+        var a = validPass("samRey1<");
+        expect(a).toBe(false);
+    });
+    
+});
+
+describe("Test for validation of numeric inputs", function() {
+
+    // Valid number
+    /* 1. Must not be empty
+       2. Must contain only number characters
+    */
+
+    /* Postitive Validation Tests*/
+    it("tests for valid number input", function() {
+        var a = isNumeric("00");
+        expect(a).toBe(true);
+    });
+    it("tests for valid number input where number is greater than 0", function() {
+        var a = isNumeric("1");
+        expect(a).toBe(true);
+    });
+
+    /* Negative Validation Tests */
+    // Fails condition 1
+    it("tests for negative validation of empty input", function() {
+        var a = isNumeric(null);
+        expect(a).toBe(false);
+    });
+    // Fails condition 1
+    it("tests for negative validation of 0 character input", function() {
+        var a = isNumeric("");
+        expect(a).toBe(false);
+    });
+    // Fails condition 2
+    it("tests for negative validation of non-numeric input with alpha characters", function() {
+        var a = isNumeric("111a")
+        expect(a).toBe(false);
+    });
+    // Fails condition 2
+    it("tests for negative validation of non-numeric inpute with special characters", function() {
+        var a = isNumeric("100.10");
+        expect(a).toBe(false);
+    });
+    
+});
+
+describe("Test for validation of monetary number inputs", function() {
+
+    // Valid monetary input
+    /* 1. Must not be empty
+       2. Must contain only number characters and at most 1 '.' character
+       3. If input contains a '.', then there must be two number characters
+            after the '.'
+    */
+
+    /* Postitive Validation Tests*/
+    it("tests for valid monetary input without decimal", function() {
+        var a = validMoney("100");
+        expect(a).toBe(true);
+    });
+    it("tests for valid number input where number is greater than 0 without decimal", function() {
+        var a = validMoney("100");
+        expect(a).toBe(true);
+    });
+    /* Postitive Validation Tests*/
+    it("tests for valid monetary input with decimal", function() {
+        var a = validMoney(".00");
+        expect(a).toBe(true);
+    });
+    it("tests for valid monetary input where number is greater than 0 with decimal", function() {
+        var a = validMoney("99.55");
+        expect(a).toBe(true);
+    });
+
+    /* Negative Validation Tests */
+    // Fails condition 1
+    it("tests for negative validation of empty input", function() {
+        var a = validMoney(null);
+        expect(a).toBe(false);
+    });
+    // Fails condition 1
+    it("tests for negative validation of 0 character input", function() {
+        var a = validMoney("");
+        expect(a).toBe(false);
+    });
+    // Fails condition 2
+    it("tests for negative validation of non-numeric input with alpha characters", function() {
+        var a = validMoney("a")
+        expect(a).toBe(false);
+    });
+    // Fails condition 2
+    it("tests for negative validation of non-numeric inpute with special characters", function() {
+        var a = validMoney("!");
+        expect(a).toBe(false);
+    });
+    // Fails condition 2
+    it("tests for negative validation of non-numeric inpute with more than one decimal", function() {
+        var a = validMoney("101.11.12");
+        expect(a).toBe(false);
+    });
+    // Fails condition 3
+    it("tests for negative validation of invalid decimal placement, test 1", function() {
+        var a = validMoney(".1");
+        expect(a).toBe(false);
+    });
+    // Fails condition 3
+    it("tests for negative validation of invalid decimal placement, test 2", function() {
+        var a = validMoney(".");
+        expect(a).toBe(false);
+    });
+    // Fails condition 3
+    it("tests for negative validation of invalid decimal placement, test 3", function() {
+        var a = validMoney(".123");
+        expect(a).toBe(false);
+    });
+    // Fails condition 3
+    it("tests for negative validation of invalid decimal placement, test 4", function() {
+        var a = validMoney("10.1");
+        expect(a).toBe(false);
+    });
+    // Fails condition 3
+    it("tests for negative validation of invalid decimal placement, test 5", function() {
+        var a = validMoney("10.");
+        expect(a).toBe(false);
+    });
+    // Fails condition 3
+    it("tests for negative validation of invalid decimal placement, test 6", function() {
+        var a = validMoney("10.123");
+        expect(a).toBe(false);
+    });
+    
+});
+
+describe("Test for form validation of login", function() {
+
+    // Valid login form
+    /* 1. Valid email format
+       2. Valid Password format
+    */
+
+    // Valid email, valid password
+    var login1 = {
+        "email-id": "srey@uchicago.edu",
+        "password": "pAssw0rd"
+    };
+
+    //Valid email, bad password
+    var login2 = {
+        "email-id": "srey@uchicago.edu",
+        "password": "password"
+    };
+
+    // Bad email, valid password
+    var login3 = {
+        "email-id": "sam@sam",
+        "password": "pAssw0rd"
+    }
+
+    // Bad email, bad password
+    var login4 = {
+        "email-id": "sam@sam",
+        "password": "password"
+    }
+
+    /* Postitive Validation Tests*/
+    it("tests for valid login form", function() {
+        var a = validLogin(login1);
+        expect(a).toBe(true);
+    });
+    
+
+    /* Negative Validation Tests */
+    // Fails condition 1
+    it("tests for negative validation of login form with bad email", function() {
+        var a = validLogin(login2);
+        expect(a).toBe(false);
+    });
+    // Fails condition 2
+    it("tests for negative validation of login form with bad password", function() {
+        var a = validLogin(login3);
+        expect(a).toBe(false);
+    });
+    // Fails condition 1 and2
+    it("tests for negative validation of login form with bad email and password", function() {
+        var a = validLogin(login4)
+        expect(a).toBe(false);
+    });
+    
+});
+
+describe("Test for validation of registration form", function() {
+
+    // Valid registration form
+    /* 1. Valid email
+       2. Valid password
+       3. Both password inputs must match.
+    */
+
+    // Valid email, valid password
+    var reg1 = {
+        "email-id": "srey@uchicago.edu",
+        "password": "pAssw0rd",
+        "confirm" : "pAssw0rd"
+    };
+
+    //Valid email, bad password, matching passwrods
+    var reg2 = {
+        "email-id": "srey@uchicago.edu",
+        "password": "password",
+        "confirm" : "password"
+    };
+
+    // Bad email, valid password, matching passwords
+    var reg3 = {
+        "email-id": "sam@sam",
+        "password": "pAssw0rd",
+        "password": "pAssw0rd"
+    }
+
+    //Valid email, valid password, passwords don't match
+    var reg4 = {
+        "email-id": "sam@sam",
+        "password": "pAssw0rd",
+        "password": "pAssw0rds"
+    }
+
+    /* Postitive Validation Tests*/
+    it("tests for valid registration form", function() {
+        var a = validRegistration(reg1);
+        expect(a).toBe(true);
+    });
+
+    /* Negative Validation Tests */
+    // Fails condition 1
+    it("tests for negative validation of registration form with bad email", function() {
+        var a = validRegistration(reg2);
+        expect(a).toBe(false);
+    });
+    // Fails condition 2
+    it("tests for negative validation of registration form with bad password", function() {
+        var a = validRegistration(reg3);
+        expect(a).toBe(false);
+    });
+    // Fails condition 1 and2
+    it("tests for negative validation of login form with valid but unnmatching passwords", function() {
+        var a = validRegistration(reg4)
+        expect(a).toBe(false);
+    });
+    
+});
+
+
+
+

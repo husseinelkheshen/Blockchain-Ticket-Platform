@@ -559,9 +559,25 @@ class Venue:
         # iteration 2
         pass
 
-    def manageEvent(self, event, name, date, desc):
-        # iteration 2
-        pass
+    def manageEvent(self, event, name, new_date, desc):
+        """
+        Allows a Venue to edit Event date, time and description
+        """
+        current_date = date.datetime.now()
+        invalid_date = False
+
+        if new_date is None or new_date < current_date:
+            invalid_date = True
+
+        if event is None or name is None or invalid_date:
+            return False
+
+        else:
+            event.name = name
+            event.datetime = new_date
+            event.desc = desc
+
+        return True
 
     def createTicket(self, event, face_value, seat):
         """
@@ -623,7 +639,7 @@ class Venue:
         return new_ticket
 
 
-    def manageTicket(self, event, new_price, section, row, seat_num):
+    def manageTickets(self, event, new_price, section, row, seat_num):
         # iteration 2
         pass
 
