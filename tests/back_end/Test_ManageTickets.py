@@ -9,12 +9,12 @@ testSeat2 = Seat("Cheap Seats", "B", 5)
 testSeat3 = Seat("Cheap Seats", "C", 6)
 
 venue1 = Venue("Wrigley Field", "Chicago, IL")
-event1 = Event("Lady Gaga", valid_datetime, "Stadium world tour")
+event1 = Event("Lady Gaga", valid_date, "Stadium world tour")
 event1.venue = venue1
 
-ticket1 = Ticket(testEvent1, 50, testSeat1)
-ticket2 = Ticket(testEvent1, 70, testSeat2)
-ticket3 = Ticket(testEvent1, 90, testSeat3)
+ticket1 = Ticket(event1, 50, testSeat1)
+ticket2 = Ticket(event1, 70, testSeat2)
+ticket3 = Ticket(event1, 90, testSeat3)
 
 def test_no_event():
     """ Tests a ManageTicket call with no Event to check for failure """
