@@ -108,6 +108,8 @@ Test_ValidateTicketCode.py
 
 #### Front end
 
+Samantha will frame the event portal which enables venues to create and manage events, create and manage tickets, schedule release, and validate tickets. She will also modify existing wireframes for the search funciton, and wirefram event listings for the explore and search functions. She will also code a visualization in d3.js that allows the host of an event to visualize the state of the ticket blockchain.  
+
 #### Back end
 
 Hayden and Hussein will pair up to write **Validate Ticket**, **Manage Ticket**, **Manage Event**
@@ -123,3 +125,5 @@ We have met, and will continue to meet as a larger group in order to discuss app
 We have not altered anything significantly from our original plan. We will be, however, adding numerous additional components in order to truly sure up the security of our blockchain infrastructure, and in order to ensure scalability as if our platform were to be implemented in real life (e.g. more robust creation of QR codes, proper privacy constraints).
 
 It will be difficult to properly unit test **Explore**, as proper functioning will be adaptively based on user preferences established over a history of their use of the platform. However, we will do everything possible to test proper form of inputs and outputs, as well as basic cases of learning.
+
+A few more form validation tests have been coded and added to the already existing front end validation tests. Where the tests have been added has been marked on the page.
