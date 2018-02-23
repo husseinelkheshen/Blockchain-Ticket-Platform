@@ -9,10 +9,14 @@ from datetime import timedelta
 valid_datetime = datetime.now() + timedelta(days=7) # one week from now
 invalid_datetime = datetime.now() - timedelta(days=7) # one week ago
 
-event1 = createEvent("Lady Gaga", valid_datetime, "Stadium world tour") # success
-event2 = createEvent("Adele", valid_datetime, "New album event") # success
-event3 = createEvent("", valid_datetime, "Marlins vs. Red Sox") # failure
-event4 = createEvent("Hamilton", invalid_datetime, "2016 Tony winner") # failure
+venue1 = Venue("Wrigley Field", "Chicago, IL")
+venue2 = Venue("Madison Square Garden", "New York, NY")
+
+event1 = venue1.createEvent("Lady Gaga", valid_datetime, "Stadium world tour") # success
+event2 = venue2.createEvent("Adele", valid_datetime, "New album event") # success
+event3 = venue1.createEvent("", valid_datetime, "Marlins vs. Red Sox") # failure
+event4 = venue2.createEvent("Hamilton", invalid_datetime, "2016 Tony winner") # failure
+
 
 def test_allvalid():
     """ Future-dated Event with non-empty name should be created successfully """
@@ -28,19 +32,30 @@ def test_allvalid2():
             event2.datetime == valid_datetime and
             event2.desc == "New album event")
 
-def test_badname():
-    """ Nameless Event should not be created """
-    assert (event3.id is None and
-            event3.name is None and
-            event3.datetime is None and
-            event3.desc is None)
+def test_indictionary():
+	""" Event should be created and stored in a Venue's events dictionary """
+	assert (venue1.events.has_key(event1.id) == True)
 
-def test_baddatetime():
-    """ Past-dated Event should not be created """
-    assert (event4.id is None and
-            event4.name is None and
-            event4.datetime is None and
-            event4.desc is None)
+def test_indictionary2():
+	""" Event should be created and stored in a Venue's events dictionary """
+	assert (venue2.events.has_key(event2.id) == True)
+
+def test_indictionary3():
+	""" Event should not be created and stored in a Venue's events dictionary """
+	assert (venue1.events.has_key(event3.id) == False)
+
+def test_indictionary4():
+	""" Event should be not created and stored in a Venue's events dictionary """
+	assert (venue2.events.has_key(event4.id) == False)
+
+def test_venueattribute1():
+	""" Event's venue attribute should match the venue creating it """
+	assert (event1.venue == venue1)
+
+def test_venueattribute1():
+	""" Event's venue attribute should match the venue creating it """
+	assert (event2.venue == venue2)
+
 
 
 
