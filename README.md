@@ -84,6 +84,11 @@ A minor change, as already discussed, resulted from ambiguity about how list tic
 ### What Will Be Implemented?
 
 #### Front end
+In this iteration we will implement the web portalenables venues to create and manage events, create and manage tickets, schedule release, and validate tickets. We will also wireframe other aspects of the site (described below), and create a visualization for venues hosting events so that they may visualize the status of their ticket sales. 
+
+The API and request servers will also have implemented endpoints for genertaing ticket codes, validating tickets, searching for events. We will also implement endpoints that allow venues to mange their events. These include creating multiple tickets at a time, editing tickets, editing events, and scheduling releases of tickets. 
+
+We will implement full authentication for users and venues on the web server as well that is consistent with the Blockchain.
 
 #### Back end
 In this iteration we will implement more aspects of security for our blockchain framework, new ways to find events for users, as well as a few final use cases for events and venues which will complete each respective class and allow for more comprehensive control of tickets and events.
@@ -108,7 +113,9 @@ Test_ValidateTicketCode.py
 
 #### Front end
 
-Samantha will frame the event portal which enables venues to create and manage events, create and manage tickets, schedule release, and validate tickets. She will also modify existing wireframes for the search funciton, and wirefram event listings for the explore and search functions. She will also code a visualization in d3.js that allows the host of an event to visualize the state of the ticket blockchain.  
+Samantha will frame the event portal which enables venues to create and manage events, create and manage tickets, schedule release, and validate tickets. She will also modify existing wireframes for the search funciton, and wireframe event listings for the explore and search functions. She will also code a visualization in d3.js that allows the host of an event to visualize the state of the ticket blockchain.  
+
+Euirim will design and implement the request forms for the web server and the requests between the API server and the web server. Pablo will integrate the aforementioned API endpoints with the Blockchain backend.
 
 #### Back end
 
