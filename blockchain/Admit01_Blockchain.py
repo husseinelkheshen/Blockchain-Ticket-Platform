@@ -639,7 +639,7 @@ class Venue:
         return new_ticket
 
 
-    def manageTicket(self, event, new_price, section, row, seat_num):
+    def manageTickets(self, event, new_price, section, row, seat_num):
         # iteration 2
         pass
 
