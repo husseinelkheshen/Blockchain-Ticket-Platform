@@ -49,7 +49,13 @@ def test_indictionary4():
 	assert (venue2.events.has_key(event4.id) == False)
 
 def test_venueattribute1():
-	
+	""" Event's venue attribute should match the venue creating it """
+	assert (event1.venue == venue1)
+
+def test_venueattribute1():
+	""" Event's venue attribute should match the venue creating it """
+	assert (event2.venue == venue2)
+
 
 
 
