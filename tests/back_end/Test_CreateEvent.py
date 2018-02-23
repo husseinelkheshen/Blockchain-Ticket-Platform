@@ -14,6 +14,13 @@ venue1 = Venue("Wrigley Field", "Chicago, IL")
 event1 = venue1.createEvent("Lady Gaga", valid_datetime, "Stadium world tour") # success
 event2 = venue1.createEvent("", valid_datetime, "Marlins vs. Red Sox") # failure
 
+def test_allvalid():
+    """ Future-dated Event with non-empty name should be created successfully """
+    assert (event1.id is not None and
+            event1.name == "Lady Gaga" and
+            event1.datetime == valid_datetime and
+            event1.desc == "Stadium world tour")
+
 def test_indictionary():
 	""" Event should be created and stored in a Venue's events dictionary """
 	assert (event1.id in venue1.events.keys())
