@@ -77,3 +77,49 @@ There were several several, code correctness, test rigor, formatting and changes
 The only major change is that we incorporated the *Host* class into the *Venue* class, since we could no longer see a logical purpose for a standalone *Host* class. *Venue* objects now have access to the union of all use cases from the previous definition of *Host* and those from the previous definition of *Venue*.
 
 A minor change, as already discussed, resulted from ambiguity about how list ticket will be implemented on a venue wide scale, which meant holding off on UI design of it for the time being.
+
+
+## Milestone 4a
+
+### What Will Be Implemented?
+
+#### Front end
+
+#### Back end
+In this iteration we will implement more aspects of security for our blockchain framework, new ways to find events for users, as well as a few final use cases for events and venues which will complete each respective class and allow for more comprehensive control of tickets and events.
+
+Our added security aspects will include a triple check (consensus checking algorithm) between each of the two blockchains held by *Venue* and each *Event* respectively, and the individual history held by each *Ticket*, in order to validate new transactions which occur, a robust generation of QR codes for each ticket (**Generate Ticket Code**), as well as a validation method for tickets when a given QR code is scanned (**Validate Ticket**).
+
+Each *User* will be able to discover new events in two ways. Users will be able to search (**Search**) by artist, location, time, and tags. Users will also be able to explore (**Explore**) existing events through a recommendation algorithm based on prior interactions with events. Explore will select from active events based on a simple perceptron neural net which updates user preferences for features of the events for which they see, list, buy, and upgrade tickets. Users will then be able to ‘like’ or ‘dislike’ each suggested event, allowing them to further build their preferences and discover new events.
+
+In order to complete the *Event* and *Venue* classes, we will be finalizing comprehensive creation and management of tickets and events. To make the creation of tickets easier, each venue will be able to create multiple tickets at a time (**Create Tickets**). Venues will be able to change attributes of tickets they have created (**Manage Ticket**), events they are hosting (**Manage Event**), as well as schedule a release time for tickets they have created (**Schedule Release**). We will also be implementing an easier and more controlled way for venues to create events (**Create Event**) to avoid any potential issues.
+
+New tests for iteration 2 can be found in Blockchain-Ticket-Platform/tests/back_end and include:
+Test_Explore.py
+Test_ManageEvent.py
+Test_ManageTicket.py
+Test_ReadWriteValidation.py
+Test_ScheduleRelease.py
+Test_Search.py
+Test_Trackers.py
+Test_ValidateTicketCode.py
+
+### Workload Division
+
+#### Front end
+
+#### Back end
+
+Hayden and Hussein will pair up to write **Validate Ticket**, **Manage Ticket**, **Manage Event**
+
+Ethan and Gina will pair up to write **Explore** and **Create Event**
+
+Ross will write **Search** and **Create Tickets**
+
+We have met, and will continue to meet as a larger group in order to discuss approaches, integrate our components, and finalize our implementations of the various use cases.
+
+### Discussion
+
+We have not altered anything significantly from our original plan. We will be, however, adding numerous additional components in order to truly sure up the security of our blockchain infrastructure, and in order to ensure scalability as if our platform were to be implemented in real life (e.g. more robust creation of QR codes, proper privacy constraints).
+
+It will be difficult to properly unit test **Explore**, as proper functioning will be adaptively based on user preferences established over a history of their use of the platform. However, we will do everything possible to test proper form of inputs and outputs, as well as basic cases of learning.

@@ -81,6 +81,7 @@ class Block:
             self.data = transactions
             self.prev_hash = ""
             self.hash = ""
+            self.nonce = ""
         else:
             self.index = index # numerical index, (matching the list index of the block?)
             self.timestamp = timestamp # a datetime timestamp object
@@ -88,27 +89,27 @@ class Block:
             self.prev_hash = prev_hash # the hash of the previous block in the chain
             self.hash = ""  # the new hash for this block, generated in hashcash format
                             # where data content of hashcash is a string representation of the block
-
-    # generates a sha256 hash given a string
-    @staticmethod
-    def generateHash(text):
-        sha = hasher.sha256()
-        sha.update(text.encode('utf-8'))
-        return sha.hexdigest()
-
-    # generates a hash of length random characters (ascii uppercase and digits)
-    @staticmethod
-    def genesisHash(length):
-        return generateHash(
-            ''.join(random.choice(string.ascii_uppercase + string.digits)
-                    for _ in range(length)))
+            self.nonce = ""
 
     def hashBlock(self, nonce):
-        return self.genSHA1Hash(':'.join(["1", "20",
-                                self.timestamp.strftime("%y%m%d%H%M%S"),
-                                str(self), nonce]))
+        """
+        Return a Block's hash given a nonce
 
-    def genSHA1Hash(self, text):
+            nonce: string
+
+        """
+        return Block.genSHA1Hash(':'.join(["1", "12",
+                                 self.timestamp.strftime("%y%m%d%H%M%S"),
+                                 str(self), nonce]))
+
+    @staticmethod
+    def genSHA1Hash(text):
+        """
+        Generates a hash given text input
+
+            text: string
+
+        """
         sha = hasher.sha1()
         sha.update(text.encode('utf-8'))
         return sha.hexdigest()
@@ -127,7 +128,10 @@ class Chain:
     def findRecentTrans(self, ticket_id):
         """
         Finds the most recent transaction in which a given ticket
-        was involved.
+        was involved
+
+            ticket_id: int
+
         """
         recentTrans = None
 
@@ -155,10 +159,9 @@ class Chain:
 
     def mineNewBlock(self, otherchains):
         """
-            Allows a Chain to mine the hash for the most recently appended block
-                otherchains: [Chain]
-            otherchains is a list of all of the chains aside from the one calling the function
-            that are waiting for the hash of the most recent block
+        Allows a Chain to mine the hash for the most recently appended block
+
+            otherchains: list of Chain objects
 
         """
         if self.blocks[-1].hash:
@@ -170,17 +173,17 @@ class Chain:
             counter = randint(0, 65536)
             # result is the hash that results from our hashing of the block with our current nonce
             # it is initialized to a garbage value of "11111" to satisfy the while loop condition
-            result = "11111"
+            result = "111"
             # randstring is the other component of the nonce that we generate
             randstring = ''.join(choice(string.ascii_uppercase +
                                         string.digits + string.ascii_lowercase +
                                          '+' + '/') for _ in range(16))
-            # while the first 20 bits are not 0, or the hash created matches a previous hash
-            while result[0:5] != "00000" or result in self.prev_hashes:
+            # while the first 12 bits are not 0, or the hash created matches a previous hash
+            while result[0:3] != "000" or result in self.prev_hashes:
                 # increment the counter, generate a hash, store it in result
                 counter += 1
-                result = self.blocks[-1].genSHA1Hash(
-                    ':'.join(["1", "20", self.blocks[-1].timestamp.strftime(
+                result = Block.genSHA1Hash(
+                    ':'.join(["1", "12", self.blocks[-1].timestamp.strftime(
                     "%y%m%d%H%M%S"), str(self.blocks[-1]),
                     randstring, str(counter)]))
             if len(self.blocks) > 1:
@@ -198,6 +201,7 @@ class Chain:
             otherchains.append(self)
             for chain in otherchains:
                 chain.blocks[-1].hash = result
+                chain.blocks[-1].nonce = nonce
             return True
 
 
@@ -358,7 +362,8 @@ class User:
         """
         Allows a User to upgrade an owned ticket for another listed ticket
 
-            ticket: Ticket object
+            owned_ticket: Ticket object
+            new_ticket: Ticket object
 
         """
 
@@ -456,13 +461,24 @@ class User:
         # signify completion
         return True
 
-    def search(self, text):
+    @staticmethod
+    def search(text="", datetime=None, date_range=0):
+        """
+        A search function for retrieving a list of Events by given criteria
+
+        A call with none of the optional parameters filled will result in a
+        list of all the currently posted Events
+
+            text: a string
+            datetime: a Datetime object (only using date values)
+            date_range: int
+        """
         # iteration 2
-        return False
+        return []
 
     def explore(self):
         # iteration 2
-        return False
+        pass
 
     def generateTicketCode(self, venue, event, ticket):
         """
@@ -535,14 +551,33 @@ class Venue:
         else:
             self.id = self.name = self.events = self.location = None
 
-    def validateTicket(self, code, chain):
-        return False
+    def validateTicketCode(self, event_id, ticket_num, user_id, hash, qrcode):
+        # iteration 2
+        pass
 
     def createEvent(self, name, datetime, desc):
-        return None
+        # iteration 2
+        pass
 
-    def manageEvent(self, event):
-        return False
+    def manageEvent(self, event, name, new_date, desc):
+        """
+        Allows a Venue to edit Event date, time and description
+        """
+        current_date = date.datetime.now()
+        invalid_date = False
+
+        if new_date is None or new_date < current_date:
+            invalid_date = True
+
+        if event is None or name is None or invalid_date:
+            return False
+
+        else:
+            event.name = name
+            event.datetime = new_date
+            event.desc = desc
+
+        return True
 
     def createTicket(self, event, face_value, seat):
         """
@@ -604,10 +639,12 @@ class Venue:
         return new_ticket
 
 
-    def manageTicket(self, event, ticket_class):
-        return False
+    def manageTickets(self, event, new_price, section, row, seat_num):
+        # iteration 2
+        pass
 
-    def scheduleRelease(self, event, ticket_class, number):
+    def scheduleRelease(self, event, ticket_class, date, number):
+        # iteration 2
         return False
 
 
@@ -634,6 +671,32 @@ class Event:
             self.datetime = datetime
             self.desc = desc
             self.blockchain = Chain()    # initialize an empty blockchain
+
+    def rwValidation(self):
+        # Validate event blockchain
+        # Validate venue blockchain
+        i = 1
+        valid = self.blockchain.blocks[0].hash == self.venue.events[self.id][1].blocks[0].hash \
+            and self.blockchain.blocks[0].prev_hash == self.venue.events[self.id][1].blocks[0].prev_hash
+        if not valid:
+            return False
+        while i < len(self.blockchain.blocks) - 1:
+            valid = self.blockchain.blocks[i].hashBlock(self.blockchain.blocks[i].nonce) == self.blockchain.blocks[i+1].prev_hash
+            if valid:
+                valid = self.venue.events[self.id][1].blocks[i].hashBlock(self.venue.events[self.id][1].blocks[i].nonce) == \
+                    self.venue.events[self.id][1].blocks[i+1].prev_hash
+                if valid:
+                    i += 1
+                else:
+                    return False
+            else:
+                return False
+        if self.blockchain.blocks[-1].hash == self.venue.events[self.id][1].blocks[-1].hash:
+            return True
+        else:
+            return False
+
+
 
 
 class Seat:
@@ -684,15 +747,28 @@ class Ticket:
             self.list_price = face_value # upon inception, list price = face_value
             self.for_sale = False
             self.history = []    # history is list of tuples of (block index, hash)
+            self.isScheduled = False
 
     def isForSale(self):
+        """ Getter for for_sale attribute """
         return self.for_sale
 
     def mostRecentTransaction(self):
+        """
+        Find and return the most recent transaction that this Ticket
+        was involved in
+        """
         # TO-DO: add three-way consensus check here in iteration 2
         return self.event.blockchain.findRecentTrans(self.ticket_num)
 
     def listTicket(self, list_price, seller_id):
+        """
+        List this Ticket for sale at a specified price
+
+            list_price: float
+            seller_id: int
+
+        """
         # confirm that whoever is trying to list the Ticket actually owns it
         mostRecentTrans = self.mostRecentTransaction()
         if mostRecentTrans is not None:

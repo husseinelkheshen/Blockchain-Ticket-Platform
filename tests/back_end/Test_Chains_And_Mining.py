@@ -64,11 +64,11 @@ def test_minenewblock():
     # tests hashes aren't the same
     assert(blockchain.blocks[0].hash != blockchain.blocks[1].hash)
     assert(blockchain.blocks[1].hash != blockchain.blocks[2].hash)
-    # testing 20 bits of 0, "00000"
-    assert(blockchain.blocks[1].hash[0:5] == blockchain.blocks[2].hash[0:5])
-    assert(mirror.blocks[1].hash[0:5] == mirror.blocks[2].hash[0:5])
-    assert(blockchain.blocks[1].hash[0:5] == "00000")
-    assert(mirror.blocks[1].hash[0:5] == "00000")
+    # testing 12 bits of 0, "000"
+    assert(blockchain.blocks[1].hash[0:3] == blockchain.blocks[2].hash[0:3])
+    assert(mirror.blocks[1].hash[0:3] == mirror.blocks[2].hash[0:3])
+    assert(blockchain.blocks[1].hash[0:3] == "000")
+    assert(mirror.blocks[1].hash[0:3] == "000")
 
 
 

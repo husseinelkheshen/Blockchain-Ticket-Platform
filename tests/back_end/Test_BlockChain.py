@@ -114,4 +114,3 @@ def test_newtransaction():
     assert (chaintrans3.target == user2.id and
             chaintrans3.source == user1.id and
             chaintrans3.value == 50)
-

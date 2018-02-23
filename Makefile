@@ -1,6 +1,7 @@
 # Install prerequisites
 install:
 	pip3 install pyqrcode
+	pip3 install pypng
 	python3 -m pip install pytest
 
 # Run a comprehensive acceptance test
@@ -31,7 +32,6 @@ back_end_unit_tests:
 	python3 -m pytest tests/back_end/Test_BuyTicket.py
 	python3 -m pytest tests/back_end/Test_UpgradeTicket.py
 	python3 -m pytest tests/back_end/Test_ListTicket.py
-	make clean
 
 # Delete all pytest cache files
 clean:
