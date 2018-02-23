@@ -85,6 +85,3 @@ def test_usingpreferences2():
 	assert testEvent9 in eventsList
 	assert testEvent10 in eventsList
 	assert testEvent11 not in eventsList
-
-def test_nonfunctional():
-	assert not testUser
