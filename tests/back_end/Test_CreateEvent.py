@@ -13,6 +13,7 @@ venue1 = Venue("Wrigley Field", "Chicago, IL")
 
 event1 = venue1.createEvent("Lady Gaga", valid_datetime, "Stadium world tour") # success
 event2 = venue1.createEvent("", valid_datetime, "Marlins vs. Red Sox") # failure
+event3 = venue1.createEvent("Hamilton", invalid_datetime, "2016 Tony winner") # failure
 
 def test_allvalid():
     """ Future-dated Event with non-empty name should be created successfully """
@@ -33,7 +34,19 @@ def test_venueattribute1():
 	""" Event's venue attribute should match the venue creating it """
 	assert (event1.venue == venue1)
 
+def test_badname():
+    """ Nameless Event should not construct """
+    assert (event2.id is None and
+            event2.name is None and
+            event2.datetime is None and
+            event2.desc is None)
 
+def test_baddatetime():
+    """ Past-dated Event should not construct """
+    assert (event3.id is None and
+            event3.name is None and
+            event3.datetime is None and
+            event3.desc is None)
 
 
 
