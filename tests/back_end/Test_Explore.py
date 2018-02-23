@@ -30,9 +30,11 @@ testUser3 = User("John", "Doe", "jdoe@uchicago.edu")
 testUser3.preferences.update({"New York City, New York":6, "Chicago, IL":5, "Regenstein":1,
 							  "Washington Square Park":1, "Maroon 5":2, "Zero 7":1})
 
+"""
 testUser4 = User("Alpha", "Bet", "alphabet@uchicago.edu")
 testUser4.preferences.update({"New York City, New York":4, "Chicago, IL":5, "Regenstein":2,
 							  "Washington Square Park":1, "Maroon 5":1, "Zero 7":1})
+"""
 
 def test_eventslistsize():
 	"""
