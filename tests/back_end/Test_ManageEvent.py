@@ -1,9 +1,10 @@
 from blockchain.Admit01_Blockchain import *
+from datetime import datetime
 from datetime import timedelta
 
-valid_datetime = date.datetime.now() + timedelta(days=7) # one week from now
-valid_date_new = date.datetime.now() + timedelta(days=3) # 3 days from now
-invalid_datetime = date.datetime.now() - timedelta(days=7) # one week ago
+valid_datetime = datetime(2018, 4, 25, 19, 30)
+valid_date_new = datetime(2018, 3, 25, 19, 30)
+invalid_datetime = datetime(2018, 1, 25, 19, 30)
 
 venue1 = Venue("Wrigley Field", "Chicago, IL")
 event1 = Event("Lady Gaga", valid_datetime, "Stadium world tour")
@@ -14,8 +15,10 @@ def test_valid_paramters():
 
     assert (venue1.manageEvent(event1, "Happy Time", valid_date_new, "Don't worry.") is True and
             event1.name == "Happy Time" and
-           # event1.datetime == valid_date_new and
+            # event1.datetime == valid_date_new and
             event1.desc == "Don't worry.")
+
+    assert event1.datetime == valid_date_new
 
 def test_no_name():
     """ Tests a ManageEvent call where no name is given, to ensure failure. """
