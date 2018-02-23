@@ -92,7 +92,17 @@ Our added security aspects will include a triple check (consensus checking algor
 
 Each *User* will be able to discover new events in two ways. Users will be able to search (**Search**) by artist, location, time, and tags. Users will also be able to explore (**Explore**) existing events through a recommendation algorithm based on prior interactions with events. Explore will select from active events based on a simple perceptron neural net which updates user preferences for features of the events for which they see, list, buy, and upgrade tickets. Users will then be able to ‘like’ or ‘dislike’ each suggested event, allowing them to further build their preferences and discover new events.
 
-In order to complete the *Event* and *Venue* classes, we will be finalizing comprehensive creation and management of tickets and events. To make the creation of tickets easier, each venue will be able to create multiple tickets at a time (**Create Tickets**). Venues will be able to change attributes of tickets they have created (**Manage Ticket**), events they are hosting (**Manage Event**), as well as schedule a release time for tickets they have created (**Schedule Release**). We will also be implementing an easier and more controlled way for venues to create events (**Create Event**) to avoid any potential issues. ##### Note: Update/Use Real Method Names #####
+In order to complete the *Event* and *Venue* classes, we will be finalizing comprehensive creation and management of tickets and events. To make the creation of tickets easier, each venue will be able to create multiple tickets at a time (**Create Tickets**). Venues will be able to change attributes of tickets they have created (**Manage Ticket**), events they are hosting (**Manage Event**), as well as schedule a release time for tickets they have created (**Schedule Release**). We will also be implementing an easier and more controlled way for venues to create events (**Create Event**) to avoid any potential issues.
+
+New tests for iteration 2 can be found in Blockchain-Ticket-Platform/tests/back_end and include:
+Test_Explore.py
+Test_ManageEvent.py
+Test_ManageTicket.py
+Test_ReadWriteValidation.py
+Test_ScheduleRelease.py
+Test_Search.py
+Test_Trackers.py
+Test_ValidateTicketCode.py
 
 ### Workload Division
 
@@ -110,6 +120,6 @@ We have met, and will continue to meet as a larger group in order to discuss app
 
 ### Discussion
 
-We have not altered anything significantly from our original plan. We will be, however, adding numerous additional components in order to truly sure up the security of our blockchain infrastructure, and in order to ensure scalability as if our platform were to be implemented in real life (e.g. robust creation of QR codes, proper privacy constraints).
+We have not altered anything significantly from our original plan. We will be, however, adding numerous additional components in order to truly sure up the security of our blockchain infrastructure, and in order to ensure scalability as if our platform were to be implemented in real life (e.g. more robust creation of QR codes, proper privacy constraints).
 
 It will be difficult to properly unit test **Explore**, as proper functioning will be adaptively based on user preferences established over a history of their use of the platform. However, we will do everything possible to test proper form of inputs and outputs, as well as basic cases of learning.
