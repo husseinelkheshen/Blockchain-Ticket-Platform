@@ -2,6 +2,7 @@ from random import *
 import datetime as date
 import hashlib as hasher
 import pyqrcode as qr
+import re
 import string
 
 
@@ -470,10 +471,40 @@ class User:
         list of all the currently posted Events
 
             text: a string
-            datetime: a Datetime object (only using date values)
+            datetime: a Datetime object
             date_range: int
         """
-        # iteration 2
+        all_events = []
+        for city in registered_venues:
+            for name in registered_venues[city]:
+                venue = registered_venues[city][name]
+                for event in venue.events:
+                    all_events.append(event)
+        if not text and not datetime:
+            return all_events    # return all events if no search criteria
+
+        # set up date range
+        lower_bound = datetime.replace(
+            hour=0, minute=0, second=0, microsecond=0)
+        upper_bound = lower_bound + date.timedelta(days=date_range+1)
+        # apply the date filter
+        filtered_events = []
+        for event in all_events:
+            if lower_bound <= event.datetime < upper_bound:
+                filtered_events.append(event)
+        if not text:
+            return filtered_events
+
+        # apple the text filter
+        search_results = []    # each entry a tuple of (event, score)
+        search_words = text.split()
+        search_re = re.compile(r'\b%s\b' % '\\b|\\b'.join(search_words),
+                               flags=re.IGNORECASE)
+        for event in filtered_events:
+            event_str = event.name + ' ' + event.description + ' ' +
+                        event.venue.location
+            score = len(search_re.findall(event_str))
+
         return []
 
     def explore(self):
@@ -695,8 +726,6 @@ class Event:
             return True
         else:
             return False
-
-
 
 
 class Seat:

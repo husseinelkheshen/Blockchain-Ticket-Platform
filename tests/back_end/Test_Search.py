@@ -62,6 +62,21 @@ def test_compoundtextsearch():
     assert event3 in search_results
     assert event4 in search_results
 
+def test_compoundtextsearch():
+    """ Run a search with venue keywords """
+    search_results = search_results = search(text='apollo theater')
+    assert len(search_results) == 2
+    assert event1 in search_results
+    assert event2 in search_results
+
+def test_uselessparameter():
+    """ A search with date range but no datetime will ignore the range """
+    search_results = search_results = search(text='pop', date_range=2)
+    assert len(search_results) == 3
+    assert event2 in search_results
+    assert event3 in search_results
+    assert event4 in search_results
+
 def test_datefilter():
     """ Run a search on a single date """
     search_results = search(datetime=valid_datetime1)
