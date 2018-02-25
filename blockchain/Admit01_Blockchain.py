@@ -4,6 +4,7 @@ import hashlib as hasher
 import pyqrcode as qr
 import re
 import string
+import operator
 
 
 class Trackers:
@@ -475,23 +476,26 @@ class User:
             date_range: int
         """
         all_events = []
-        for city in registered_venues:
-            for name in registered_venues[city]:
-                venue = registered_venues[city][name]
-                for event in venue.events:
-                    all_events.append(event)
+        for city in Trackers.registered_venues:
+            for name in Trackers.registered_venues[city]:
+                venue = Trackers.registered_venues[city][name]
+                for event_id in venue.events:
+                    all_events.append(venue.events[event_id][0])
         if not text and not datetime:
             return all_events    # return all events if no search criteria
+        elif not datetime:
+            filtered_events = all_events
+        else:
+            # set up date range
+            lower_bound = datetime.replace(
+                hour=0, minute=0, second=0, microsecond=0)
+            upper_bound = lower_bound + date.timedelta(days=date_range+1)
+            # apply the date filter
+            filtered_events = []
+            for event in all_events:
+                if lower_bound <= event.datetime < upper_bound:
+                    filtered_events.append(event)
 
-        # set up date range
-        lower_bound = datetime.replace(
-            hour=0, minute=0, second=0, microsecond=0)
-        upper_bound = lower_bound + date.timedelta(days=date_range+1)
-        # apply the date filter
-        filtered_events = []
-        for event in all_events:
-            if lower_bound <= event.datetime < upper_bound:
-                filtered_events.append(event)
         if not text:
             return filtered_events
 
@@ -501,11 +505,19 @@ class User:
         search_re = re.compile(r'\b%s\b' % '\\b|\\b'.join(search_words),
                                flags=re.IGNORECASE)
         for event in filtered_events:
-            event_str = event.name + ' ' + event.description + ' ' +
-                        event.venue.location
+            event_str = (event.name + ' ' + event.desc + ' ' +
+                         event.venue.name + ' ' + event.venue.location)
             score = len(search_re.findall(event_str))
+            if score > 0:
+                search_results.append((event, score))
 
-        return []
+        # return [] if no results match filters
+        if len(search_results) == 0:
+            return []
+
+        # sort search results by score
+        search_results.sort(key=operator.itemgetter(1))
+        return [result[0] for result in search_results]
 
     def explore(self):
         # iteration 2
