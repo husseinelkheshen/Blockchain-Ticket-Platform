@@ -29,18 +29,41 @@ class Trackers:
     registered_users = {}
 
     @staticmethod
-    def venueExists(venue_id):
-        """ Checks if a Venue is registered """
+    def getVenue(venue_id):
+        """
+        Get Venue object from its id
+
+            venue_id: int
+
+        """
         if venue_id is None or venue_id < 0:
-            return False
+            return None
 
         venues = Trackers.registered_venues
         for city in venues:
             for venue_name in venues[city]:
                 if venue_id == venues[city][venue_name].id:
-                    return True
+                    return venues[city][venue_name]
 
-        return False
+        return None
+
+    @staticmethod
+    def getUser(user_id):
+        """
+        Get User object from its id
+
+            user_id: int
+
+        """
+        if user_id is None or user_id < 0:
+            return None
+
+        users = Trackers.registered_users
+        for email in users:
+            if user_id == users[email].id:
+                return users[email]
+
+        return None
 
     @staticmethod
     def getNextUserVenueID():
@@ -300,7 +323,7 @@ class User:
             return False
 
         # check if ticket is for sale
-        if ticket.for_sale == False:
+        if not ticket.for_sale:
             return False
 
         # check if user calling has enough money in wallet
@@ -316,6 +339,13 @@ class User:
         if recent_trans is None:
             return False
         owner = recent_trans.target
+
+        # get owner object
+        owner_obj = Trackers.getVenue(owner)
+        if owner_obj is None:    # seller is not a Venue
+            owner_obj = Trackers.getUser(owner)
+        if owner_obj is None:    # seller is not a User / does not exist
+            return False
 
         # generate new transactions
         new_transactions = []
@@ -354,8 +384,9 @@ class User:
         # add ticket to user's inventory
         self.inventory.append(ticket)
 
-        # subtract appropriate funds from user's wallet
+        # transfer funds from buyer to seller
         self.wallet -= ticket.list_price
+        owner_obj.wallet += ticket.list_price
 
         # mark ticket as sold
         ticket.for_sale = False
@@ -392,7 +423,7 @@ class User:
             return False
 
         # check if ticket is for sale
-        if new_ticket.for_sale == False:
+        if not new_ticket.for_sale:
             return False
 
         # check if new ticket is more valuable than old ticket
@@ -411,11 +442,16 @@ class User:
         if owned_ticket.event != new_ticket.event:
             return False
 
-        # get correct source
-        recent_trans = owned_ticket.mostRecentTransaction()
+        # get correct owner
+        recent_trans = new_ticket.mostRecentTransaction()
         if recent_trans is None:
             return False
         owner = recent_trans.target
+
+        # make sure that owner is a venue
+        owner_venue = Trackers.getVenue(owner)
+        if owner_venue is None:
+            return False
 
         # generate new transactions
         new_transactions = []
@@ -457,8 +493,10 @@ class User:
         self.inventory.remove(owned_ticket)
         self.inventory.append(new_ticket)
 
-        # subtract appropriate funds from user's wallet
-        self.wallet -= (new_ticket.list_price - owned_ticket.list_price)
+        # transfer funds from user to venue
+        upgrade_price = new_ticket.list_price - owned_ticket.list_price
+        self.wallet -= upgrade_price
+        owner_venue.wallet += upgrade_price
 
         # add appropriate funds to seller's wallet (iteration 2)
 
