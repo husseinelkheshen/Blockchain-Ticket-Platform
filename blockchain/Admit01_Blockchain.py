@@ -591,8 +591,10 @@ class Venue:
             if not location_exists:
                 Trackers.registered_venues[location] = {}
             Trackers.registered_venues[location][name] = self
+            # start venue with zero balance
+            self.wallet = 0
         else:
-            self.id = self.name = self.events = self.location = None
+            self.id = self.name = self.events = self.location = self.wallet = None
 
     def validateTicketCode(self, event_id, ticket_num, user_id, hash, qrcode):
         # iteration 2
