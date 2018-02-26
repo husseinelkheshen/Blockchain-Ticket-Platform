@@ -150,19 +150,19 @@ class Chain:
         self.blocks = []    # no need for a genesis block here
         self.prev_hashes = []
 
-    def findRecentTrans(self, ticket_id):
+    def findRecentBlockTrans(self, ticket_id):
         """
-        Finds the most recent transaction in which a given ticket
+        Finds the most recent block and transaction in which a given ticket
         was involved
 
             ticket_id: int
 
         """
+        recentBlock = None
         recentTrans = None
 
         chainlength = len(self.blocks)
         foundTrans = False
-        # assert(chainlength == 2)
 
         if chainlength != 0:
             block = -1
@@ -170,8 +170,10 @@ class Chain:
                 translength = len(self.blocks[block].data)
                 trans = -1
                 while abs(trans) <= translength:
-                    if self.blocks[block].data[trans].ticket_num == ticket_id:
-                        recentTrans = self.blocks[block].data[trans]
+                    this_block = self.blocks[block]
+                    if this_block.data[trans].ticket_num == ticket_id:
+                        recentBlock = this_block
+                        recentTrans = this_block.data[trans]
                         foundTrans = True
                         break
                     trans -= 1
@@ -180,7 +182,7 @@ class Chain:
                     break
                 block -= 1
 
-        return recentTrans
+        return recentBlock, recentTrans
 
     def mineNewBlock(self, otherchains):
         """
@@ -843,10 +845,24 @@ class Ticket:
     def mostRecentTransaction(self):
         """
         Find and return the most recent transaction that this Ticket
-        was involved in
+        was involved in after performing validation and consensus checks
         """
-        # TO-DO: add three-way consensus check here in iteration 2
-        return self.event.blockchain.findRecentTrans(self.ticket_num)
+        assert self.event is not None
+        valid_chains = self.event.rwValidation()
+        if not valid_chains:    # chain broken or nodes out of sync
+            print('ERROR: Blockchain for event #' +
+                  str(self.event.id) + 'is broken')
+            return None
+        # blockchains at both nodes are identical and unbroken
+        blockchain = self.event.blockchain    # "single version of the truth"
+        # ensure ticket history matches blockchain records
+        block, txn = blockchain.findRecentBlockTrans(self.ticket_num)
+        consensus = (self.history[-1] == (block.index, block.hash))
+        if consensus:
+            return txn
+
+        return None
+
 
     def listTicket(self, list_price, seller_id):
         """
