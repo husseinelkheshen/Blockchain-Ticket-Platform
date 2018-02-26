@@ -729,6 +729,35 @@ class Venue:
 
         return new_ticket
 
+    def createTickets(self, event, face_value, section, row, seat_nos):
+        """
+        Allows a Venue to create a multiple Tickets for one of its Events
+
+            event: Event object
+            face_value: int
+            section: string
+            row: string
+            seat_nos: list (int)
+
+        """
+        if not (section and row and seat_nos):
+            return []
+
+        # create seats
+        seats = []
+        for seat_no in seat_nos:
+            new_seat = Seat(section, row, seat_no)
+            if new_seat is not None and new_seat not in seats:
+                seats.append(new_seat)
+
+        # create tickets
+        tickets = []
+        for seat in seats:
+            ticket = createTicket(event, face_value, seat)
+            if ticket is not None:
+                tickets.append(ticket)
+
+        return tickets 
 
     def manageTickets(self, event, new_price, section, row, seat_num):
         # iteration 2
