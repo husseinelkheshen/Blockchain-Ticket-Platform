@@ -543,7 +543,8 @@ class User:
                     ticket_data = ("venue_id = " + str(venue.id) +
                                    "\nevent_id = " + str(event.id) +
                                    "\nticket_num = " + str(ticket.ticket_num) +
-                                   "\ncurrent_owner = " + str(current_owner))
+                                   "\ncurrent_owner = " + str(current_owner) +
+                                   "\nhash = " + ticket.history[-1][1])
                     # generate ticket code
                     ticket_code = qr.create(ticket_data)
 
