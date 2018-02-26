@@ -516,7 +516,7 @@ class User:
             return []
 
         # sort search results by score
-        search_results.sort(key=operator.itemgetter(1))
+        search_results.sort(key=operator.itemgetter(1), reverse=True)
         return [result[0] for result in search_results]
 
     def explore(self):
