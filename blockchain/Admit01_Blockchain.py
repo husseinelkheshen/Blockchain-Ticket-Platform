@@ -312,7 +312,10 @@ class User:
             return False
 
         # get correct source
-        owner = ticket.event.blockchain.findRecentTrans(ticket.ticket_num).target
+        recent_trans = ticket.mostRecentTrans()
+        if recent_trans is None:
+            return False
+        owner = recent_trans.target
 
         # generate new transactions
         new_transactions = []
@@ -409,7 +412,10 @@ class User:
             return False
 
         # get correct source
-        owner = owned_ticket.event.blockchain.findRecentTrans(owned_ticket.ticket_num).source
+        recent_trans = ticket.mostRecentTrans()
+        if recent_trans is None:
+            return False
+        owner = recent_trans.target
 
         # generate new transactions
         new_transactions = []
