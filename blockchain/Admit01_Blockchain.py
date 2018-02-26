@@ -312,7 +312,7 @@ class User:
             return False
 
         # get correct source
-        recent_trans = ticket.mostRecentTrans()
+        recent_trans = ticket.mostRecentTransaction()
         if recent_trans is None:
             return False
         owner = recent_trans.target
@@ -412,7 +412,7 @@ class User:
             return False
 
         # get correct source
-        recent_trans = ticket.mostRecentTrans()
+        recent_trans = owned_ticket.mostRecentTransaction()
         if recent_trans is None:
             return False
         owner = recent_trans.target
