@@ -264,6 +264,7 @@ class User:
             self.email_address = email_address
             self.inventory = []
             self.wallet = 0.00
+            self.preferences = {}
             # add this User to the catalog of registered Users
             Trackers.registered_users[email_address] = self
         else:
