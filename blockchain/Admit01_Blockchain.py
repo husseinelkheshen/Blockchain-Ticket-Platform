@@ -540,8 +540,7 @@ class User:
                 current_owner = ticket.mostRecentTransaction().target
                 # confirm Ticket ownership
                 if self.id == current_owner:
-                    ticket_data = ("venue_id = " + str(venue.id) +
-                                   "\nevent_id = " + str(event.id) +
+                    ticket_data = ("event_id = " + str(event.id) +
                                    "\nticket_num = " + str(ticket.ticket_num) +
                                    "\ncurrent_owner = " + str(current_owner) +
                                    "\nhash = " + ticket.history[-1][1])
