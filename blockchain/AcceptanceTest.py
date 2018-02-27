@@ -106,13 +106,21 @@ def create_tickets(venue, event):
         while not seat_selected:
             section = str(input('\nWhat section is the seat in? (e.g. Mezzanine, GA): '))
             row = str(input('What row is the seat in? (A string, e.g. C, H, AA): '))
-            seat_no = int(input('What is the seat number? (An int): '))
+            seat_no_str = input('What is the seat number? (An int): ')
+            try:
+                seat_no = int(seat_no_str)
+            except ValueError:
+                seat_no = -1
             seat = Seat(section, row, seat_no)
             seat_selected = seat.section is not None
             if not seat_selected:
                 print('Whoops, something went wrong. Let\'s try that again...')
         print('\nSplendid. How much will this ticket cost?')
-        face_value = float(input('Enter face value: $'))
+        face_value_str = input('Enter face value: $')
+        try:
+            face_value = float(face_value_str)
+        except ValueError:
+            face_value = -1
         print('\nPlease wait, we\'re doing blockchain stuff.')
         print('Currently mining new blocks...')
         ticket = venue.createTicket(event, face_value, seat)

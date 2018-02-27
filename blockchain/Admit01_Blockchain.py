@@ -709,7 +709,7 @@ class Venue:
 
             name: string
             datetime: DateTime object
-            desc: string 
+            desc: string
 
         """
         event = Event(name, datetime, desc)
@@ -905,7 +905,7 @@ class Seat:
             seat_no: int
 
         """
-        if not section or not row or seat_no < 0:
+        if not section or not row or type(seat_no) is not int or seat_no < 0:
             self.section = self.row = self.seat_no = None
         else:
             self.section = section
