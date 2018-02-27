@@ -894,7 +894,9 @@ class Ticket:
                 user = Trackers.getUser(seller_id)
                 if user is not None
                 	updatePreferences(Trackers.getUser(seller_id), self, "sell")
-                	
+                else
+                    print("invalid seller")
+
             else:
                 print("invalid listing")
         else:
