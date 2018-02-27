@@ -881,7 +881,7 @@ class Venue:
 
     def scheduleRelease(self, event, ticket_class, date, number):
         # iteration 2
-        return False
+        pass
 
 
 class Event:
@@ -1029,7 +1029,7 @@ class Ticket:
             list_price: float
             seller_id: int
 
-        Returns a boolean 
+        Returns a boolean
 
         """
         # confirm that whoever is trying to list the Ticket actually owns it
