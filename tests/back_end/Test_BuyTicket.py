@@ -75,34 +75,42 @@ def test_buyTicket_EmptiesWallet():
     Test to make sure a purchase with valid parameters and funds goes through
     Tests edge case where wallet is emptied
     """
+    old_venue_balance = testVenue.wallet
     assert testUser1.buyTicket(testTicket1)
     assert testUser1.inventory[-1] == testTicket1
     assert not testTicket1.for_sale
     assert testUser1.wallet == 0
+    assert testVenue.wallet == old_venue_balance + testTicket1.list_price
 
 
 def test_buyTicket_FreeTicket():
     """ Test to make sure a purchase where value is 0 goes through """
+    old_venue_balance = testVenue.wallet
     assert testUser4.buyTicket(testTicket4)
     assert testUser4.inventory[-1] == testTicket4
     assert not testTicket4.for_sale
     assert testUser4.wallet == 0
+    assert testVenue.wallet == old_venue_balance
 
 
 def test_buyTicket_insufficientFunds():
     """ Test to make sure a purchase where buyer has insufficient funds fails """
+    old_venue_balance = testVenue.wallet
     assert not testUser4.buyTicket(testTicket3)
     assert testTicket3 not in testUser4.inventory
     assert testTicket3.for_sale
     assert testUser4.wallet == 0
+    assert testVenue.wallet == old_venue_balance
 
 
 def test_buyTicket_Valid_Paramaters():
     """ Test to make sure a purchase with valid parameters and funds goes through """
+    old_venue_balance = testVenue.wallet
     assert testUser3.buyTicket(testTicket3)
     assert testTicket3 in testUser3.inventory
     assert not testTicket3.for_sale
     assert testUser3.wallet == 950
+    assert testVenue.wallet == old_venue_balance + testTicket3.list_price
 
 def test_buyTicket_AlreadySold():
     """
@@ -117,7 +125,9 @@ def test_buyTicket_AlreadySold():
 
 def test_buyTicket_NotForSale():
     """ Test to make sure you can't purchase a ticket not for sale """
+    old_venue_balance = testVenue.wallet
     assert not testUser2.buyTicket(testTicket2)
     assert testTicket2 not in testUser2.inventory
     assert not testTicket1.for_sale
     assert testUser2.wallet == 500
+    assert testVenue.wallet == old_venue_balance
