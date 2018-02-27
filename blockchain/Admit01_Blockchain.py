@@ -566,45 +566,56 @@ class User:
         for ticket in self.inventory:
             tickets.append(ticket.ticket_num)
         return tickets
-    
-    def updatePreferences(self, ticket, action):
-        """
-        Updates preferences in a user's preferences dictionary
 
-        ticket: the ticket being purchased or sold when fn is called
-        action: string indicating buy or sell 
+#     def updatePreferences(self, ticket, action):
+#         """
+#         Updates preferences in a user's preferences dictionary
 
-        """
-        venue = ticket.event.venue
-        loc = venue.location
-        #tags = tags_list (tag generator for ticket.event.name and ticket.event.desc)
+#         ticket: the ticket being purchased or sold when fn is called
+#         action: string indicating buy, sell or upgrade
 
-        tags_dict = self.tags_pref
-        loc_dict = self.location_pref
-        venue_dict = self.venue_pref
+#         """
+#         venue = ticket.event.venue
+#         loc = venue.location
+#         #tags = tags_list (tag generator for ticket.event.name and ticket.event.desc)
 
-        if action is "buy":
-            if venue in venue_dict
-                venue_dict[venue] += 4
-            else
-                venue_dict[venue] = 4
+#         tags_dict = self.tags_pref
+#         loc_dict = self.location_pref
+#         venue_dict = self.venue_pref
 
-            if location in loc_dict
-                loc_dict[location] += 5
-            else
-                loc_dict[location] = 5
+#         if action is "buy":
+#             if venue in venue_dict
+#                 venue_dict[venue] += 4
+#             else
+#                 venue_dict[venue] = 4
 
-        if action is "sell":
-            venue_dict[venue] -= 2
-            loc_dict[location] -= 3
-        
-        for i, elem in enumerate(tags_list)
-            if elem in tags_dict
-                tags_dict[elem] += 2
-            else
-                tags_dict[elem] = 2
+#             if location in loc_dict
+#                 loc_dict[location] += 5
+#             else
+#                 loc_dict[location] = 5
+
+#             for i, elem in enumerate(tags_list)
+#                 if elem in tags_dict
+#                      tags_dict[elem] += 2
+#                 else
+#                     tags_dict[elem] = 2
+
+#         if action is "upgrade":
+#             venue_dict[venue] += 2
+#             loc_dict[location] += 3
             
+#             for i, elem in enumerate(tags_list)
+#                 if elem in tags_dict
+#                      tags_dict[elem] += 1
+#                 else
+#                     tags_dict[elem] = 1
 
+#         if action is "sell":
+#             venue_dict[venue] -= 2
+#             loc_dict[location] -= 2
+        
+#         return True
+# """
 
 
 
