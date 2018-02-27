@@ -81,13 +81,18 @@ testTicket9 = testVenue.createTicket(testEvent1, 100, testSeat9)
 testTicket9.listTicket(testTicket9.face_value, testVenue.id)
 
 def test_upgradeTicket_valid1():
-	""" Test upgrading tickets validly for sale """
-	testUser3.buyTicket(testTicket1)
-	assert testUser3.upgradeTicket(testTicket1, testTicket3)
-	assert testUser3.wallet == 500
-	assert testTicket3 in testUser3.inventory
-	assert testTicket1.for_sale == True
-	assert testTicket2.for_sale == False
+    """ Test upgrading tickets validly for sale """
+    old_venue_balance = testVenue.wallet
+    testUser3.buyTicket(testTicket1)
+    new_venue_balance = testVenue.wallet
+    assert new_venue_balance == old_venue_balance + testTicket1.list_price
+    assert testUser3.upgradeTicket(testTicket1, testTicket3)
+    assert testUser3.wallet == 500
+    assert testVenue.wallet == (
+        new_venue_balance + testTicket3.face_value - testTicket1.face_value)
+    assert testTicket3 in testUser3.inventory
+    assert testTicket1.for_sale == True
+    assert testTicket3.for_sale == False
 
 def test_upgradeTicket_valid2():
 	""" Test upgrading tickets between different events """
@@ -97,8 +102,10 @@ def test_upgradeTicket_valid2():
 	assert testTicket5 in testUser2.inventory
 
 def test_upgradeTicket_unowned():
-	""" Test upgrading tickets user does not own """
-	assert not testUser4.upgradeTicket(testTicket6, testTicket4)
+    """ Test upgrading tickets user does not own """
+    old_venue_balance = testVenue.wallet
+    assert not testUser4.upgradeTicket(testTicket6, testTicket4)
+    assert testVenue.wallet == old_venue_balance
 
 def test_upgradeTicket_notforsale():
 	""" Test upgrading tickets not for sale """
