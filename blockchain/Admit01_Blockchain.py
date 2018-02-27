@@ -706,6 +706,11 @@ class Venue:
     def createEvent(self, name, datetime, desc):
         """
         Allows a Venue to create an Event and save a clone of its blockchain
+
+            name: string
+            datetime: DateTime object
+            desc: string 
+
         """
         event = Event(name, datetime, desc)
         if event.id is None:
@@ -717,6 +722,12 @@ class Venue:
     def manageEvent(self, event, name, new_date, desc):
         """
         Allows a Venue to edit Event date, time and description
+
+            event: Event object
+            name: string
+            new_date: DateTime object
+            desc: string
+
         """
         current_date = date.datetime.now()
         invalid_date = False
@@ -857,8 +868,10 @@ class Event:
             self.blockchain = Chain()    # initialize an empty blockchain
 
     def rwValidation(self):
-        # Validate event blockchain
-        # Validate venue blockchain
+        """
+        Validates the blockchains on the Event and Venue nodes to make sure
+        chains are not broken and that the chains are in sync
+        """
         i = 1
         valid = self.blockchain.blocks[0].hash == self.venue.events[self.id][1].blocks[0].hash \
             and self.blockchain.blocks[0].prev_hash == self.venue.events[self.id][1].blocks[0].prev_hash
