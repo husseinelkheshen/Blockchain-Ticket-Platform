@@ -75,7 +75,11 @@ def select_event(venue):
     print('\nPlease select an event to explore further.')
     valid_id = False
     while not valid_id:
-        e_id = int(input('Enter event id: '))
+        e_id_str = input('Enter event id: ')
+        try:
+            e_id = int(e_id_str)
+        except ValueError:
+            e_id = -1
         valid_id = e_id in venue.events
         if not valid_id:
             print('\nThat\'s not a valid event id, let\'s try again...')
@@ -212,7 +216,11 @@ def buy_a_ticket(event, user):
     ticket_nums = [ticket.ticket_num for ticket in event.tickets if ticket.isForSale()]
     ticket_num = -1
     while ticket_num not in ticket_nums:
-        ticket_num = int(input('Enter ticket ID: '))
+        ticket_num_str = input('Enter ticket ID: ')
+        try:
+            ticket_num = int(ticket_num_str)
+        except ValueError:
+            ticket_num = -1
         if ticket_num not in ticket_nums:
             print('\nWhoa! That\'s not a legit ticket ID to buy. Try again...')
     print('\nNice choice. Now let\'s buy that ticket.')
@@ -259,7 +267,11 @@ def upgrade_ticket(event, user_ticket, user):
     ticket_nums = [ticket.ticket_num for ticket in event.tickets if ticket.isForSale()]
     ticket_num = -1
     while ticket_num not in ticket_nums:
-        ticket_num = int(input('Enter ticket ID: '))
+        ticket_num_str = input('Enter ticket ID: ')
+        try:
+            ticket_num = int(ticket_num_str)
+        except ValueError:
+            ticket_num = -1
         if ticket_num not in ticket_nums:
             print('\nWhoa! That ticket is not for sale. Try again...')
         else:
