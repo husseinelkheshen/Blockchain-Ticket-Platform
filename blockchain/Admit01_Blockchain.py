@@ -577,13 +577,12 @@ class User:
         """
         venue = ticket.event.venue
         loc = venue.location
-        #tags = tag generator for ticket.event.name and ticket.event.desc
+        #tags = tags_list (tag generator for ticket.event.name and ticket.event.desc)
 
         tags_dict = self.tags_pref
         loc_dict = self.location_pref
         venue_dict = self.venue_pref
 
-        # to do: determine 
         if action is "buy":
             if venue in venue_dict
                 venue_dict[venue] += 4
@@ -598,7 +597,13 @@ class User:
         if action is "sell":
             venue_dict[venue] -= 2
             loc_dict[location] -= 3
-
+        
+        for i, elem in enumerate(tags_list)
+            if elem in tags_dict
+                tags_dict[elem] += 2
+            else
+                tags_dict[elem] = 2
+            
 
 
 
