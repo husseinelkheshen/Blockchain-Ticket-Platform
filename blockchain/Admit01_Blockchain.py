@@ -266,7 +266,7 @@ class User:
             self.email_address = email_address
             self.inventory = []
             self.wallet = 0.00
-            self.tags_pref = {}
+            self.description_pref = {}
             self.location_pref = {}
             self.venue_pref = {}
             # add this User to the catalog of registered Users
@@ -585,42 +585,42 @@ class User:
         """
         venue = ticket.event.venue
         loc = venue.location
-        #tags = tags_list (tag generator for ticket.event.name and ticket.event.desc)
+        description_list = get_continuous_chunks(ticket.event.desc)
 
-        tags_dict = self.tags_pref
+        description_dict = self.description_pref
         loc_dict = self.location_pref
         venue_dict = self.venue_pref
 
         if action is "buy":
             if venue in venue_dict
-                venue_dict[venue] += 4
+                venue_dict[venue] += 3
             else
-                venue_dict[venue] = 4
+                venue_dict[venue] = 3
 
             if location in loc_dict
-                loc_dict[location] += 5
+                loc_dict[location] += 3
             else
-                loc_dict[location] = 5
+                loc_dict[location] = 3
 
-            for i, elem in enumerate(tags_list)
-                if elem in tags_dict
-                     tags_dict[elem] += 2
+            for i, elem in enumerate(description_list)
+                if elem in description_dict
+                     description_dict[elem] += 3
                 else
-                    tags_dict[elem] = 2
+                    description_dict[elem] = 3
 
         if action is "upgrade":
             venue_dict[venue] += 2
-            loc_dict[location] += 3
+            loc_dict[location] += 2
             
-            for i, elem in enumerate(tags_list)
-                if elem in tags_dict
-                     tags_dict[elem] += 1
+            for i, elem in enumerate(description_list)
+                if elem in description_dict
+                     description_dict[elem] += 2
                 else
-                    tags_dict[elem] = 1
+                    description_dict[elem] = 2
 
-        if action is "sell":
-            venue_dict[venue] -= 2
-            loc_dict[location] -= 2
+        # if action is "search":
+        #     venue_dict[venue] -= 2
+        #     loc_dict[location] -= 2
         
         return True
 
@@ -915,14 +915,6 @@ class Ticket:
             if valid_seller and list_price >= 0.00:
                 self.for_sale = True
                 self.list_price = list_price
-
-                # update user's preferences
-                user = Trackers.getUser(seller_id)
-                if user is not None
-                	updatePreferences(Trackers.getUser(seller_id), self, "sell")
-                else
-                    print("invalid seller")
-
             else:
                 print("invalid listing")
         else:
