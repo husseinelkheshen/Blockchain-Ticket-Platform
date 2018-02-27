@@ -289,6 +289,9 @@ class User:
             self.email_address = email_address
             self.inventory = []
             self.wallet = 0.00
+            self.tags_pref = {}
+            self.location_pref = {}
+            self.venue_pref = {}
             # add this User to the catalog of registered Users
             Trackers.registered_users[email_address] = self
         else:
@@ -603,6 +606,48 @@ class User:
         for ticket in self.inventory:
             tickets.append(ticket.ticket_num)
         return tickets
+    
+    def updatePreferences(self, ticket, action):
+        """
+        Updates preferences in a user's preferences dictionary
+
+        ticket: the ticket being purchased or sold when fn is called
+        action: string indicating buy or sell 
+
+        """
+        venue = ticket.event.venue
+        loc = venue.location
+        #tags = tags_list (tag generator for ticket.event.name and ticket.event.desc)
+
+        tags_dict = self.tags_pref
+        loc_dict = self.location_pref
+        venue_dict = self.venue_pref
+
+        if action is "buy":
+            if venue in venue_dict
+                venue_dict[venue] += 4
+            else
+                venue_dict[venue] = 4
+
+            if location in loc_dict
+                loc_dict[location] += 5
+            else
+                loc_dict[location] = 5
+
+        if action is "sell":
+            venue_dict[venue] -= 2
+            loc_dict[location] -= 3
+        
+        for i, elem in enumerate(tags_list)
+            if elem in tags_dict
+                tags_dict[elem] += 2
+            else
+                tags_dict[elem] = 2
+            
+
+
+
+
 
 class Venue:
     """
