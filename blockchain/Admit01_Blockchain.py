@@ -29,41 +29,18 @@ class Trackers:
     registered_users = {}
 
     @staticmethod
-    def getVenue(venue_id):
-        """
-        Get Venue object from its id
-
-            venue_id: int
-
-        """
+    def venueExists(venue_id):
+        """ Checks if a Venue is registered """
         if venue_id is None or venue_id < 0:
-            return None
+            return False
 
         venues = Trackers.registered_venues
         for city in venues:
             for venue_name in venues[city]:
                 if venue_id == venues[city][venue_name].id:
-                    return venues[city][venue_name]
+                    return True
 
-        return None
-
-    @staticmethod
-    def getUser(user_id):
-        """
-        Get User object from its id
-
-            user_id: int
-
-        """
-        if user_id is None or user_id < 0:
-            return None
-
-        users = Trackers.registered_users
-        for email in users:
-            if user_id == users[email].id:
-                return users[email]
-
-        return None
+        return False
 
     @staticmethod
     def getNextUserVenueID():
@@ -150,19 +127,19 @@ class Chain:
         self.blocks = []    # no need for a genesis block here
         self.prev_hashes = []
 
-    def findRecentBlockTrans(self, ticket_id):
+    def findRecentTrans(self, ticket_id):
         """
-        Finds the most recent block and transaction in which a given ticket
+        Finds the most recent transaction in which a given ticket
         was involved
 
             ticket_id: int
 
         """
-        recentBlock = None
         recentTrans = None
 
         chainlength = len(self.blocks)
         foundTrans = False
+        # assert(chainlength == 2)
 
         if chainlength != 0:
             block = -1
@@ -170,10 +147,8 @@ class Chain:
                 translength = len(self.blocks[block].data)
                 trans = -1
                 while abs(trans) <= translength:
-                    this_block = self.blocks[block]
-                    if this_block.data[trans].ticket_num == ticket_id:
-                        recentBlock = this_block
-                        recentTrans = this_block.data[trans]
+                    if self.blocks[block].data[trans].ticket_num == ticket_id:
+                        recentTrans = self.blocks[block].data[trans]
                         foundTrans = True
                         break
                     trans -= 1
@@ -182,7 +157,7 @@ class Chain:
                     break
                 block -= 1
 
-        return recentBlock, recentTrans
+        return recentTrans
 
     def mineNewBlock(self, otherchains):
         """
@@ -328,7 +303,7 @@ class User:
             return False
 
         # check if ticket is for sale
-        if not ticket.for_sale:
+        if ticket.for_sale == False:
             return False
 
         # check if user calling has enough money in wallet
@@ -344,13 +319,6 @@ class User:
         if recent_trans is None:
             return False
         owner = recent_trans.target
-
-        # get owner object
-        owner_obj = Trackers.getVenue(owner)
-        if owner_obj is None:    # seller is not a Venue
-            owner_obj = Trackers.getUser(owner)
-        if owner_obj is None:    # seller is not a User / does not exist
-            return False
 
         # generate new transactions
         new_transactions = []
@@ -389,9 +357,8 @@ class User:
         # add ticket to user's inventory
         self.inventory.append(ticket)
 
-        # transfer funds from buyer to seller
+        # subtract appropriate funds from user's wallet
         self.wallet -= ticket.list_price
-        owner_obj.wallet += ticket.list_price
 
         # mark ticket as sold
         ticket.for_sale = False
@@ -428,7 +395,7 @@ class User:
             return False
 
         # check if ticket is for sale
-        if not new_ticket.for_sale:
+        if new_ticket.for_sale == False:
             return False
 
         # check if new ticket is more valuable than old ticket
@@ -447,16 +414,11 @@ class User:
         if owned_ticket.event != new_ticket.event:
             return False
 
-        # get correct owner
-        recent_trans = new_ticket.mostRecentTransaction()
+        # get correct source
+        recent_trans = owned_ticket.mostRecentTransaction()
         if recent_trans is None:
             return False
         owner = recent_trans.target
-
-        # make sure that owner is a venue
-        owner_venue = Trackers.getVenue(owner)
-        if owner_venue is None:
-            return False
 
         # generate new transactions
         new_transactions = []
@@ -498,10 +460,8 @@ class User:
         self.inventory.remove(owned_ticket)
         self.inventory.append(new_ticket)
 
-        # transfer funds from user to venue
-        upgrade_price = new_ticket.list_price - owned_ticket.list_price
-        self.wallet -= upgrade_price
-        owner_venue.wallet += upgrade_price
+        # subtract appropriate funds from user's wallet
+        self.wallet -= (new_ticket.list_price - owned_ticket.list_price)
 
         # add appropriate funds to seller's wallet (iteration 2)
 
@@ -606,56 +566,56 @@ class User:
         for ticket in self.inventory:
             tickets.append(ticket.ticket_num)
         return tickets
+    
+    def updatePreferences(self, ticket, action):
+        """
+        Updates preferences in a user's preferences dictionary
 
-#     def updatePreferences(self, ticket, action):
-#         """
-#         Updates preferences in a user's preferences dictionary
+        ticket: the ticket being purchased or sold when fn is called
+        action: string indicating buy, sell or upgrade
 
-#         ticket: the ticket being purchased or sold when fn is called
-#         action: string indicating buy, sell or upgrade
+        """
+        venue = ticket.event.venue
+        loc = venue.location
+        #tags = tags_list (tag generator for ticket.event.name and ticket.event.desc)
 
-#         """
-#         venue = ticket.event.venue
-#         loc = venue.location
-#         #tags = tags_list (tag generator for ticket.event.name and ticket.event.desc)
+        tags_dict = self.tags_pref
+        loc_dict = self.location_pref
+        venue_dict = self.venue_pref
 
-#         tags_dict = self.tags_pref
-#         loc_dict = self.location_pref
-#         venue_dict = self.venue_pref
+        if action is "buy":
+            if venue in venue_dict
+                venue_dict[venue] += 4
+            else
+                venue_dict[venue] = 4
 
-#         if action is "buy":
-#             if venue in venue_dict
-#                 venue_dict[venue] += 4
-#             else
-#                 venue_dict[venue] = 4
+            if location in loc_dict
+                loc_dict[location] += 5
+            else
+                loc_dict[location] = 5
 
-#             if location in loc_dict
-#                 loc_dict[location] += 5
-#             else
-#                 loc_dict[location] = 5
+            for i, elem in enumerate(tags_list)
+                if elem in tags_dict
+                     tags_dict[elem] += 2
+                else
+                    tags_dict[elem] = 2
 
-#             for i, elem in enumerate(tags_list)
-#                 if elem in tags_dict
-#                      tags_dict[elem] += 2
-#                 else
-#                     tags_dict[elem] = 2
-
-#         if action is "upgrade":
-#             venue_dict[venue] += 2
-#             loc_dict[location] += 3
+        if action is "upgrade":
+            venue_dict[venue] += 2
+            loc_dict[location] += 3
             
-#             for i, elem in enumerate(tags_list)
-#                 if elem in tags_dict
-#                      tags_dict[elem] += 1
-#                 else
-#                     tags_dict[elem] = 1
+            for i, elem in enumerate(tags_list)
+                if elem in tags_dict
+                     tags_dict[elem] += 1
+                else
+                    tags_dict[elem] = 1
 
-#         if action is "sell":
-#             venue_dict[venue] -= 2
-#             loc_dict[location] -= 2
+        if action is "sell":
+            venue_dict[venue] -= 2
+            loc_dict[location] -= 2
         
-#         return True
-# """
+        return True
+
 
 
 
@@ -785,35 +745,6 @@ class Venue:
 
         return new_ticket
 
-    def createTickets(self, event, face_value, section, row, seat_nos):
-        """
-        Allows a Venue to create a multiple Tickets for one of its Events
-
-            event: Event object
-            face_value: int
-            section: string
-            row: string
-            seat_nos: list (int)
-
-        """
-        if not (section and row and seat_nos):
-            return []
-
-        # create seats
-        seats = []
-        for seat_no in seat_nos:
-            new_seat = Seat(section, row, seat_no)
-            if new_seat is not None and new_seat not in seats:
-                seats.append(new_seat)
-
-        # create tickets
-        tickets = []
-        for seat in seats:
-            ticket = createTicket(event, face_value, seat)
-            if ticket is not None:
-                tickets.append(ticket)
-
-        return tickets 
 
     def manageTickets(self, event, new_price, section, row, seat_num):
         # iteration 2
@@ -930,24 +861,10 @@ class Ticket:
     def mostRecentTransaction(self):
         """
         Find and return the most recent transaction that this Ticket
-        was involved in after performing validation and consensus checks
+        was involved in
         """
-        assert self.event is not None
-        valid_chains = self.event.rwValidation()
-        if not valid_chains:    # chain broken or nodes out of sync
-            print('ERROR: Blockchain for event #' +
-                  str(self.event.id) + 'is broken')
-            return None
-        # blockchains at both nodes are identical and unbroken
-        blockchain = self.event.blockchain    # "single version of the truth"
-        # ensure ticket history matches blockchain records
-        block, txn = blockchain.findRecentBlockTrans(self.ticket_num)
-        consensus = (self.history[-1] == (block.index, block.hash))
-        if consensus:
-            return txn
-
-        return None
-
+        # TO-DO: add three-way consensus check here in iteration 2
+        return self.event.blockchain.findRecentTrans(self.ticket_num)
 
     def listTicket(self, list_price, seller_id):
         """
