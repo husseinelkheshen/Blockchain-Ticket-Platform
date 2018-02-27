@@ -14,10 +14,10 @@ test_suite:
 
 # Run all unit tests
 unit_tests:
-	make back_end_unit_tests
+	make iter1_unittests
+	make iter2_unittests
 
-# Run back end unit tests
-back_end_unit_tests:
+iter1_unittests:
 	# Iteration 1
 	python3 -m pytest tests/back_end/Test_Chains_And_Mining.py
 	python3 -m pytest tests/back_end/Test_CreateTicket.py
@@ -33,8 +33,11 @@ back_end_unit_tests:
 	python3 -m pytest tests/back_end/Test_BuyTicket.py
 	python3 -m pytest tests/back_end/Test_UpgradeTicket.py
 	python3 -m pytest tests/back_end/Test_ListTicket.py
+
+iter2_unittests:
 	# Iteration 2
 	python3 -m pytest tests/back_end/Test_Search.py
+	python3 -m pytest tests/back_end/Test_CreateEvent.py
 
 # Delete all pytest cache files
 clean:

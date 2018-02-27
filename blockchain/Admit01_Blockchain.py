@@ -5,6 +5,7 @@ import pyqrcode as qr
 import re
 import string
 import operator
+import copy
 
 
 class Trackers:
@@ -707,10 +708,10 @@ class Venue:
         Allows a Venue to create an Event and save a clone of its blockchain
         """
         event = Event(name, datetime, desc)
-        if event is None:
+        if event.id is None:
             return None
         event.venue = self
-        venue.events[event.id] = (event, copy.deepcopy(event.blockchain))
+        self.events[event.id] = (event, copy.deepcopy(event.blockchain))
         return event
 
     def manageEvent(self, event, name, new_date, desc):
