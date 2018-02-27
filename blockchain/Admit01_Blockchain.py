@@ -643,7 +643,7 @@ class User:
 #         if action is "upgrade":
 #             venue_dict[venue] += 2
 #             loc_dict[location] += 3
-            
+
 #             for i, elem in enumerate(tags_list)
 #                 if elem in tags_dict
 #                      tags_dict[elem] += 1
@@ -653,7 +653,7 @@ class User:
 #         if action is "sell":
 #             venue_dict[venue] -= 2
 #             loc_dict[location] -= 2
-        
+
 #         return True
 # """
 
@@ -703,8 +703,15 @@ class Venue:
         pass
 
     def createEvent(self, name, datetime, desc):
-        # iteration 2
-        pass
+        """
+        Allows a Venue to create an Event and save a clone of its blockchain
+        """
+        event = Event(name, datetime, desc)
+        if event is None:
+            return None
+        event.venue = self
+        venue.events[event.id] = (event, copy.deepcopy(event.blockchain))
+        return event
 
     def manageEvent(self, event, name, new_date, desc):
         """
@@ -813,7 +820,7 @@ class Venue:
             if ticket is not None:
                 tickets.append(ticket)
 
-        return tickets 
+        return tickets
 
     def manageTickets(self, event, new_price, section, row, seat_num):
         # iteration 2
