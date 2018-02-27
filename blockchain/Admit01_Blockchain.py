@@ -360,6 +360,9 @@ class User:
         # subtract appropriate funds from user's wallet
         self.wallet -= ticket.list_price
 
+        # add to user's preferences
+        updatePreferences(self, ticket, "buy")
+
         # mark ticket as sold
         ticket.for_sale = False
 
@@ -464,6 +467,9 @@ class User:
         self.wallet -= (new_ticket.list_price - owned_ticket.list_price)
 
         # add appropriate funds to seller's wallet (iteration 2)
+
+        # add to user's preferences
+        updatePreferences(self, ticket, "upgrade")
 
         # mark old ticket as for sale, and new as sold
         owned_ticket.for_sale = True
@@ -874,6 +880,7 @@ class Ticket:
             seller_id: int
 
         """
+
         # confirm that whoever is trying to list the Ticket actually owns it
         mostRecentTrans = self.mostRecentTransaction()
         if mostRecentTrans is not None:
@@ -882,6 +889,12 @@ class Ticket:
             if valid_seller and list_price >= 0.00:
                 self.for_sale = True
                 self.list_price = list_price
+
+                # update user's preferences
+                user = Trackers.getUser(seller_id)
+                if user is not None
+                	updatePreferences(Trackers.getUser(seller_id), self, "sell")
+                	
             else:
                 print("invalid listing")
         else:
