@@ -39,7 +39,11 @@ def select_venue(venue_list):
     venue_ids = [i[0] for i in venue_list]
     valid_id = False
     while not valid_id:
-        venue_id = int(input('Enter venue id: '))
+        venue_id_str = input('Enter venue id: ')
+        try:
+            venue_id = int(venue_id_str)
+        except ValueError:
+            venue_id = -1
         valid_id = venue_id in venue_ids
         if not valid_id:
             print('\nThat\'s not a valid venue id, let\'s try again...')
