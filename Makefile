@@ -18,6 +18,7 @@ unit_tests:
 
 # Run back end unit tests
 back_end_unit_tests:
+	# Iteration 1
 	python3 -m pytest tests/back_end/Test_Chains_And_Mining.py
 	python3 -m pytest tests/back_end/Test_CreateTicket.py
 	python3 -m pytest tests/back_end/Test_Event.py
@@ -32,6 +33,8 @@ back_end_unit_tests:
 	python3 -m pytest tests/back_end/Test_BuyTicket.py
 	python3 -m pytest tests/back_end/Test_UpgradeTicket.py
 	python3 -m pytest tests/back_end/Test_ListTicket.py
+	# Iteration 2
+	python3 -m pytest tests/back_end/Test_Search.py
 
 # Delete all pytest cache files
 clean:
