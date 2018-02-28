@@ -30,11 +30,9 @@ event4 = Event("Lana Del Rey", valid_datetime4, "Pop music concert")
 event4.venue = venue2
 venue2.events[event4.id] = (event4, copy.deepcopy(event4.blockchain))
 
-user1 = User("Gina", "Yu", "gy@email.com")
-
 def test_allevents():
     """ An empty call to search() should return all Events """
-    search_results = user1.search()
+    search_results = User.search()
     assert len(search_results) == 4
     assert event1 in search_results
     assert event2 in search_results
@@ -43,7 +41,7 @@ def test_allevents():
 
 def test_textsearch():
     """ Run a search using a text-only query """
-    search_results = user1.search(text='pop music')
+    search_results = User.search(text='pop music')
     assert len(search_results) == 3
     assert event2 in search_results
     assert event3 in search_results
@@ -51,14 +49,14 @@ def test_textsearch():
 
 def test_locationsearch():
     """ Run a search by location """
-    search_results = user1.search(text='miami')
+    search_results = User.search(text='miami')
     assert len(search_results) == 2
     assert event3 in search_results
     assert event4 in search_results
 
 def test_compoundtextsearch():
     """ Run a search with description and location keywords """
-    search_results = user1.search(text='pop music miami')
+    search_results = User.search(text='pop music miami')
     assert len(search_results) == 3
     assert event2 in search_results
     assert event3 in search_results
@@ -66,14 +64,14 @@ def test_compoundtextsearch():
 
 def test_compoundtextsearch():
     """ Run a search with venue keywords """
-    search_results = user1.search(text='apollo theater')
+    search_results = User.search(text='apollo theater')
     assert len(search_results) == 2
     assert event1 in search_results
     assert event2 in search_results
 
 def test_uselessparameter():
     """ A search with date range but no datetime will ignore the range """
-    search_results = user1.search(text='pop', date_range=2)
+    search_results = User.search(text='pop', date_range=2)
     assert len(search_results) == 3
     assert event2 in search_results
     assert event3 in search_results
@@ -81,24 +79,24 @@ def test_uselessparameter():
 
 def test_datefilter():
     """ Run a search on a single date """
-    search_results = user1.search(datetime=valid_datetime1)
+    search_results = User.search(datetime=valid_datetime1)
     assert len(search_results) == 1
     assert event1 in search_results
 
 def test_daterange():
     """ Run a search on a date range """
-    search_results = user1.search(datetime=valid_datetime1, date_range=2)
+    search_results = User.search(datetime=valid_datetime1, date_range=2)
     assert len(search_results) == 2
     assert event1 in search_results
     assert event2 in search_results
 
 def test_compoundsearch():
     """ Run a search with all parameters filled """
-    search_results = user1.search('ellen', valid_datetime1 - timedelta(days=1), 4)
+    search_results = User.search('ellen', valid_datetime1 - timedelta(days=1), 4)
     assert len(search_results) == 1
     assert event1 in search_results
 
 def test_noresults():
     """ Run a search that returns no Events """
-    search_results = user1.search('hamilton new york')
+    search_results = User.search('hamilton new york')
     assert len(search_results) == 0

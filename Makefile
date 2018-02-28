@@ -2,13 +2,7 @@
 install:
 	pip3 install pyqrcode
 	pip3 install pypng
-	pip3 install nltk
-	pip3 install numpy
 	python3 -m pip install pytest
-	nltk.download('maxent_ne_chunker')
-	nltk.download('punkt')
-	nltk.download('averaged_perceptron_tagger')
-	nltk.download('words')
 
 # Run a comprehensive acceptance test
 acceptance_test:
@@ -44,9 +38,6 @@ iter2_unittests:
 	# Iteration 2
 	python3 -m pytest tests/back_end/Test_Search.py
 	python3 -m pytest tests/back_end/Test_CreateEvent.py
-	python3 -m pytest tests/back_end/Test_Explore.py
-	python3 -m pytest tests/back_end/Test_ChunkTags.py
-	python3 -m pytest tests/back_end/Test_UpdatePreferences.py
 
 # Delete all pytest cache files
 clean:
