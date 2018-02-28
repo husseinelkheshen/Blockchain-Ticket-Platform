@@ -160,8 +160,8 @@ def test_venue_pref2():
 	assert testEvent22 in eventsList
 	assert testEvent23 in eventsList
 
-def test_tags_pref1():
+def test_description_pref1():
 	pass
 
-def test_tags_pref2():
+def test_description_pref2():
 	pass

@@ -46,6 +46,7 @@ iter2_unittests:
 	python3 -m pytest tests/back_end/Test_CreateEvent.py
 	python3 -m pytest tests/back_end/Test_Explore.py
 	python3 -m pytest tests/back_end/Test_ChunkTags.py
+	python3 -m pytest tests/back_end/Test_UpdatePreferences.py
 
 # Delete all pytest cache files
 clean:
