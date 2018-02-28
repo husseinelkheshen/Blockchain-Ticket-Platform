@@ -1100,8 +1100,21 @@ class Ticket:
         Returns a Transaction object
 
         """
-        # TO-DO: add three-way consensus check here in iteration 2
-        return self.event.blockchain.findRecentTrans(self.ticket_num)
+        assert self.event is not None
+        valid_chains = self.event.rwValidation()
+        if not valid_chains:    # chain broken or nodes out of sync
+            print('ERROR: Blockchain for event #' +
+                  str(self.event.id) + 'is broken')
+            return None
+        # blockchains at both nodes are identical and unbroken
+        blockchain = self.event.blockchain    # "single version of the truth"
+        # ensure ticket history matches blockchain records
+        block, txn = blockchain.findRecentBlockTrans(self.ticket_num)
+        consensus = (self.history[-1] == (block.index, block.hash))
+        if consensus:
+            return txn
+
+        return None
 
     def listTicket(self, list_price, seller_id):
         """
