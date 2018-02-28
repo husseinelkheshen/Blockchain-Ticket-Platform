@@ -2,6 +2,7 @@
 install:
 	pip3 install pyqrcode
 	pip3 install pypng
+	pip3 install nltk
 	python3 -m pip install pytest
 
 # Run a comprehensive acceptance test

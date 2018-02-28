@@ -24,10 +24,14 @@ testEvent11 = testVenue2.createEvent("Zero 7", testDatetime, "this is also a ban
 testUser1 = User("Hello", "World", "abcedfg@uchicago.edu")
 testUser1.preferences.update({"New York City, New York":5, "Chicago, IL":1})
 
-testUser2 = User("Abraham", "Lincoln", "fourscore@uchicago.edu")
+# testUser2 = User("Abraham", "Lincoln", "fourscore@uchicago.edu")
 
-testUser3 = User("John", "Doe", "jdoe@uchicago.edu")
-testUser3.preferences.update({"New York City, New York":6, "Chicago, IL":5, "Regenstein":1,
+testUser3 = User("John", "Doe", "johndoe@uchicago.edu")
+testUser3.preferences.update({"New York City, New York":6, "Chicago, IL":6, "Regenstein":1,
+							  "Washington Square Park":1, "Maroon 5":2, "Zero 7":1})
+
+testUser4 = User("Jane", "Doe", "janedoe@uchicago.edu")
+testUser4.preferences.update({"New York City, New York":5, "Chicago, IL":6, "Regenstein":1,
 							  "Washington Square Park":1, "Maroon 5":2, "Zero 7":1})
 
 def test_eventslistsize():
@@ -36,17 +40,17 @@ def test_eventslistsize():
 	"""
 	assert len(testUser1.explore()) == 10
 
-def test_addtags():
-	"""
-	Make sure tags are being added to user's preferences based on each suggested event
-	"""
-	testUser2.explore()
-	assert "New York City, New York" in testUser2.preferences
-	assert "Chicago, IL" in testUser2.preferences
-	assert "Regenstein" in testUser2.preferences
-	assert "Washington Square Park" in testUser2.preferences
-	assert "Maroon 5" in testUser2.preferences
-	assert "Zero 7" in testUser2.preferences
+# def test_addtags():
+# 	"""
+# 	Make sure tags are being added to user's preferences based on each suggested event
+# 	"""
+# 	testUser2.explore()
+# 	assert "New York City, New York" in testUser2.preferences
+# 	assert "Chicago, IL" in testUser2.preferences
+# 	assert "Regenstein" in testUser2.preferences
+# 	assert "Washington Square Park" in testUser2.preferences
+# 	assert "Maroon 5" in testUser2.preferences
+# 	assert "Zero 7" in testUser2.preferences
 
 def test_usingpreferences1():
 	"""
