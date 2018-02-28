@@ -6,7 +6,9 @@ import copy
 
 valid_datetime = datetime.now() + timedelta(days=7) # one week from now
 venue1 = Venue("Wrigley Field", "Chicago, IL")
-event1 = Event("Lady Gaga", valid_datetime, "Stadium world tour")
+desc = "Lady Gaga in Chicago for the stadium world tour"
+description_list = chunkTags(desc)
+event1 = Event("Lady Gaga", valid_datetime, desc)
 event1.venue = venue1
 seat1 = Seat("Floor Center", "G", 23)
 venue1.events[event1.id] = (event1, copy.deepcopy(event1.blockchain))
@@ -31,6 +33,12 @@ def test_venuepref_insertion():
 
 def test_descriptionpref_insertion():
 """ Test insertion of tags list into description_pref dictionary """
+	success = 0
+	n = len(description_list)
+    for i, elem in enumerate(description_list):
+        if elem in description_dict:
+            success += 1
+    assert(success = n)
 
 
 def test_buyTicket_insertion():
@@ -45,8 +53,13 @@ def test_upgradeTicket_insertion():
 
 def test_search_insertion():
 """ Test insertion of preferences when user searches """
-
-
+	user1.search(desc)
+	success = 0
+	n = len(description_list)
+    for i, elem in enumerate(description_list):
+        if elem in description_dict:
+            success += 1
+    assert(success = n)
 
 
 
