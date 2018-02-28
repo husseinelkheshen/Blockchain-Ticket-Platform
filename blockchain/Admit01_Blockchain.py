@@ -5,8 +5,7 @@ import pyqrcode as qr
 import re
 import string
 import operator
-from nltk import ne_chunk, pos_tag, word_tokenize
-from nltk.tree import Tree
+
 
 
 class Trackers:
@@ -582,9 +581,9 @@ class User:
         """
         Updates preferences in a user's preferences dictionary
 
-        ticket: the ticket being purchased or sold when fn is called
-        action: string indicating buy, upgrade, or search
-        text: plaintext to be parsed for tags if 
+            ticket: the ticket being purchased or sold when fn is called
+            action: string indicating buy, upgrade, or search
+            text: plaintext to be parsed for tags if 
 
         """
         description_dict = self.description_pref
@@ -597,40 +596,40 @@ class User:
             description_list = chunkTags(ticket.event.desc)
 
             if action is "buy":
-                if venue in venue_dict
+                if venue in venue_dict:
                     venue_dict[venue] += 3
-                else
+                else:
                     venue_dict[venue] = 3
 
-                if location in loc_dict
+                if location in loc_dict:
                     loc_dict[location] += 3
-                else
+                else:
                     loc_dict[location] = 3
 
-                for i, elem in enumerate(description_list)
-                    if elem in description_dict
+                for i, elem in enumerate(description_list):
+                    if elem in description_dict:
                          description_dict[elem] += 3
-                    else
+                    else:
                         description_dict[elem] = 3
 
             if action is "upgrade":
                 venue_dict[venue] += 2
                 loc_dict[location] += 2
                 
-                for i, elem in enumerate(description_list)
-                    if elem in description_dict
+                for i, elem in enumerate(description_list):
+                    if elem in description_dict:
                          description_dict[elem] += 2
-                    else
+                    else:
                         description_dict[elem] = 2
 
-        else if action is "search" and text: 
+        if action is "search" and text: 
             description_list = chunkTags(text)
-            for i, elem in enumerate(description_list)
-                if elem in description_dict
+            for i, elem in enumerate(description_list):
+                if elem in description_dict:
                      description_dict[elem] += 1
-                else
+                else:
                     description_dict[elem] = 1
-        else
+        else:
             return False
 
         return True
