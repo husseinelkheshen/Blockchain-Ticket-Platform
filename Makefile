@@ -5,6 +5,10 @@ install:
 	pip3 install nltk
 	pip3 install numpy
 	python3 -m pip install pytest
+	nltk.download('maxent_ne_chunker')
+	nltk.download('punkt')
+	nltk.download('averaged_perceptron_tagger')
+	nltk.download('words')
 
 # Run a comprehensive acceptance test
 acceptance_test:
@@ -21,25 +25,25 @@ unit_tests:
 
 iter1_unittests:
 	# Iteration 1
-	python3 -m pytest tests/back_end/Test_Chains_And_Mining.py
-	python3 -m pytest tests/back_end/Test_CreateTicket.py
-	python3 -m pytest tests/back_end/Test_Event.py
-	python3 -m pytest tests/back_end/Test_Seat.py
-	python3 -m pytest tests/back_end/Test_Trackers.py
-	python3 -m pytest tests/back_end/Test_User.py
-	python3 -m pytest tests/back_end/Test_Venue.py
-	python3 -m pytest tests/back_end/Test_GetOwnedTickets.py
-	python3 -m pytest tests/back_end/Test_Transaction.py
-	python3 -m pytest tests/back_end/Test_BlockChain.py
-	python3 -m pytest tests/back_end/Test_Ticket.py
-	python3 -m pytest tests/back_end/Test_BuyTicket.py
-	python3 -m pytest tests/back_end/Test_UpgradeTicket.py
-	python3 -m pytest tests/back_end/Test_ListTicket.py
+	# python3 -m pytest tests/back_end/Test_Chains_And_Mining.py
+	# python3 -m pytest tests/back_end/Test_CreateTicket.py
+	# python3 -m pytest tests/back_end/Test_Event.py
+	# python3 -m pytest tests/back_end/Test_Seat.py
+	# python3 -m pytest tests/back_end/Test_Trackers.py
+	# python3 -m pytest tests/back_end/Test_User.py
+	# python3 -m pytest tests/back_end/Test_Venue.py
+	# python3 -m pytest tests/back_end/Test_GetOwnedTickets.py
+	# python3 -m pytest tests/back_end/Test_Transaction.py
+	# python3 -m pytest tests/back_end/Test_BlockChain.py
+	# python3 -m pytest tests/back_end/Test_Ticket.py
+	# python3 -m pytest tests/back_end/Test_BuyTicket.py
+	# python3 -m pytest tests/back_end/Test_UpgradeTicket.py
+	# python3 -m pytest tests/back_end/Test_ListTicket.py
 
 iter2_unittests:
 	# Iteration 2
-	python3 -m pytest tests/back_end/Test_Search.py
-	python3 -m pytest tests/back_end/Test_CreateEvent.py
+	# python3 -m pytest tests/back_end/Test_Search.py
+	# python3 -m pytest tests/back_end/Test_CreateEvent.py
 	python3 -m pytest tests/back_end/Test_Explore.py
 	python3 -m pytest tests/back_end/Test_ChunkTags.py
 

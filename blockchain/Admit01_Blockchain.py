@@ -10,10 +10,6 @@ import copy
 #from nltk.tree import Tree
 import numpy
 import nltk
-nltk.download('maxent_ne_chunker')
-nltk.download('punkt')
-nltk.download('averaged_perceptron_tagger')
-nltk.download('words')
 
 
 class Trackers:
@@ -692,8 +688,8 @@ class User:
             taglist = self.chunkTags(event.desc)
 
             for tag in taglist:
-                if tag in self.description_pref:
-                    score += (self.description_pref[tag] * tagx)
+                if tag in self.tags_pref:
+                    score += (self.tags_pref[tag] * tagx)
 
             recommendations[event] = score
 
