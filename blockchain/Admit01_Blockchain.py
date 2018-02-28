@@ -601,99 +601,10 @@ class User:
         # sort search results by score
         search_results.sort(key=operator.itemgetter(1), reverse=True)
         return [result[0] for result in search_results]
-
-    @staticmethod
-    def chunkTags(text):
-        """
-        Function for identifying tags such as names and placenames from
-        a body of text
-
-        Utilized by explore and updatePreferences for tagging
-
-            text: a string (body of text)
-
-        Returns a list of tags
-
-        """
-        chunks = ne_chunk(pos_tag(word_tokenize(text)))
-        prev = None
-        continuous_chunk = []
-        current_chunk = []
-
-        for i in chunked:
-            if type(i) == Tree:
-                current_chunk.append(" ".join([token for token, pos in i.leaves()]))
-            elif current_chunk:
-                named_entity = " ".join(current_chunk)
-                if named_entity not in continuous_chunk:
-                    continuous_chunk.append(named_entity)
-                    current_chunk = []
-            else:
-                continue
-
-        if continuous_chunk:
-            named_entity = " ".join(current_chunk)
-            if named_entity not in continuous_chunk:
-                continuous_chunk.append(named_entity)
-
-        return continuous_chunk
-
+z
     def explore(self):
-        """
-    	An event discovery function based on user preferences
-
-        Returns a list of 10 recommended event
-
-    	"""
-
-    	# initialize list for active events
-    	active_events = []
-
-    	# get list of all active events
-    	for city in Trackers.registered_venues:
-    		for name in Trackers.registered_venues[city]:
-    			venue = Trackers.registered_venues[city][name]
-    			for event_id in venue.events:
-    				event = venue.events[event_id][0]
-    				# check to see if event is occuring in the future
-    				if date.datetime.now() < event.datetime:
-    					active_events.append(event)
-
-    	# if fewer than 10 events exist, return all
-    	if len(active_events) < 10:
-    		return active_events
-
-    	# initialize dictionary of recommendations {event:score}
-    	recommendations = {}
-
-    	# calculate event scores for each active event based on preferences
-    	for event in active_events:
-    		locationx = 10
-    		namex = 5
-    		tagx = 1
-    		score = 0
-
-    		location = event.venue.location
-    		if location in self.location_pref:
-    			score += self.location_pref[location] * locationx
-
-    		name = event.name
-    		if name in self.name_pref:
-    			score += self.name_pref[name] * namex
-
-    		taglist = chunkTags(event.description)
-
-    		for tag in taglist:
-    			if tag in self.description_pref:
-    				score += self.description_pref[tag] * tagx
-
-    		recommendations[event] = score
-
-    	top_recommendations = sorted(recommendations,
-    								 key=recommendations.get,
-    								 reverse=True)[:10]
-
-    	return top_recommendations
+        # iteration 2
+        pass
 
     def generateTicketCode(self, venue, event, ticket):
         """
