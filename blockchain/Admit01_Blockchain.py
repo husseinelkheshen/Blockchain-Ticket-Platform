@@ -601,7 +601,7 @@ class User:
         # sort search results by score
         search_results.sort(key=operator.itemgetter(1), reverse=True)
         return [result[0] for result in search_results]
-z
+
     def explore(self):
         # iteration 2
         pass
