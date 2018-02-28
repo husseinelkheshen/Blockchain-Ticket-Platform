@@ -363,7 +363,7 @@ class User:
         self.wallet -= ticket.list_price
 
         # add to user's preferences
-        updatePreferences(self, ticket, "buy")
+        updatePreferences(self, ticket, "buy", None)
 
         # mark ticket as sold
         ticket.for_sale = False
@@ -471,7 +471,7 @@ class User:
         # add appropriate funds to seller's wallet (iteration 2)
 
         # add to user's preferences
-        updatePreferences(self, ticket, "upgrade")
+        updatePreferences(self, ticket, "upgrade", None)
 
         # mark old ticket as for sale, and new as sold
         owned_ticket.for_sale = True
@@ -515,6 +515,9 @@ class User:
 
         if not text:
             return filtered_events
+
+        # update a user's preferences based on what they search for
+        updatePreferences(self, None, "search", text) 
 
         # apple the text filter
         search_results = []    # each entry a tuple of (event, score)
@@ -575,79 +578,62 @@ class User:
             tickets.append(ticket.ticket_num)
         return tickets
     
-    def updatePreferences(self, ticket, action):
+    def updatePreferences(self, ticket, action, text):
         """
         Updates preferences in a user's preferences dictionary
 
         ticket: the ticket being purchased or sold when fn is called
-        action: string indicating buy, sell or upgrade
+        action: string indicating buy, upgrade, or search
+        text: plaintext to be parsed for tags if 
 
         """
-        venue = ticket.event.venue
-        loc = venue.location
-        description_list = get_continuous_chunks(ticket.event.desc)
-
         description_dict = self.description_pref
         loc_dict = self.location_pref
         venue_dict = self.venue_pref
 
-        if action is "buy":
-            if venue in venue_dict
-                venue_dict[venue] += 3
-            else
-                venue_dict[venue] = 3
+        if text is None and ticket and action is not "search":
+            venue = ticket.event.venue
+            loc = venue.location
+            description_list = chunkTags(ticket.event.desc)
 
-            if location in loc_dict
-                loc_dict[location] += 3
-            else
-                loc_dict[location] = 3
+            if action is "buy":
+                if venue in venue_dict
+                    venue_dict[venue] += 3
+                else
+                    venue_dict[venue] = 3
 
+                if location in loc_dict
+                    loc_dict[location] += 3
+                else
+                    loc_dict[location] = 3
+
+                for i, elem in enumerate(description_list)
+                    if elem in description_dict
+                         description_dict[elem] += 3
+                    else
+                        description_dict[elem] = 3
+
+            if action is "upgrade":
+                venue_dict[venue] += 2
+                loc_dict[location] += 2
+                
+                for i, elem in enumerate(description_list)
+                    if elem in description_dict
+                         description_dict[elem] += 2
+                    else
+                        description_dict[elem] = 2
+
+        else if action is "search" and text: 
+            description_list = chunkTags(text)
             for i, elem in enumerate(description_list)
                 if elem in description_dict
-                     description_dict[elem] += 3
+                     description_dict[elem] += 1
                 else
-                    description_dict[elem] = 3
+                    description_dict[elem] = 1
+        else
+            return False
 
-        if action is "upgrade":
-            venue_dict[venue] += 2
-            loc_dict[location] += 2
-            
-            for i, elem in enumerate(description_list)
-                if elem in description_dict
-                     description_dict[elem] += 2
-                else
-                    description_dict[elem] = 2
-
-        # if action is "search":
-        #     venue_dict[venue] += 2
-        #     loc_dict[location] = 2
-        
         return True
-
-    @staticmethod
-    def get_continuous_chunks(text):
-    chunked = ne_chunk(pos_tag(word_tokenize(text)))
-    prev = None
-    continuous_chunk = []
-    current_chunk = []
-
-    for i in chunked:
-        if type(i) == Tree:
-            current_chunk.append(" ".join([token for token, pos in i.leaves()]))
-        elif current_chunk:
-            named_entity = " ".join(current_chunk)
-            if named_entity not in continuous_chunk:
-                continuous_chunk.append(named_entity)
-                current_chunk = []
-        else:
-            continue
-
-    if continuous_chunk:
-        named_entity = " ".join(current_chunk)
-        if named_entity not in continuous_chunk:
-            continuous_chunk.append(named_entity)
-
-    return continuous_chunk
 
 
 
