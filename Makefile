@@ -20,7 +20,7 @@ unit_tests:
 	make iter2_unittests
 
 iter1_unittests:
-	Iteration 1
+	# Iteration 1
 	python3 -m pytest tests/back_end/Test_Chains_And_Mining.py
 	python3 -m pytest tests/back_end/Test_CreateTicket.py
 	python3 -m pytest tests/back_end/Test_Event.py
@@ -37,7 +37,7 @@ iter1_unittests:
 	python3 -m pytest tests/back_end/Test_ListTicket.py
 
 iter2_unittests:
-	Iteration 2
+	# Iteration 2
 	python3 -m pytest tests/back_end/Test_Search.py
 	python3 -m pytest tests/back_end/Test_CreateEvent.py
 	python3 -m pytest tests/back_end/Test_Explore.py
