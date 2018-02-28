@@ -619,8 +619,8 @@ class User:
                     description_dict[elem] = 2
 
         # if action is "search":
-        #     venue_dict[venue] -= 2
-        #     loc_dict[location] -= 2
+        #     venue_dict[venue] += 2
+        #     loc_dict[location] = 2
         
         return True
 
