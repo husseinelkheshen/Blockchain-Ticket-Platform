@@ -175,39 +175,41 @@ class Chain:
         self.blocks = []    # no need for a genesis block here
         self.prev_hashes = []
 
-    def findRecentTrans(self, ticket_id):
-        """
-        Finds the most recent transaction in which a given ticket
-        was involved
+        def findRecentBlockTrans(self, ticket_id):
+            """
+            Finds the most recent block and transaction in which a given ticket
+            was involved
 
-            ticket_id: int
+                ticket_id: int
 
-        Returns Block object, Transaction object
+            Returns Block object, Transaction object
 
-        """
-        recentTrans = None
+            """
+            recentBlock = None
+            recentTrans = None
 
-        chainlength = len(self.blocks)
-        foundTrans = False
-        # assert(chainlength == 2)
+            chainlength = len(self.blocks)
+            foundTrans = False
 
-        if chainlength != 0:
-            block = -1
-            while abs(block) <= chainlength:
-                translength = len(self.blocks[block].data)
-                trans = -1
-                while abs(trans) <= translength:
-                    if self.blocks[block].data[trans].ticket_num == ticket_id:
-                        recentTrans = self.blocks[block].data[trans]
-                        foundTrans = True
+            if chainlength != 0:
+                block = -1
+                while abs(block) <= chainlength:
+                    translength = len(self.blocks[block].data)
+                    trans = -1
+                    while abs(trans) <= translength:
+                        this_block = self.blocks[block]
+                        if this_block.data[trans].ticket_num == ticket_id:
+                            recentBlock = this_block
+                            recentTrans = this_block.data[trans]
+                            foundTrans = True
+                            break
+                        trans -= 1
+
+                    if foundTrans:
                         break
-                    trans -= 1
+                    block -= 1
 
-                if foundTrans:
-                    break
-                block -= 1
-
-        return recentTrans
+            return recentBlock, recentTrans
 
     def mineNewBlock(self, otherchains):
         """
