@@ -29,12 +29,12 @@ testUser1.location_pref.update({"New York City, New York":5, "Chicago, IL":1})
 testUser3 = User("John", "Doe", "johndoe@uchicago.edu")
 testUser3.location_pref.update({"New York City, New York":7, "Chicago, IL":6})
 testUser3.venue_pref.update({"Regenstein":1, "Washington Square Park":1})
-testUser3.tags_pref.update({"Maroon 5":0, "Zero 7":2})
+testUser3.description_pref.update({"Maroon 5":0, "Zero 7":2})
 
 testUser4 = User("Jane", "Doe", "janedoe@uchicago.edu")
 testUser4.location_pref.update({"New York City, New York":5, "Chicago, IL":6})
 testUser4.venue_pref.update({"Regenstein":1, "Washington Square Park":1})
-testUser4.tags_pref.update({"Maroon 5":2, "Zero 7":0})
+testUser4.description_pref.update({"Maroon 5":2, "Zero 7":0})
 
 def test_eventslistsize():
 	"""
