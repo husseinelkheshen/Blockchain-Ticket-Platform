@@ -45,7 +45,7 @@ class Trackers:
 
         """
         if venue_id is None or venue_id < 0:
-            return False
+            return None
 
         venues = Trackers.registered_venues
         for city in venues:
@@ -72,7 +72,7 @@ class Trackers:
         for email in users:
             if user_id == users[email].id:
                 return users[email]
-        return False
+        return None
 
 
     @staticmethod
@@ -544,7 +544,7 @@ class User:
 
             ticket: the ticket being purchased or sold when fn is called
             action: string indicating buy, upgrade, or search
-            text: plaintext to be parsed for tags if 
+            text: plaintext to be parsed for tags if
 
         """
         description_dict = self.description_pref
@@ -576,14 +576,14 @@ class User:
             if action is "upgrade":
                 venue_dict[venue] += 2
                 loc_dict[loc] += 2
-                
+
                 for i, elem in enumerate(description_list):
                     if elem in description_dict:
                          description_dict[elem] += 2
                     else:
                         description_dict[elem] = 2
 
-        if action is "search" and text: 
+        if action is "search" and text:
             description_list = self.chunkTags(text)
             for i, elem in enumerate(description_list):
                 if elem in description_dict:
@@ -633,7 +633,7 @@ class User:
             return filtered_events
 
         # update a user's preferences based on what they search for
-        self.updatePreferences(None, "search", text) 
+        self.updatePreferences(None, "search", text)
 
         # apple the text filter
         search_results = []    # each entry a tuple of (event, score)
