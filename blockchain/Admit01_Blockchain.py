@@ -544,7 +544,7 @@ class User:
 
             ticket: the ticket being purchased or sold when fn is called
             action: string indicating buy, upgrade, or search
-            text: plaintext to be parsed for tags if 
+            text: plaintext to be parsed for tags if
 
         """
         description_dict = self.description_pref
@@ -576,14 +576,14 @@ class User:
             if action is "upgrade":
                 venue_dict[venue] += 2
                 loc_dict[loc] += 2
-                
+
                 for i, elem in enumerate(description_list):
                     if elem in description_dict:
                          description_dict[elem] += 2
                     else:
                         description_dict[elem] = 2
 
-        if action is "search" and text: 
+        if action is "search" and text:
             description_list = self.chunkTags(text)
             for i, elem in enumerate(description_list):
                 if elem in description_dict:
@@ -633,7 +633,7 @@ class User:
             return filtered_events
 
         # update a user's preferences based on what they search for
-        self.updatePreferences(None, "search", text) 
+        self.updatePreferences(None, "search", text)
 
         # apple the text filter
         search_results = []    # each entry a tuple of (event, score)
@@ -737,8 +737,8 @@ class User:
             taglist = self.chunkTags(event.desc)
 
             for tag in taglist:
-                if tag in self.tags_pref:
-                    score += (self.tags_pref[tag] * tagx)
+                if tag in self.description_pref:
+                    score += (self.description_pref[tag] * tagx)
 
             recommendations[event] = score
 
