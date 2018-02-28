@@ -22,13 +22,19 @@ testEvent11 = testVenue2.createEvent("Zero 7", testDatetime, "this is also a ban
 
 # To Note - simple weights are introduced to allow for proper testing of preferences
 testUser1 = User("Hello", "World", "abcedfg@uchicago.edu")
-testUser1.preferences.update({"New York City, New York":5, "Chicago, IL":1})
+testUser1.location_pref.update({"New York City, New York":5, "Chicago, IL":1})
 
-testUser2 = User("Abraham", "Lincoln", "fourscore@uchicago.edu")
+# testUser2 = User("Abraham", "Lincoln", "fourscore@uchicago.edu")
 
-testUser3 = User("John", "Doe", "jdoe@uchicago.edu")
-testUser3.preferences.update({"New York City, New York":6, "Chicago, IL":5, "Regenstein":1,
-							  "Washington Square Park":1, "Maroon 5":2, "Zero 7":1})
+testUser3 = User("John", "Doe", "johndoe@uchicago.edu")
+testUser3.location_pref.update({"New York City, New York":7, "Chicago, IL":6})
+testUser3.venue_pref.update({"Regenstein":1, "Washington Square Park":1})
+testUser3.tags_pref.update({"Maroon 5":0, "Zero 7":2})
+
+testUser4 = User("Jane", "Doe", "janedoe@uchicago.edu")
+testUser4.location_pref.update({"New York City, New York":5, "Chicago, IL":6})
+testUser4.venue_pref.update({"Regenstein":1, "Washington Square Park":1})
+testUser4.tags_pref.update({"Maroon 5":2, "Zero 7":0})
 
 def test_eventslistsize():
 	"""
@@ -36,21 +42,21 @@ def test_eventslistsize():
 	"""
 	assert len(testUser1.explore()) == 10
 
-def test_addtags():
-	"""
-	Make sure tags are being added to user's preferences based on each suggested event
-	"""
-	testUser2.explore()
-	assert "New York City, New York" in testUser2.preferences
-	assert "Chicago, IL" in testUser2.preferences
-	assert "Regenstein" in testUser2.preferences
-	assert "Washington Square Park" in testUser2.preferences
-	assert "Maroon 5" in testUser2.preferences
-	assert "Zero 7" in testUser2.preferences
+# def test_addtags():
+# 	"""
+# 	Make sure tags are being added to user's preferences based on each suggested event
+# 	"""
+# 	testUser2.explore()
+# 	assert "New York City, New York" in testUser2.preferences
+# 	assert "Chicago, IL" in testUser2.preferences
+# 	assert "Regenstein" in testUser2.preferences
+# 	assert "Washington Square Park" in testUser2.preferences
+# 	assert "Maroon 5" in testUser2.preferences
+# 	assert "Zero 7" in testUser2.preferences
 
-def test_usingpreferences1():
+def test_location_pref1():
 	"""
-	Make sure the events which are added to list are those which most agree with user preferences
+	Test recommendation agreement with user preferences for location
 	"""
 	eventsList = testUser3.explore()
 	assert testEvent1 in eventsList
@@ -65,7 +71,7 @@ def test_usingpreferences1():
 	assert testEvent11 in eventsList
 	assert testEvent10 not in eventsList
 
-def test_usingpreferences2():
+def test_location_pref2():
 	"""
 	Similar to above but using a different equivalence class to ensure full testing
 	"""
@@ -81,3 +87,8 @@ def test_usingpreferences2():
 	assert testEvent9 in eventsList
 	assert testEvent10 in eventsList
 	assert testEvent11 not in eventsList
+
+	"""
+	TODO: test venue preferences with 2+ equivalence classes
+			test tag preferences with 2+ equivalence classes
+	"""
