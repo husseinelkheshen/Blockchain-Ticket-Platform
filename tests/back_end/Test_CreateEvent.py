@@ -28,7 +28,7 @@ def test_indictionary():
 
 def test_indictionary3():
 	""" Event should not be created and stored in a Venue's events dictionary """
-	assert (event2.id not in venue1.events.keys())
+	assert len(venue1.events) == 1
 
 def test_venueattribute1():
 	""" Event's venue attribute should match the venue creating it """
@@ -36,18 +36,8 @@ def test_venueattribute1():
 
 def test_badname():
     """ Nameless Event should not construct """
-    assert (event2.id is None and
-            event2.name is None and
-            event2.datetime is None and
-            event2.desc is None)
+    assert event2 is None
 
 def test_baddatetime():
     """ Past-dated Event should not construct """
-    assert (event3.id is None and
-            event3.name is None and
-            event3.datetime is None and
-            event3.desc is None)
-
-
-
-
+    assert event3 is None

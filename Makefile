@@ -2,6 +2,8 @@
 install:
 	pip3 install pyqrcode
 	pip3 install pypng
+	pip3 install nltk
+	pip3 install numpy
 	python3 -m pip install pytest
 
 # Run a comprehensive acceptance test
@@ -14,10 +16,11 @@ test_suite:
 
 # Run all unit tests
 unit_tests:
-	make back_end_unit_tests
+	make iter1_unittests
+	make iter2_unittests
 
-# Run back end unit tests
-back_end_unit_tests:
+iter1_unittests:
+	# Iteration 1
 	python3 -m pytest tests/back_end/Test_Chains_And_Mining.py
 	python3 -m pytest tests/back_end/Test_CreateTicket.py
 	python3 -m pytest tests/back_end/Test_Event.py
@@ -32,6 +35,14 @@ back_end_unit_tests:
 	python3 -m pytest tests/back_end/Test_BuyTicket.py
 	python3 -m pytest tests/back_end/Test_UpgradeTicket.py
 	python3 -m pytest tests/back_end/Test_ListTicket.py
+
+iter2_unittests:
+	# Iteration 2
+	python3 -m pytest tests/back_end/Test_Search.py
+	python3 -m pytest tests/back_end/Test_CreateEvent.py
+	python3 -m pytest tests/back_end/Test_ManageEvent.py
+	python3 -m pytest tests/back_end/Test_VenueTickets.py
+	python3 -m pytest tests/back_end/Test_ManageTickets.py
 
 # Delete all pytest cache files
 clean:

@@ -39,7 +39,11 @@ def select_venue(venue_list):
     venue_ids = [i[0] for i in venue_list]
     valid_id = False
     while not valid_id:
-        venue_id = int(input('Enter venue id: '))
+        venue_id_str = input('Enter venue id: ')
+        try:
+            venue_id = int(venue_id_str)
+        except ValueError:
+            venue_id = -1
         valid_id = venue_id in venue_ids
         if not valid_id:
             print('\nThat\'s not a valid venue id, let\'s try again...')
@@ -75,7 +79,11 @@ def select_event(venue):
     print('\nPlease select an event to explore further.')
     valid_id = False
     while not valid_id:
-        e_id = int(input('Enter event id: '))
+        e_id_str = input('Enter event id: ')
+        try:
+            e_id = int(e_id_str)
+        except ValueError:
+            e_id = -1
         valid_id = e_id in venue.events
         if not valid_id:
             print('\nThat\'s not a valid event id, let\'s try again...')
@@ -106,13 +114,21 @@ def create_tickets(venue, event):
         while not seat_selected:
             section = str(input('\nWhat section is the seat in? (e.g. Mezzanine, GA): '))
             row = str(input('What row is the seat in? (A string, e.g. C, H, AA): '))
-            seat_no = int(input('What is the seat number? (An int): '))
+            seat_no_str = input('What is the seat number? (An int): ')
+            try:
+                seat_no = int(seat_no_str)
+            except ValueError:
+                seat_no = -1
             seat = Seat(section, row, seat_no)
             seat_selected = seat.section is not None
             if not seat_selected:
                 print('Whoops, something went wrong. Let\'s try that again...')
         print('\nSplendid. How much will this ticket cost?')
-        face_value = float(input('Enter face value: $'))
+        face_value_str = input('Enter face value: $')
+        try:
+            face_value = float(face_value_str)
+        except ValueError:
+            face_value = -1
         print('\nPlease wait, we\'re doing blockchain stuff.')
         print('Currently mining new blocks...')
         ticket = venue.createTicket(event, face_value, seat)
@@ -204,7 +220,11 @@ def buy_a_ticket(event, user):
     ticket_nums = [ticket.ticket_num for ticket in event.tickets if ticket.isForSale()]
     ticket_num = -1
     while ticket_num not in ticket_nums:
-        ticket_num = int(input('Enter ticket ID: '))
+        ticket_num_str = input('Enter ticket ID: ')
+        try:
+            ticket_num = int(ticket_num_str)
+        except ValueError:
+            ticket_num = -1
         if ticket_num not in ticket_nums:
             print('\nWhoa! That\'s not a legit ticket ID to buy. Try again...')
     print('\nNice choice. Now let\'s buy that ticket.')
@@ -251,7 +271,11 @@ def upgrade_ticket(event, user_ticket, user):
     ticket_nums = [ticket.ticket_num for ticket in event.tickets if ticket.isForSale()]
     ticket_num = -1
     while ticket_num not in ticket_nums:
-        ticket_num = int(input('Enter ticket ID: '))
+        ticket_num_str = input('Enter ticket ID: ')
+        try:
+            ticket_num = int(ticket_num_str)
+        except ValueError:
+            ticket_num = -1
         if ticket_num not in ticket_nums:
             print('\nWhoa! That ticket is not for sale. Try again...')
         else:

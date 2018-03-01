@@ -83,34 +83,38 @@ def test_notrans():
             block7.prev_hash is None and
             block7.hash is None)
 
-chaintrans0 = event1.blockchain.findRecentTrans(0) # failure
+chainblock0, chaintrans0 = event1.blockchain.findRecentBlockTrans(0) # failure
 
 event1.blockchain.blocks.append(block2)
 
-chaintrans1 = event1.blockchain.findRecentTrans(1) # success
-chaintrans2 = event1.blockchain.findRecentTrans(0) # failure
+chainblock1, chaintrans1 = event1.blockchain.findRecentBlockTrans(1) # success
+chainblock2, chaintrans2 = event1.blockchain.findRecentBlockTrans(0) # failure
 
 event1.blockchain.blocks.append(block3)
 
-chaintrans3 = event1.blockchain.findRecentTrans(1)
+chainblock3, chaintrans3 = event1.blockchain.findRecentBlockTrans(1) # success
 
 
 def test_noblocks():
     """ Tests that return value is None if Chain has no Blocks """
     assert chaintrans0 is None
+    assert chainblock0 is None
 
 def test_listofone():
     """ Tests that return value is correct if Chain has one Block with relevant ticket_id """
     assert (chaintrans1.target == user1.id and
             chaintrans1.source == user2.id and
             chaintrans1.value == 50)
+    assert chaintrans1 in chainblock1.data
 
 def test_falseticketid():
     """ Tests that return value is None if Chain has no Blocks with relevant ticket_id """
     assert chaintrans2 is None
+    assert chainblock2 is None
 
 def test_newtransaction():
     """ Tests that return value is correct if Chain has multiple Blocks with relevant ticket_id """
     assert (chaintrans3.target == user2.id and
             chaintrans3.source == user1.id and
             chaintrans3.value == 50)
+    assert chaintrans3 in chainblock3.data
