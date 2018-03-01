@@ -883,6 +883,10 @@ class Venue:
 
         Returns a list of ints
         """
+
+        if event_id is None or event_id < 0 or event_id >= Trackers.next_event_id:
+            return False
+
         event_blockchain = self.events[event_id][0].blockchain
         chainlength = len(event_blockchain.blocks)
 
