@@ -875,6 +875,30 @@ class Venue:
 
         return tickets
 
+    def venueTickets(self, event_id):
+        event_blockchain = self.events[event_id][0].blockchain
+        chainlength = len(event_blockchain.blocks)
+
+        foundTickets = []
+        venueTickets = []
+
+        if chainlength != 0:
+            block = -1
+            while abs(block) <= chainlength:
+                translength = len(event_blockchain.blocks[block].data)
+                trans = -1
+                while abs(trans) <= translength:
+                    this_block = event_blockchain.blocks[block]
+                    ticket_id = this_block.data[trans].ticket_num
+                    if(ticket_id not in foundTickets):
+                        foundTickets.append(ticket_id)
+                        if(this_block.data[trans].target == self.id):
+                            venueTickets.append(ticket_id)
+                    trans -= 1
+                block -= 1
+
+        return venueTickets
+
     def manageTickets(self, event, new_price, section, row, seat_num):
         """
         Allows a Venue to edit Ticket price by section, row and seat number
@@ -894,22 +918,6 @@ class Venue:
 
         if(event is None or invalid_price):
             return False
-
-        event_blockchain = self.events[0][0].blockchain
-        chainlength = len(event_blockchain.blocks)
-
-        venueTickets = []
-
-        if chainlength != 0:
-            block = -1
-            while abs(block) <= chainlength:
-                translength = len(event_blockchain.blocks[block].data)
-                trans = -1
-                while abs(trans) <= translength:
-                    this_block = event_blockchain.blocks[block]
-                    trans -= 1
-                block -= 1
-
 
     def scheduleRelease(self, event, ticket_class, date, number):
         # iteration 2
