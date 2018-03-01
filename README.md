@@ -102,12 +102,24 @@ In order to complete the *Event* and *Venue* classes, we will be finalizing comp
 New tests for iteration 2 can be found in Blockchain-Ticket-Platform/tests/back_end and include:
 Test_Explore.py
 Test_ManageEvent.py
+Test_VenueTickets.py
 Test_ManageTicket.py
 Test_ReadWriteValidation.py
 Test_ScheduleRelease.py
 Test_Search.py
 Test_Trackers.py
 Test_ValidateTicketCode.py
+
+Note: For Mac users who have not enabled Python to install certificates, please run the following command from the Terminal including the quotation marks:
+
+"/Applications/Python 3.x/Install Certificates.command"
+
+(Replace x with your installed version of Python, for example 3.5 or 3.6)
+
+If the terminal command does not work, please search "Install Certificates.command" on Finder, using the This Mac setting (search whole computer).
+Once the file is found, please double click on it. It should execute in Shell and permit Python on you machine to install certificates.
+Our Explore functions depends on a package which requires SSL certification to be downloaded.
+
 
 ### Workload Division
 
