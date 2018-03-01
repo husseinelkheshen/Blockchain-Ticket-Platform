@@ -940,11 +940,16 @@ class Venue:
         if ownedTickets is None:
             return False
 
-        if section is None and row is None and seat_num is not None:
-            return False
-
         if section is None and (row is not None or seat_num is not None):
             return False
+
+        if section is not None and row is None and seat_num is not None:
+            return False
+
+        if section is None and row is None and seat_num is None:
+            return True
+
+
 
     def scheduleRelease(self, event, ticket_class, date, number):
         # iteration 2
