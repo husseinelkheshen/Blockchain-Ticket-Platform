@@ -574,7 +574,8 @@ class User:
                 venue = Trackers.registered_venues[city][name]
                 for event_id in venue.events:
                     venue.events[event_id][0].checkRelease()
-                    all_events.append(venue.events[event_id][0])
+                    if date.datetime.now() < venue.events[event_id][0].datetime:
+                        all_events.append(venue.events[event_id][0])
         if not text and not datetime:
             return all_events    # return all events if no search criteria
         elif not datetime:
