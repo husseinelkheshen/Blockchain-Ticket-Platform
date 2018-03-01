@@ -897,7 +897,7 @@ class Venue:
                     trans -= 1
                 block -= 1
 
-        return venueTickets
+        return venueTickets.sort()
 
     def manageTickets(self, event, new_price, section, row, seat_num):
         """
