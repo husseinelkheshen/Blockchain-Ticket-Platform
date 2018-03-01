@@ -68,7 +68,7 @@ testUser1.location_pref.update({"New York City, New York":5, "Chicago, IL":1})
 
 testUser3 = User("John", "Doe", "johndoe@uchicago.edu")
 testUser3.location_pref.update({"New York City, New York":7, "Chicago, IL":6})
-testUser3.venue_pref.update({"Regenstein":1, "Washington Square Park":1})
+testUser3.venue_pref.update({"Regenstein":2, "Washington Square Park":1})
 
 testUser4 = User("Jane", "Doe", "janedoe@uchicago.edu")
 testUser4.location_pref.update({"New York City, New York":5, "Chicago, IL":6})
