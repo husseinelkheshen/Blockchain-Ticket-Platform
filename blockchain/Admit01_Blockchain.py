@@ -977,9 +977,101 @@ class Venue:
 
         return tickets
 
+    def venueTickets(self, event_id):
+        """
+        Allows a Venue to find a list of tickets it owns in each Event by ticket_num
+
+            event_id: int
+
+        Returns a list of ints
+        """
+
+        if event_id is None or event_id < 0 or event_id >= Trackers.next_event_id:
+            return None
+
+        event_blockchain = self.events[event_id][0].blockchain
+        chainlength = len(event_blockchain.blocks)
+
+        foundTickets = []
+        venueTickets = []
+
+        if chainlength != 0:
+            block = -1
+            while abs(block) <= chainlength:
+                translength = len(event_blockchain.blocks[block].data)
+                trans = -1
+                while abs(trans) <= translength:
+                    this_block = event_blockchain.blocks[block]
+                    ticket_id = this_block.data[trans].ticket_num
+                    if ticket_id not in foundTickets:
+                        foundTickets.append(ticket_id)
+                        if this_block.data[trans].target == self.id:
+                            venueTickets.append(ticket_id)
+                    trans -= 1
+                block -= 1
+
+        if len(venueTickets) == 0:
+            return None
+
+        venueTickets.sort()
+
+        return venueTickets
+
     def manageTickets(self, event, new_price, section, row, seat_num):
-        # iteration 2
-        pass
+        """
+        Allows a Venue to edit Ticket price by section, row and seat number
+
+            event: Event object
+            new_price: int
+            section: string
+            row: string
+            seat_num: int
+
+        Returns a boolean
+
+        """
+        invalid_price = False
+        if new_price is None or new_price < 0:
+            invalid_price = True
+
+        if event is None or invalid_price:
+            return False
+
+        ownedTickets = self.venueTickets(event.id)
+
+        if ownedTickets is None:
+            return False
+
+        if section is None and (row is not None or seat_num is not None):
+            return False
+
+        if section is not None and row is None and seat_num is not None:
+            return False
+
+        if section is None and row is None and seat_num is None:
+            for x in ownedTickets:
+                self.events[event.id][0].tickets[x].list_price = new_price
+            return True
+
+        if row is None:
+            for x in ownedTickets:
+                if self.events[event.id][0].tickets[x].seat.section == section:
+                    self.events[event.id][0].tickets[x].list_price = new_price
+            return True
+        else:
+            if seat_num is None:
+                for x in ownedTickets:
+                    if (self.events[event.id][0].tickets[x].seat.section == section and
+                        self.events[event.id][0].tickets[x].seat.row == row):
+                        self.events[event.id][0].tickets[x].list_price = new_price
+                return True
+            else:
+                for x in ownedTickets:
+                    if (self.events[event.id][0].tickets[x].seat.section == section and
+                        self.events[event.id][0].tickets[x].seat.row == row and
+                        self.events[event.id][0].tickets[x].seat.seat_no == seat_num):
+                        self.events[event.id][0].tickets[x].list_price = new_price
+                return True
 
     def scheduleRelease(self, event, ticket_class, date, number):
         # iteration 2
