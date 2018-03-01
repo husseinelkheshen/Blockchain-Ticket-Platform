@@ -769,15 +769,17 @@ class Venue:
         current_date = date.datetime.now()
         invalid_date = False
 
-        if new_date is None or new_date < current_date:
+        if new_date is not None and new_date < current_date:
             invalid_date = True
 
-        if event is None or name is None or invalid_date:
+        if event is None or invalid_date:
             return False
 
         else:
-            event.name = name
-            event.datetime = new_date
+            if name is not None:
+                event.name = name
+            if new_date is not None:
+                event.datetime = new_date
             event.desc = desc
 
         return True
