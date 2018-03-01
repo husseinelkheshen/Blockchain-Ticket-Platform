@@ -7,6 +7,10 @@ import re
 import string
 import operator
 import copy
+#from nltk import ne_chunk, pos_tag, word_tokenize
+#from nltk.tree import Tree
+import numpy
+import nltk
 
 
 
@@ -68,7 +72,6 @@ class Trackers:
         for email in users:
             if user_id == users[email].id:
                 return users[email]
-
         return None
 
     @staticmethod
@@ -312,7 +315,7 @@ class User:
             self.email_address = email_address
             self.inventory = []
             self.wallet = 0.00
-            self.tags_pref = {}
+            self.description_pref = {}
             self.location_pref = {}
             self.venue_pref = {}
             # add this User to the catalog of registered Users
@@ -422,6 +425,9 @@ class User:
         # transfer funds from buyer to seller
         self.wallet -= ticket.list_price
         owner_obj.wallet += ticket.list_price
+
+        # add to user's preferences
+        self.updatePreferences(ticket, "buy", None)
 
         # mark ticket as sold
         ticket.for_sale = False
@@ -537,6 +543,9 @@ class User:
 
         # add appropriate funds to seller's wallet (iteration 2)
 
+        # add to user's preferences
+        self.updatePreferences(new_ticket, "upgrade", None)
+
         # mark old ticket as for sale, and new as sold
         owned_ticket.for_sale = True
         new_ticket.for_sale = False
@@ -544,8 +553,8 @@ class User:
         # signify completion
         return True
 
-    @staticmethod
-    def search(text="", datetime=None, date_range=0):
+    #@staticmethod
+    def search(self, text="", datetime=None, date_range=0):
         """
         A search function for retrieving a list of Events by given criteria
 
@@ -584,7 +593,10 @@ class User:
         if not text:
             return filtered_events
 
-        # apple the text filter
+        # update a user's preferences based on what they search for
+            self.updatePreferences(None, "search", text)
+
+        # apply the text filter
         search_results = []    # each entry a tuple of (event, score)
         search_words = text.split()
         search_re = re.compile(r'\b%s\b' % '\\b|\\b'.join(search_words),
@@ -604,9 +616,94 @@ class User:
         search_results.sort(key=operator.itemgetter(1), reverse=True)
         return [result[0] for result in search_results]
 
+    @staticmethod
+    def chunkTags(text):
+        """
+        Function for identifying tags such as names and placenames from
+        a body of text
+        Utilized for functions which use tags
+            text: a string (body of text)
+        Returns a list of tags
+        """
+
+        chunks = nltk.chunk.ne_chunk(nltk.tag.pos_tag(nltk.word_tokenize(text)))
+        prev = None
+        continuous_chunk = []
+        current_chunk = []
+
+        for i in chunks:
+            if type(i) == nltk.tree.Tree:
+                current_chunk.append(" ".join([token for token, pos in i.leaves()]))
+            elif current_chunk:
+                named_entity = " ".join(current_chunk)
+                if named_entity not in continuous_chunk:
+                    continuous_chunk.append(named_entity)
+                    current_chunk = []
+            else:
+                continue
+
+        if continuous_chunk:
+            named_entity = " ".join(current_chunk)
+            if named_entity not in continuous_chunk:
+                continuous_chunk.append(named_entity)
+
+        return continuous_chunk
+
     def explore(self):
-        # iteration 2
-        pass
+        """
+        An event discovery function based on user preferences
+        Returns a list of 10 recommended event
+        """
+
+        # initialize list for active events
+        active_events = []
+
+        # get list of all active events
+        for city in Trackers.registered_venues:
+            for name in Trackers.registered_venues[city]:
+                venue = Trackers.registered_venues[city][name]
+                for event_id in venue.events:
+                    event = venue.events[event_id][0]
+                    # check to see if event is occuring in the future
+                    if date.datetime.now() < event.datetime:
+                        active_events.append(event)
+
+        # if fewer than 10 events exist, return all
+        if len(active_events) < 10:
+            return active_events
+
+        # initialize dictionary of recommendations {event:score}
+        recommendations = {}
+
+        # calculate event scores for each active event based on preferences
+        for event in active_events:
+            locationx = 10
+            venuex = 5
+            tagx = 1
+            score = 0
+
+            location = event.venue.location
+            if location in self.location_pref:
+                score += (self.location_pref[location] * locationx)
+
+            venue = event.venue.name
+            if venue in self.venue_pref:
+                score += (self.venue_pref[venue] * venuex)
+
+            taglist = self.chunkTags(event.desc)
+
+            for tag in taglist:
+                if tag in self.description_pref:
+                    score += (self.description_pref[tag] * tagx)
+
+            recommendations[event] = score
+
+        # make a list of the 10 events with top scores
+        top_recommendations = sorted(recommendations,
+                                     key=recommendations.get,
+                                     reverse=True)[0:10]
+
+        return top_recommendations
 
     def generateTicketCode(self, venue, event, ticket):
         """
@@ -645,55 +742,60 @@ class User:
         """
         return [ticket.ticket_num for ticket in self.inventory]
 
-#     def updatePreferences(self, ticket, action):
-#         """
-#         Updates preferences in a user's preferences dictionary
+    def updatePreferences(self, ticket, action, text):
+        """
+        Updates preferences in a user's preferences dictionary
+            ticket: the ticket being purchased or sold when fn is called
+            action: string indicating buy, upgrade, or search
+            text: plaintext to be parsed for tags if
+        """
+        description_dict = self.description_pref
+        loc_dict = self.location_pref
+        venue_dict = self.venue_pref
 
-#         ticket: the ticket being purchased or sold when fn is called
-#         action: string indicating buy, sell or upgrade
+        if text is None and ticket and action is not "search":
+            venue = ticket.event.venue
+            loc = venue.location
+            description_list = self.chunkTags(ticket.event.desc)
 
-#         """
-#         venue = ticket.event.venue
-#         loc = venue.location
-#         #tags = tags_list (tag generator for ticket.event.name and ticket.event.desc)
+            if action is "buy":
+                if venue in venue_dict:
+                    venue_dict[venue] += 3
+                else:
+                    venue_dict[venue] = 3
 
-#         tags_dict = self.tags_pref
-#         loc_dict = self.location_pref
-#         venue_dict = self.venue_pref
+                if loc in loc_dict:
+                    loc_dict[loc] += 3
+                else:
+                    loc_dict[loc] = 3
 
-#         if action is "buy":
-#             if venue in venue_dict
-#                 venue_dict[venue] += 4
-#             else
-#                 venue_dict[venue] = 4
+                for i, elem in enumerate(description_list):
+                    if elem in description_dict:
+                         description_dict[elem] += 3
+                    else:
+                        description_dict[elem] = 3
 
-#             if location in loc_dict
-#                 loc_dict[location] += 5
-#             else
-#                 loc_dict[location] = 5
+            if action is "upgrade":
+                venue_dict[venue] += 2
+                loc_dict[loc] += 2
 
-#             for i, elem in enumerate(tags_list)
-#                 if elem in tags_dict
-#                      tags_dict[elem] += 2
-#                 else
-#                     tags_dict[elem] = 2
+                for i, elem in enumerate(description_list):
+                    if elem in description_dict:
+                         description_dict[elem] += 2
+                    else:
+                        description_dict[elem] = 2
 
-#         if action is "upgrade":
-#             venue_dict[venue] += 2
-#             loc_dict[location] += 3
+        if action is "search" and text:
+            description_list = self.chunkTags(text)
+            for i, elem in enumerate(description_list):
+                if elem in description_dict:
+                     description_dict[elem] += 1
+                else:
+                    description_dict[elem] = 1
+        else:
+            return False
+        return True
 
-#             for i, elem in enumerate(tags_list)
-#                 if elem in tags_dict
-#                      tags_dict[elem] += 1
-#                 else
-#                     tags_dict[elem] = 1
-
-#         if action is "sell":
-#             venue_dict[venue] -= 2
-#             loc_dict[location] -= 2
-
-#         return True
-# """
 
 
 class Venue:
