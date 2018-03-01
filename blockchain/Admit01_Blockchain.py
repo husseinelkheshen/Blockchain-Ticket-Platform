@@ -947,8 +947,9 @@ class Venue:
             return False
 
         if section is None and row is None and seat_num is None:
+            for x in ownedTickets:
+                self.events[event.id][0].tickets[x].list_price = new_price
             return True
-
 
 
     def scheduleRelease(self, event, ticket_class, date, number):
