@@ -23,7 +23,7 @@ You can logout by visiting the logout link in the navbar as well.
 The completed wireframes in HTML/CSS can be viewed from 'design/html_wireframes' in any browser. Bootstrap has already been downloaded into thhe project, and Popper.js is being grabbed from a CDN.
 
 ### How to Run the Unit Test Cases
-You can use the Makefile to do so by executing 'make unit_tests' from the main directory. Please not that some of these tests may take upwards of two minutes to execute due to the rigor of the mining, and it occurring on the local machine.
+You can use the Makefile to do so by executing 'make unit_tests' from the main directory. Please note that some of these tests may take upwards of two minutes to execute due to the rigor of the mining, and it occurring on the local machine.
 
 To run the jasmine test cases for form validation, you just need to open 'tests.html' in the 'tests/frontend' folder  any browser that formats CSS remotely corretly. Jasmine provides a css formatted standalone testing framework for testing javascript used in HTML. If you want to know the details of installation they are on
 https://github.com/jasmine/jasmine#installation, using the installation instructions for the standalone distribution. Very few changes were made to the validation tests, everywhere a change was made was marked with a "NOTE:" comment and some exclamation points. Explanation for changes are written in comments around changes. Likely more will get written as validation becomes more rigorous. The tests were all passing at the time of writing this. The jasmine tests themselves are written in the file 'validation_tests.js', and test the code written in 'validation.js'. Both of these files can alo be cound in the 'tests/frontend' folder.
@@ -157,3 +157,6 @@ Note: For Mac users who have not already enabled Python to install certificates,
 If the terminal command does not work, please search "Install Certificates.command" on Finder, using the This Mac setting (search whole computer).
 Once the file is found, please double click on it. It should execute in Shell and permit Python on your machine to install certificates.
 Our Explore functions depends on a package which requires SSL certification to be downloaded.
+
+### How to Run the Unit Test Cases
+You can use the Makefile to do so by executing 'make unit_tests' from the main directory. This will store the test outputs in the /tests directory. If you wish to clear these, you can run 'make clean' or, to prevent them from saving in the first place, simply run 'make unit_tests clean'.

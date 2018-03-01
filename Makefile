@@ -39,14 +39,15 @@ iter1_unittests:
 
 iter2_unittests:
 	# Iteration 2
-	python3 -m pytest tests/back_end/Test_Search.py
-	python3 -m pytest tests/back_end/Test_CreateEvent.py
-	python3 -m pytest tests/back_end/Test_ManageEvent.py
-	python3 -m pytest tests/back_end/Test_UpdatePreferences.py
-	python3 -m pytest tests/back_end/Test_Explore.py
-	python3 -m pytest tests/back_end/Test_VenueTickets.py
-	python3 -m pytest tests/back_end/Test_ManageTickets.py
+	python3 -m pytest tests/back_end/Test_Search.py > tests/back_end/pytest_logs/Test_Search.log
+	# python3 -m pytest tests/back_end/Test_CreateEvent.py
+	# python3 -m pytest tests/back_end/Test_ManageEvent.py
+	# python3 -m pytest tests/back_end/Test_UpdatePreferences.py
+	# python3 -m pytest tests/back_end/Test_Explore.py
+	# python3 -m pytest tests/back_end/Test_VenueTickets.py
+	# python3 -m pytest tests/back_end/Test_ManageTickets.py
 
 # Delete all pytest cache files
 clean:
 	find . -name \*.pyc -delete
+	find . -name \*.log -delete
