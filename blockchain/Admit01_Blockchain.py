@@ -876,26 +876,46 @@ class Venue:
         return tickets
 
     def venueTickets(self, event_id):
+        """
+        Allows a Venue to find a list of tickets it owns in each Event by ticket_num
+
+            event_id: int
+
+        Returns a list of ints
+        """
         event_blockchain = self.events[event_id][0].blockchain
         chainlength = len(event_blockchain.blocks)
 
         foundTickets = []
         venueTickets = []
 
+        assert chainlength == 1
+
         if chainlength != 0:
             block = -1
             while abs(block) <= chainlength:
                 translength = len(event_blockchain.blocks[block].data)
+
+                assert translength == 1
+
                 trans = -1
                 while abs(trans) <= translength:
                     this_block = event_blockchain.blocks[block]
                     ticket_id = this_block.data[trans].ticket_num
-                    if(ticket_id not in foundTickets):
+                    if ticket_id not in foundTickets:
                         foundTickets.append(ticket_id)
-                        if(this_block.data[trans].target == self.id):
+
+                        assert len(foundTickets) == 1
+
+                        if this_block.data[trans].target == self.id:
                             venueTickets.append(ticket_id)
+
+                            assert len(venueTickets) == 1
+
                     trans -= 1
                 block -= 1
+
+        assert len(venueTickets) == 1
 
         if len(venueTickets) == 0:
             return None
