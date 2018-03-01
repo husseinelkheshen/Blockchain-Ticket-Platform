@@ -184,15 +184,9 @@ In terms of use cases, we have fully and successfully implemented **Explore**, *
 #### Back end
 Gina and Ethan paired to develop and test **Explore**.
 
-Ross implemented the consensus mechanism in Ticket.mostRecentTransaction(), **Search**, **Create Event**, **Create Tickets**
+Ross implemented and tested **Search**, **Create Event**, and **Create Tickets**, as well as adding the consensus mechanism to the already-implemented Ticket.mostRecentTransaction() function.
 
-Hayden and Hussein paired to develop and test the *Block*, *Chain*, and *Transaction* classes.
-
-We met together as a larger team on a few occassions to integrate our components and complete the implementations of the use cases.
+Hayden and Hussein paired to develop and test <TO-DO: @HAYDEN @HUSSEIN>
 
 ### Changes from Implementation Plan
-There were several several, code correctness, test rigor, formatting and changes to the unit tests, none of which changed the scope or diminished the coverage of the tests.
-
-The only major change is that we incorporated the *Host* class into the *Venue* class, since we could no longer see a logical purpose for a standalone *Host* class. *Venue* objects now have access to the union of all use cases from the previous definition of *Host* and those from the previous definition of *Venue*.
-
-A minor change, as already discussed, resulted from ambiguity about how list ticket will be implemented on a venue wide scale, which meant holding off on UI design of it for the time being.
+There were several minor test rigor and formatting changes to the unit tests since they were delivered with 4a, none of which changed the scope or diminished the coverage of the tests.
