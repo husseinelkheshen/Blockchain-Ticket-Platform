@@ -17,10 +17,6 @@ venue1.createTicket(venue1.events[0][0], 70, testSeat2)
 venue1.createTicket(venue1.events[0][0], 90, testSeat3)
 venue1.createTicket(venue1.events[0][0], 30, testSeat4)
 
-assert venue1.events[0][0].blockchain.blocks[0].data[0] is not None
-assert venue1.events[0][0].blockchain.blocks[3].data[0] is not None
-
-assert venue1.events[0][0].tickets[0].list_price == 50
 
 def test_no_event():
     """ Tests a ManageTicket call with no Event to check for failure """

@@ -876,12 +876,27 @@ class Venue:
         return tickets
 
     def manageTickets(self, event, new_price, section, row, seat_num):
+        """
+        Allows a Venue to edit Ticket price by section, row and seat number
+
+            event: Event object
+            new_price: int
+            section: string
+            row: string
+            seat_num: int
+
+        Returns a boolean
+
+        """
         invalid_price = False
         if(new_price is None or new_price < 0):
             invalid_price = True
 
         if(event is None or invalid_price):
             return False
+
+        event_blockchain = self.events[0][0].blockchain
+        blockchain_length = len(event_blockchain.blocks)
 
 
 
