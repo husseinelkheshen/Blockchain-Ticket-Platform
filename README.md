@@ -108,6 +108,8 @@ Test_ScheduleRelease.py
 Test_Search.py
 Test_Trackers.py
 Test_ValidateTicketCode.py
+Test_VenueTickets.py
+
 
 ### Workload Division
 
@@ -134,3 +136,24 @@ We have not altered anything significantly from our original plan. We will be, h
 It will be difficult to properly unit test **Explore**, as proper functioning will be adaptively based on user preferences established over a history of their use of the platform. However, we will do everything possible to test proper form of inputs and outputs, as well as basic cases of learning.
 
 A few more form validation tests have been coded and added to the already existing front end validation tests. Where the tests have been added has been marked on the page.
+
+## Milestone 4b
+
+### How to Compile
+Since our code is written in Python, there is no need to compile.
+
+### How to Run Our Code
+Before doing anything else, you must execute 'make install' from the main directory in order to install the correct versions of our packages.
+
+If you encounter an error which says CERTIFICATE_VERIFY_FAILED, please read the note below.
+
+#### SSL CERTIFICATE VERIFICATION
+
+Note: For Mac users who have not already enabled Python to install certificates, please run the following command from the Terminal including the quotation marks:
+
+"/Applications/Python 3.x/Install Certificates.command"
+(Replace x with your installed version of Python, for example 3.5 or 3.6)
+
+If the terminal command does not work, please search "Install Certificates.command" on Finder, using the This Mac setting (search whole computer).
+Once the file is found, please double click on it. It should execute in Shell and permit Python on your machine to install certificates.
+Our Explore functions depends on a package which requires SSL certification to be downloaded.
