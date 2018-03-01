@@ -74,6 +74,8 @@ iter2_unittests:
 	python3 -m pytest tests/back_end/Test_Explore.py
 	python3 -m pytest tests/back_end/Test_VenueTickets.py
 	python3 -m pytest tests/back_end/Test_ManageTickets.py
+	python3 -m pytest tests/back_end/Test_ReadWriteValidation.py
+	python3 -m pytest tests/back_end/Test_ScheduleRelease.py
 	python3 -m pytest tests/back_end/Test_ValidateTicketCode.py
 	make clean
 
@@ -86,6 +88,8 @@ iter2_unittests_log:
 	python3 -m pytest tests/back_end/Test_Explore.py > tests/back_end/pytest_logs/Test_Explore.log
 	python3 -m pytest tests/back_end/Test_VenueTickets.py > tests/back_end/pytest_logs/Test_VenueTickets.log
 	python3 -m pytest tests/back_end/Test_ManageTickets.py > tests/back_end/pytest_logs/Test_ManageTickets.log
+	python3 -m pytest tests/back_end/Test_ReadWriteValidation.py > tests/back_end/pytest_logs/Test_ReadWriteValidation.log
+	python3 -m pytest tests/back_end/Test_ScheduleRelease.py > tests/back_end/pytest_logs/Test_ScheduleRelease.log
 	python3 -m pytest tests/back_end/Test_ValidateTicketCode.py > tests/back_end/pytest_logs/Test_ValidateTicketCode.log
 	make clean
 
