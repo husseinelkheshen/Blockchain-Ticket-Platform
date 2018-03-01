@@ -844,7 +844,15 @@ class Venue:
             self.id = self.name = self.events = self.location = self.wallet = None
 
     def validateTicketCode(self, event_id, ticket_num, user_id, hash):
-        # iteration 2
+        """
+        Validates the content of a qrcode
+            event_id: integer id of the event from the code
+            ticket_num: integer number of the ticket from the code
+            user_id: integer id of the user from the code
+            hash: string hash from the most recent transaction involving the ticket
+
+        Returns a Boolean indicating success or failure
+        """
         if event_id not in self.events:
             return False
         if not (date.datetime.now() - date.timedelta(hours=12) <= self.events[event_id][0].datetime <= date.datetime.now() + date.timedelta(hours=12)):
