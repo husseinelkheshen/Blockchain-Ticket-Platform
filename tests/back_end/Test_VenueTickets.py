@@ -25,7 +25,8 @@ def test_no_tickets():
     """ Tests an Event with no tickets """
     assert venue1.venueTickets(0) is None
 
+venue1.createTicket(venue1.events[0][0], 50, testSeat1)
+
 def test_one_ticket():
     """ Tests an Event with one ticket """
-    venue1.createTicket(venue1.events[0][0], 50, testSeat1)
     assert venue1.venueTickets(0) is not None
