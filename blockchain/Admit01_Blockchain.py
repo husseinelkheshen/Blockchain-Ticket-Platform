@@ -72,7 +72,6 @@ class Trackers:
         for email in users:
             if user_id == users[email].id:
                 return users[email]
-
         return None
 
     @staticmethod
@@ -543,6 +542,9 @@ class User:
         owner_venue.wallet += upgrade_price
 
         # add appropriate funds to seller's wallet (iteration 2)
+        
+        # add to user's preferences
+        self.updatePreferences(new_ticket, "upgrade", None)
 
         # mark old ticket as for sale, and new as sold
         owned_ticket.for_sale = True
@@ -551,8 +553,8 @@ class User:
         # signify completion
         return True
 
-    @staticmethod
-    def search(text="", datetime=None, date_range=0):
+    #@staticmethod
+    def search(self, text="", datetime=None, date_range=0):
         """
         A search function for retrieving a list of Events by given criteria
 
@@ -589,8 +591,11 @@ class User:
 
         if not text:
             return filtered_events
+        
+        # update a user's preferences based on what they search for
+            self.updatePreferences(None, "search", text)
 
-        # apple the text filter
+        # apply the text filter
         search_results = []    # each entry a tuple of (event, score)
         search_words = text.split()
         search_re = re.compile(r'\b%s\b' % '\\b|\\b'.join(search_words),

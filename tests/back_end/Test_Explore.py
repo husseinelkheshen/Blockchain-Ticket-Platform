@@ -111,11 +111,11 @@ def test_location_pref1():
 	assert testEvent4 in eventsList
 	assert testEvent5 in eventsList
 	assert testEvent6 in eventsList
-	# assert testEvent7 in eventsList
-	# assert testEvent8 in eventsList
-	# assert testEvent9 in eventsList
-	# assert testEvent11 in eventsList
-	# assert testEvent10 not in eventsList
+	assert testEvent7 in eventsList
+	assert testEvent8 in eventsList
+	assert testEvent9 in eventsList
+	assert testEvent11 in eventsList
+	assert testEvent10 not in eventsList
 
 def test_location_pref2():
 	"""
