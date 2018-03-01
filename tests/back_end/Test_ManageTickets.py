@@ -16,6 +16,8 @@ venue1.createTicket(venue1.events[0][0], 70, testSeat2)
 venue1.createTicket(venue1.events[0][0], 90, testSeat3)
 venue1.createTicket(venue1.events[0][0], 30, testSeat4)
 
+user1 = User("Ethan", "Reeder", "er@example.com")
+
 def test_no_event():
     """ Tests a ManageTicket call with no Event to check for failure """
     assert (not venue1.manageTickets(None, 80, "Cheap Seats", "C", 5) and
@@ -68,4 +70,17 @@ def test_valid_tickets():
     assert (venue1.manageTickets(venue1.events[0][0], 150, None, None, None) and
             venue1.events[0][0].tickets[0].list_price == 150 and
             venue1.events[0][0].tickets[1].list_price == 150 and
-            venue1.events[0][0].tickets[2].list_price == 150)
+            venue1.events[0][0].tickets[2].list_price == 150 and
+            venue1.events[0][0].tickets[3].list_price == 150)
+
+def test_venue_owned():
+    """ Tests a ManageTicket to ensure it doesn't affect non-venue owned tickets """
+
+    venue1.events[0][0].tickets[3].listTicket(0, venue1.id)
+    user1.buyTicket(venue1.events[0][0].tickets[3])
+
+    assert (venue1.manageTickets(venue1.events[0][0], 200, None, None, None) and
+            venue1.events[0][0].tickets[0].list_price == 200and
+            venue1.events[0][0].tickets[1].list_price == 200 and
+            venue1.events[0][0].tickets[2].list_price == 200 and
+            venue1.events[0][0].tickets[3].list_price == 0)
