@@ -889,8 +889,6 @@ class Venue:
         foundTickets = []
         venueTickets = []
 
-        assert chainlength == 1
-
         if chainlength != 0:
             block = -1
             while abs(block) <= chainlength:
@@ -904,23 +902,16 @@ class Venue:
                     ticket_id = this_block.data[trans].ticket_num
                     if ticket_id not in foundTickets:
                         foundTickets.append(ticket_id)
-
-                        assert len(foundTickets) == 1
-
                         if this_block.data[trans].target == self.id:
                             venueTickets.append(ticket_id)
-
-                            assert len(venueTickets) == 1
-
                     trans -= 1
                 block -= 1
-
-        assert len(venueTickets) == 1
 
         if len(venueTickets) == 0:
             return None
 
-        return venueTickets.sort()
+        venueTickets.sort()
+        return venueTickets
 
     def manageTickets(self, event, new_price, section, row, seat_num):
         """
