@@ -1,8 +1,0 @@
-============================= test session starts ==============================
-platform darwin -- Python 3.5.2, pytest-2.9.2, py-1.5.2, pluggy-0.3.1
-rootdir: /Users/rdpiper/Blockchain-Ticket-Platform/tests/back_end, inifile: 
-collected 9 items
-
-tests/back_end/Test_Search.py .........
-
-=========================== 9 passed in 1.26 seconds ===========================

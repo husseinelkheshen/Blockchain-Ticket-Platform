@@ -159,4 +159,6 @@ Once the file is found, please double click on it. It should execute in Shell an
 Our Explore functions depends on a package which requires SSL certification to be downloaded.
 
 ### How to Run the Unit Test Cases
-You can use the Makefile to do so by executing 'make unit_tests' from the main directory. This will store the test outputs in the /tests directory. If you wish to clear these, you can run 'make clean' or, to prevent them from saving in the first place, simply run 'make unit_tests clean'.
+You can use the Makefile to do so by executing 'make unit_tests' from the main directory. To store the outputs of the unit tests as .log files in './tests/back_end/pytest_logs', you can run 'make unit_tests_log' instead.
+
+
