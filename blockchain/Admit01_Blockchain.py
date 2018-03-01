@@ -876,8 +876,14 @@ class Venue:
         return tickets
 
     def manageTickets(self, event, new_price, section, row, seat_num):
-        # iteration 2
-        pass
+        invalid_price = False
+        if(new_price is None or new_price < 0):
+            invalid_price = True
+
+        if(event is None or invalid_price):
+            return False
+
+
 
     def scheduleRelease(self, event, ticket_class, date, number):
         # iteration 2

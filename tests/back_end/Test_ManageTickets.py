@@ -45,12 +45,15 @@ def test_invalid_section():
 def test_valid_seat():
     """ Tests a ManageTicket call with correct parameters for changing the price of one ticket"""
     assert (venue1.manageTickets(event1, 80, "Cheap Seats", "C", 5) and
-            ticket1.list_price == 80)
+            ticket1.list_price == 80 and
+            ticket2.list_price == 70 and
+            ticket3.list_price == 90)
 
 def test_valid_row():
     """ Tests a ManageTicket call with correct parameters for changing the price of one row of tickets"""
     assert (venue1.manageTickets(event1, 100, "Cheap Seats", "C", None) and
             ticket1.list_price == 100 and
+            ticket2.list_price == 70 and
             ticket3.list_price == 100)
 
 def test_valid_section():
