@@ -564,6 +564,7 @@ class User:
             for name in Trackers.registered_venues[city]:
                 venue = Trackers.registered_venues[city][name]
                 for event_id in venue.events:
+                    venue.events[event_id][0].checkRelease()
                     all_events.append(venue.events[event_id][0])
         if not text and not datetime:
             return all_events    # return all events if no search criteria
@@ -972,19 +973,22 @@ class Venue:
                         self.events[event.id][0].tickets[x].list_price = new_price
                 return True
 
-    def scheduleRelease(self, event, ticket_class, date, number):
+    def scheduleRelease(self, event, ticket_class, time, number):
         # iteration 2
+        event.checkRelease()
         to_be_released = []
-        if date < date.datetime.now():
+        if time > event.datetime:
+            return False
+        if time > date.datetime.now():
             if number < 1:
-                return False, []
+                return False
             for ticket in event.tickets:
-                if ticket.seat.section == ticket_class and not ticket.is_scheduled and not ticket.isForSale():
-                    to_be_released.append((ticket, date))
-                    if number == len(to_be_released):
+                if ticket.seat.section == ticket_class and not ticket.isScheduled and not ticket.isForSale():
+                    to_be_released.append((ticket, time))
+                    if number <= len(to_be_released):
                         break
             for ticket in to_be_released:
-                ticket.is_scheduled = True
+                ticket[0].isScheduled = True
             if len(to_be_released) < number:
                 event.scheduled.extend(to_be_released)
                 return False
@@ -993,16 +997,14 @@ class Venue:
                 return True
         else:
             for ticket in event.tickets:
-                if ticket.seat.section == ticket_class and not ticket.is_scheduled and not ticket.isForSale():
-                    to_be_released.append(ticket)
+                if ticket.seat.section == ticket_class and not ticket.isScheduled and not ticket.isForSale():
+                    to_be_released.append((ticket, time))
                     if number == len(to_be_released):
                         break
             for ticket in to_be_released:
-                ticket.listTicket(self.id, ticket.face_value)
-            if len(to_be_released) < number:
-                return False
-            else:
-                return True
+                ticket[0].listTicket(self.id, ticket[0].face_value)
+                ticket[0].for_sale = True
+            return False
 
 
 class Event:
@@ -1062,11 +1064,13 @@ class Event:
     def checkRelease(self):
         released = []
         current = date.datetime.now()
-        for ticket, time in self.scheduled:
-            if time <= current:
-                ticket.listTicket(self.venue.id, ticket.face_value)
-                ticket.is_scheduled = False
-                released.append((ticket, time))
+        for ticket in self.scheduled:
+            # print(ticket[1])
+            if ticket[1] < current:
+                ticket[0].listTicket(self.venue.id, ticket[0].face_value)
+                ticket[0].is_scheduled = False
+                ticket[0].for_sale = True
+                released.append((ticket[0], ticket[1]))
         total = set(self.scheduled)
         released = set(released)
         self.scheduled = list(total - released)
@@ -1130,6 +1134,8 @@ class Ticket:
         Returns a boolean
 
         """
+        if not self.for_sale:
+            self.event.checkRelease()
         return self.for_sale
 
     def mostRecentTransaction(self):

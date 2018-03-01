@@ -11,7 +11,7 @@ def test_rwvalidation():
      been altered anywhere down the line
     """
     venue = Venue("Max Palevsky", "Hyde Park")
-    event = venue.createEvent("Rock Show", datetime.now() + timedelta(years=3),
+    event = venue.createEvent("Rock Show", datetime.now() + timedelta(days=1095),
                               "An event for students to rock out!")
     seat = Seat("General Admission", "N/A", 1)
     ticket = venue.createTicket(event, 20, seat)
@@ -47,11 +47,11 @@ def test_rwvalidation():
     ticket2.for_sale = True
     user3.buyTicket(ticket2)
     error3 = deepcopy(event)
-    error3.blockchain.blocks[-2].index = len(error3.blockchain.blocks[-1]) - 1
+    error3.blockchain.blocks[-2].index = len(error3.blockchain.blocks) - 1
     # changing the index of a block will break the validation
     assert error3.rwValidation() is False
     error4 = deepcopy(event)
-    error4.bkockchain.blocks[-1].prev_hash = "somefakehash"
+    error4.blockchain.blocks[-1].prev_hash = "somefakehash"
     # changing the previous hash of a block will break the validation
     assert error4.rwValidation() is False
     # a slightly longer valid chain with transactions between multiple users with multiple tickets is still valid if not altered
