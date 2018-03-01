@@ -4,7 +4,7 @@ from datetime import timedelta
 
 def test_validateticketcode():
     venue = Venue("Max Palevsky", "Hyde Park")
-    event = venue.createEvent("Rock Show", datetime.now() + timedelta(years=3),
+    event = venue.createEvent("Rock Show", datetime.now() + timedelta(hours=4),
                               "An event for students to rock out!")
     seat = Seat("General Admission", "N/A", 1)
     ticket = venue.createTicket(event, 20, seat)
@@ -12,38 +12,38 @@ def test_validateticketcode():
     user2 = User("Ross", "Piper", "rp@example.com")
     user1.wallet = 100000
     user2.wallet = 100000
-    ticket.for_sale = True
+    ticket.listTicket(ticket.face_value, venue.id)
     user1.buyTicket(ticket)
-    qrcode = user1.generateTicketCode(venue, event, ticket)
     # checks original purchaser still holds ticket, true
     assert venue.validateTicketCode(event.id, ticket.ticket_num,
-                                    ticket.mostRecentTransaction().target, event.blockchain[-1].hash, qrcode) is True
+                                    user1.id, event.blockchain.blocks[-1].hash)
+    # checks bogus event id doesn't pass
+    assert not venue.validateTicketCode(event.id + 5, ticket.ticket_num, user1.id, event.blockchain.blocks[-1].hash)
+    # checks invalid ticket number doesnt pass
+    assert not venue.validateTicketCode(event.id, ticket.ticket_num + 1, user1.id, event.blockchain.blocks[-1].hash)
     ticket.listTicket(21, user1.id)
     user2.buyTicket(ticket)
-    # checks when user sells ticket that the code no longer works
-    assert venue.validateTicketCode(event.id, ticket.ticket_num, ticket.mostRecentTransaction().target, event.blockchain[-1].hash, qrcode) is False
-    qrcode = user2.generateTicketCode(venue, event, ticket)
+    # checks that user1 can no longer use their code, as the ids dont match, even with a current hash
+    assert not venue.validateTicketCode(event.id, ticket.ticket_num, user1.id, event.blockchain.blocks[-1].hash)
+    # checks that someone cannot spoof user2's id, with a previously correct hash
+    assert not venue.validateTicketCode(event.id, ticket.ticket_num, user2.id, event.blockchain.blocks[-2].hash)
     # check the the second user's code now works
-    assert venue.validateTicketCode(event.id, ticket.ticket_num, ticket.mostRecentTransaction().target, event.blockchain[-1].hash, qrcode) is True
+    assert venue.validateTicketCode(event.id, ticket.ticket_num, user2.id, event.blockchain.blocks[-1].hash)
+    event2 = venue.createEvent("Pop Show", datetime.now() + timedelta(hours=14), "An event for students to pop out!")
+    ticket2 = venue.createTicket(event2, 20, seat)
+    ticket2.listTicket(20, venue.id)
+    user1.buyTicket(ticket2)
+    # event2 is too far away to check in for
+    assert not venue.validateTicketCode(event2.id, ticket.ticket_num, user1.id, event2.blockchain.blocks[-1].hash)
     user3 = User("Hayden", "Mans", "hm@example.com")
     user3.wallet = 100000
-    seat2 = Seat("General Admission", "N/A", 2)
-    ticket2 = venue.createTicket(event, 20, seat2)
-    ticket2.for_sale = True
-    # check that once a new transaction occurs (genesis transaction in this case) that the code no longer works
-    assert venue.validateTicketCode(event.id, ticket.ticket_num, ticket.mostRecentTransaction().target, event.blockchain[-1].hash, qrcode) is False
-    qrcode = user2.generateTicketCode(venue, event, ticket)
-    # check that second user's code is now valid
-    assert venue.validateTicketCode(event.id, ticket.ticket_num, ticket.mostRecentTransaction().target, event.blockchain[-1].hash, qrcode) is True
-    user3.buyTicket(ticket2)
-    # check that a user buying another ticket invalidates this previous code
-    assert venue.validateTicketCode(event.id, ticket.ticket_num, ticket.mostRecentTransaction().target, event.blockchain[-1].hash, qrcode) is False
-    qrcode = user3.generateTicketCode(venue, event, ticket2)
-    # checks the user3's code is valid now
-    assert venue.validateTicketCode(event.id, ticket2.ticket_num, ticket2.mostRecentTransaction().target, event.blockchain[-1].hash, qrcode) is True
-    qrcode = user1.generateTicketCode(venue, event, ticket)
-    # checks that a user that does not own the ticket cannot create a valid code on a ticket he doesn't own
-    assert venue.validateTicketCode(event.id, ticket.ticket_num, ticket.mostRecentTransaction().target, event.blockchain[-1].hash, qrcode) is False
+    # a user who never owned the ticket can't just sub their id into a qr code
+    assert not venue.validateTicketCode(event.id, ticket.ticket_num, user3.id, event.blockchain.blocks[-1].hash)
+    event.blockchain.blocks[-1].data[0].target = user3.id
+    # even if the user is able to change the target of the transaction in the blockchain, the chain will not
+    # pass validation tests, thus the validation of the code will fail
+    assert not venue.validateTicketCode(event.id, ticket.ticket_num, user3.id, event.blockchain.blocks[-1].hash)
+
 
 """
 Validate Ticket Code
