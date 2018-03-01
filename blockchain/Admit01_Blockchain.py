@@ -885,7 +885,7 @@ class Venue:
         """
 
         if event_id is None or event_id < 0 or event_id >= Trackers.next_event_id:
-            return False
+            return None
 
         event_blockchain = self.events[event_id][0].blockchain
         chainlength = len(event_blockchain.blocks)
