@@ -897,6 +897,9 @@ class Venue:
                     trans -= 1
                 block -= 1
 
+        if len(venueTickets) == 0:
+            return None
+
         return venueTickets.sort()
 
     def manageTickets(self, event, new_price, section, row, seat_num):
