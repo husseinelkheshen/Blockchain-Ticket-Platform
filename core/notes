@@ -1,0 +1,22 @@
+Venue created on Django
+- Venue created on blockchain server
+
+User created on Django
+- User created on blockchain server
+
+Venue needs to be able to 
+- Create Event
+- Create Tickets for an Event
+- Manage Event
+- Manage Tickets
+- View Events
+- View Tickets for an Event
+- Validate Ticket
+- Schedule release of ticket
+
+Users need to be able to
+- Search for Tickets
+- Explore
+- Buy Ticket
+- Manage Event
+- View Tickets
