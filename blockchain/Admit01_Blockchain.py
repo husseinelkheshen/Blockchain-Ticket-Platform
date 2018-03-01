@@ -2,9 +2,11 @@ from random import *
 import datetime as date
 import hashlib as hasher
 import pyqrcode as qr
+from time import sleep
 import re
 import string
 import operator
+
 
 
 class Trackers:
@@ -19,8 +21,7 @@ class Trackers:
 
     # keep track of all Venues on the platform
     # dictionaries of Venues are mapped by their location
-    # per-location dictionaries of Venues are mapped by their name
-    # ex. {'Chicago, IL': {'Apollo Theater': <Venue obj>}}
+
     registered_venues = {}
 
     # keep track of all registered Users on the platform
@@ -690,7 +691,35 @@ class Venue:
 
     def scheduleRelease(self, event, ticket_class, date, number):
         # iteration 2
-        return False
+        to_be_released = []
+        if date < date.datetime.now():
+            if number < 1:
+                return False, []
+            for ticket in event.tickets:
+                if ticket.seat.section == ticket_class and not ticket.is_scheduled and not ticket.isForSale():
+                    to_be_released.append((ticket, date))
+                    if number == len(to_be_released):
+                        break
+            for ticket in to_be_released:
+                ticket.is_scheduled = True
+            if len(to_be_released) < number:
+                event.scheduled.extend(to_be_released)
+                return False
+            else:
+                event.scheduled.extend(to_be_released)
+                return True
+        else:
+            for ticket in event.tickets:
+                if ticket.seat.section == ticket_class and not ticket.is_scheduled and not ticket.isForSale():
+                    to_be_released.append(ticket)
+                    if number == len(to_be_released):
+                        break
+            for ticket in to_be_released:
+                ticket.listTicket(self.id, ticket.face_value)
+            if len(to_be_released) < number:
+                return False
+            else:
+                return True
 
 
 class Event:
@@ -716,6 +745,7 @@ class Event:
             self.datetime = datetime
             self.desc = desc
             self.blockchain = Chain()    # initialize an empty blockchain
+            self.scheduled = []
 
     def rwValidation(self):
         # Validate event blockchain
@@ -740,6 +770,19 @@ class Event:
             return True
         else:
             return False
+
+    def checkRelease(self):
+        released = []
+        current = date.datetime.now()
+        for ticket, time in self.scheduled:
+            if time <= current:
+                ticket.listTicket(self.venue.id, ticket.face_value)
+                ticket.is_scheduled = False
+                released.append((ticket, time))
+        total = set(self.scheduled)
+        released = set(released)
+        self.scheduled = list(total - released)
+        return len(released)
 
 
 class Seat:
