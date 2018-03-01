@@ -92,5 +92,5 @@ clean:
 	find . -name \*.pyc -delete
 
 # Delete all pytest log files
-clean_logs:
+clean_log:
 	find . -name \*.log -delete
