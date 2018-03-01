@@ -951,6 +951,25 @@ class Venue:
                 self.events[event.id][0].tickets[x].list_price = new_price
             return True
 
+        if row is None:
+            for x in ownedTickets:
+                if self.events[event.id][0].tickets[x].seat.section == section:
+                    self.events[event.id][0].tickets[x].list_price = new_price
+            return True
+        else:
+            if seat_num is None:
+                for x in ownedTickets:
+                    if (self.events[event.id][0].tickets[x].seat.section == section and
+                        self.events[event.id][0].tickets[x].seat.row == row):
+                        self.events[event.id][0].tickets[x].list_price = new_price
+                return True
+            else:
+                for x in ownedTickets:
+                    if (self.events[event.id][0].tickets[x].seat.section == section and
+                        self.events[event.id][0].tickets[x].seat.row == row and
+                        self.events[event.id][0].tickets[x].seat.seat_no == seat_num):
+                        self.events[event.id][0].tickets[x].list_price = new_price
+                return True
 
     def scheduleRelease(self, event, ticket_class, date, number):
         # iteration 2

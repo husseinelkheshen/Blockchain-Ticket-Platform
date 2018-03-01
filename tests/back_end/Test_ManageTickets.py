@@ -43,28 +43,30 @@ def test_invalid_section():
     assert (not venue1.manageTickets(venue1.events[0][0], 80, None, "C", 5) and
             venue1.events[0][0].tickets[0].list_price == 50)
 
-#
-# def test_valid_seat():
-#     """ Tests a ManageTicket call with correct parameters for changing the price of one ticket"""
-#     assert (venue1.manageTickets(venue1.events[0][0], 80, "Cheap Seats", "C", 5) and
-#             ticket1.list_price == 80 and
-#             ticket2.list_price == 70 and
-#             ticket3.list_price == 90)
-#
-# def test_valid_row():
-#     """ Tests a ManageTicket call with correct parameters for changing the price of one row of tickets"""
-#     assert (venue1.manageTickets(venue1.events[0][0], 100, "Cheap Seats", "C", None) and
-#             ticket1.list_price == 100 and
-#             ticket2.list_price == 70 and
-#             ticket3.list_price == 100)
-#
-# def test_valid_section():
-#     """ Tests a ManageTicket call with correct parameters for changing the price of one section of tickets"""
-#     assert (venue1.manageTickets(venue1.events[0][0], 120, "Cheap Seats", None, None) and
-#             ticket1.list_price == 120 and
-#             ticket2.list_price == 120 and
-#             ticket3.list_price == 120)
-#
+def test_valid_seat():
+    """ Tests a ManageTicket call with correct parameters for changing the price of one ticket"""
+    assert (venue1.manageTickets(venue1.events[0][0], 80, "Cheap Seats", "C", 5) and
+            venue1.events[0][0].tickets[0].list_price == 80 and
+            venue1.events[0][0].tickets[1].list_price == 70 and
+            venue1.events[0][0].tickets[2].list_price == 90 and
+            venue1.events[0][0].tickets[3].list_price == 30)
+
+def test_valid_row():
+    """ Tests a ManageTicket call with correct parameters for changing the price of one row of tickets"""
+    assert (venue1.manageTickets(venue1.events[0][0], 100, "Cheap Seats", "C", None) and
+            venue1.events[0][0].tickets[0].list_price == 100 and
+            venue1.events[0][0].tickets[1].list_price == 70 and
+            venue1.events[0][0].tickets[2].list_price == 100 and
+            venue1.events[0][0].tickets[3].list_price == 30)
+
+def test_valid_section():
+    """ Tests a ManageTicket call with correct parameters for changing the price of one section of tickets"""
+    assert (venue1.manageTickets(venue1.events[0][0], 120, "Cheap Seats", None, None) and
+            venue1.events[0][0].tickets[0].list_price == 120 and
+            venue1.events[0][0].tickets[1].list_price == 120 and
+            venue1.events[0][0].tickets[2].list_price == 120 and
+            venue1.events[0][0].tickets[3].list_price == 30)
+
 def test_valid_tickets():
     """ Tests a ManageTicket call with correct parameters for changing the price of all Venue tickets"""
     assert (venue1.manageTickets(venue1.events[0][0], 150, None, None, None) and
