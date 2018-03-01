@@ -5,6 +5,7 @@ install:
 	pip3 install nltk
 	pip3 install numpy
 	python3 -m pip install pytest
+	python3 downloads/downloads.py
 
 # Run a comprehensive acceptance test
 acceptance_test:

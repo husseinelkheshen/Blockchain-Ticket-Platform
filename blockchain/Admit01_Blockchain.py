@@ -10,11 +10,6 @@ import copy
 #from nltk.tree import Tree
 import numpy
 import nltk
-nltk.download('maxent_ne_chunker')
-nltk.download('punkt')
-nltk.download('averaged_perceptron_tagger')
-nltk.download('words')
-
 
 
 class Trackers:
@@ -546,7 +541,7 @@ class User:
         owner_venue.wallet += upgrade_price
 
         # add appropriate funds to seller's wallet (iteration 2)
-        
+
         # add to user's preferences
         self.updatePreferences(new_ticket, "upgrade", None)
 
@@ -595,7 +590,7 @@ class User:
 
         if not text:
             return filtered_events
-        
+
         # update a user's preferences based on what they search for
             self.updatePreferences(None, "search", text)
 
