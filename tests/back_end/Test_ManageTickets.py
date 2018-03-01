@@ -17,7 +17,6 @@ venue1.createTicket(venue1.events[0][0], 70, testSeat2)
 venue1.createTicket(venue1.events[0][0], 90, testSeat3)
 venue1.createTicket(venue1.events[0][0], 30, testSeat4)
 
-
 def test_no_event():
     """ Tests a ManageTicket call with no Event to check for failure """
     assert (not venue1.manageTickets(None, 80, "Cheap Seats", "C", 5) and

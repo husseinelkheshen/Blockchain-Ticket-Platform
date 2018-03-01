@@ -896,8 +896,19 @@ class Venue:
             return False
 
         event_blockchain = self.events[0][0].blockchain
-        blockchain_length = len(event_blockchain.blocks)
+        chainlength = len(event_blockchain.blocks)
 
+        venueTickets = []
+
+        if chainlength != 0:
+            block = -1
+            while abs(block) <= chainlength:
+                translength = len(event_blockchain.blocks[block].data)
+                trans = -1
+                while abs(trans) <= translength:
+                    this_block = event_blockchain.blocks[block]
+                    trans -= 1
+                block -= 1
 
 
     def scheduleRelease(self, event, ticket_class, date, number):
