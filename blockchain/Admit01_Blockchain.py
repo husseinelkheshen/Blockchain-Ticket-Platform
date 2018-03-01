@@ -161,7 +161,10 @@ class Block:
 
     def __str__(self):
         """ Default to_string method """
-        return str(self.index) + str(self.data) + self.prev_hash
+        ret = str(self.index)
+        for trans in self.data:
+            ret += str(trans)
+        return ret + self.prev_hash
 
 
 class Chain:
@@ -282,7 +285,10 @@ class Transaction:
             self.target = target
             self.source = source
             self.value = value
-            self.ticket_num = ticket_num #
+            self.ticket_num = ticket_num
+
+    def __str__(self):
+        return str(self.target) + str(self.source) + str(self.value) + str(self.ticket_num)
 
 
 class User:
@@ -736,7 +742,20 @@ class Venue:
 
     def validateTicketCode(self, event_id, ticket_num, user_id, hash):
         # iteration 2
-        pass
+        if event_id not in self.events:
+            return False
+        if not (date.datetime.now() - date.timedelta(hours=12) <= self.events[event_id][0].datetime <= date.datetime.now() + date.timedelta(hours=12)):
+            return False
+        if ticket_num >= self.events[event_id][0].next_ticket_num:
+            return False
+        block, trans = self.events[event_id][1].findRecentBlockTrans(ticket_num)
+        if user_id != trans.target:
+            return False
+        if hash != block.hashBlock(block.nonce):
+            return False
+        if not self.events[event_id][0].rwValidation():
+            return False
+        return True
 
     def createEvent(self, name, datetime, desc):
         """
@@ -1038,7 +1057,6 @@ class Event:
         chains are not broken and that the chains are in sync
 
         Returns a boolean
-
         """
         i = 1
         valid = self.blockchain.blocks[0].hash == self.venue.events[self.id][1].blocks[0].hash \
@@ -1056,7 +1074,8 @@ class Event:
                     return False
             else:
                 return False
-        if self.blockchain.blocks[-1].hash == self.venue.events[self.id][1].blocks[-1].hash:
+        if self.blockchain.blocks[-1].hashBlock(self.blockchain.blocks[-1].nonce) == \
+                self.venue.events[self.id][1].blocks[-1].hashBlock(self.venue.events[self.id][1].blocks[-1].nonce):
             return True
         else:
             return False
