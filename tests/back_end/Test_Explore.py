@@ -19,6 +19,15 @@ testEvent10 = testVenue1.createEvent("Another band", testDatetime, "this is a ba
 
 testVenue2 = Venue("Washington Square Park", "New York City, New York")
 testEvent11 = testVenue2.createEvent("Zero 7", testDatetime, "this is also a band")
+testEventn1 = testVenue2.createEvent("Zero 7", testDatetime, "this is also a band")
+testEventn2 = testVenue2.createEvent("Zero 7", testDatetime, "this is also a band")
+testEventn3 = testVenue2.createEvent("Zero 7", testDatetime, "this is also a band")
+testEventn4 = testVenue2.createEvent("Zero 7", testDatetime, "this is also a band")
+testEventn5 = testVenue2.createEvent("Zero 7", testDatetime, "this is also a band")
+testEventn6 = testVenue2.createEvent("Zero 7", testDatetime, "this is also a band")
+testEventn7 = testVenue2.createEvent("Zero 7", testDatetime, "this is also a band")
+testEventn8 = testVenue2.createEvent("Zero 7", testDatetime, "this is also a band")
+testEventn9 = testVenue2.createEvent("Zero 7", testDatetime, "this is also a band")
 
 testVenue3 = Venue("The314", "Space")
 testEvent12 = testVenue3.createEvent("Informative Talk 1", testDatetime, "lecture")
@@ -103,16 +112,16 @@ def test_location_pref1():
 	Test recommendation agreement with user preferences for location
 	"""
 	eventsList = testUser3.explore()
-	assert testEvent1 in eventsList
-	assert testEvent2 in eventsList
-	assert testEvent3 in eventsList
-	assert testEvent4 in eventsList
-	assert testEvent5 in eventsList
-	assert testEvent6 in eventsList
-	assert testEvent7 in eventsList
-	assert testEvent8 in eventsList
-	assert testEvent9 in eventsList
 	assert testEvent11 in eventsList
+	assert testEventn1 in eventsList
+	assert testEventn2 in eventsList
+	assert testEventn3 in eventsList
+	assert testEventn4 in eventsList
+	assert testEventn5 in eventsList
+	assert testEventn6 in eventsList
+	assert testEventn7 in eventsList
+	assert testEventn8 in eventsList
+	assert testEventn9 in eventsList
 	assert testEvent10 not in eventsList
 
 def test_location_pref2():
