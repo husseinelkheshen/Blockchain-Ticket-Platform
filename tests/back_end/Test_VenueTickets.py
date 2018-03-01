@@ -7,8 +7,9 @@ testSeat1 = Seat("Cheap Seats", "C", 5)
 testSeat2 = Seat("Cheap Seats", "C", 6)
 
 venue1 = Venue("Wrigley Field", "Chicago, IL")
-venue1.createEvent("Lady Gaga", valid_date, "Stadium world tour")
 venue1.createEvent("Chicago Bulls", valid_date, "Tanking season")
+
+user1 = User("Ethan", "Reeder", "er@example.com")
 
 def test_no_event():
     """ Tests a function call with no Event """
@@ -30,3 +31,15 @@ def test_one_ticket():
     """ Tests an Event with one ticket """
     venue1.createTicket(venue1.events[0][0], 50, testSeat1)
     assert venue1.venueTickets(0) == [0]
+
+def test_two_tickets():
+    """ Tests an Event with two ticket """
+    venue1.createTicket(venue1.events[0][0], 30, testSeat2)
+    assert venue1.venueTickets(0) == [0, 1]
+
+
+def test_post_transaction():
+    """ Tests an Event after the Venue sells a ticket """
+    venue1.events[0][0].tickets[0].listTicket(0, venue1.id)
+    user1.buyTicket(venue1.events[0][0].tickets[0])
+    assert venue1.venueTickets(0) == [1]
