@@ -80,7 +80,7 @@ def test_venue_owned():
     user1.buyTicket(venue1.events[0][0].tickets[3])
 
     assert (venue1.manageTickets(venue1.events[0][0], 200, None, None, None) and
-            venue1.events[0][0].tickets[0].list_price == 200and
+            venue1.events[0][0].tickets[0].list_price == 200 and
             venue1.events[0][0].tickets[1].list_price == 200 and
             venue1.events[0][0].tickets[2].list_price == 200 and
             venue1.events[0][0].tickets[3].list_price == 0)
