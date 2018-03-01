@@ -929,10 +929,21 @@ class Venue:
 
         """
         invalid_price = False
-        if(new_price is None or new_price < 0):
+        if new_price is None or new_price < 0:
             invalid_price = True
 
-        if(event is None or invalid_price):
+        if event is None or invalid_price:
+            return False
+
+        ownedTickets = self.venueTickets(event.id)
+
+        if ownedTickets is None:
+            return False
+
+        if section is None and row is None and seat_num is not None:
+            return False
+
+        if section is None and (row is not None or seat_num is not None):
             return False
 
     def scheduleRelease(self, event, ticket_class, date, number):

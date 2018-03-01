@@ -62,3 +62,10 @@ def test_invalid_section():
 #             ticket1.list_price == 120 and
 #             ticket2.list_price == 120 and
 #             ticket3.list_price == 120)
+#
+# def test_valid_tickets():
+#     """ Tests a ManageTicket call with correct parameters for changing the price of all Venue tickets"""
+#     assert (venue1.manageTickets(venue1.events[0][0], 150, None, None, None) and
+#             ticket1.list_price == 150 and
+#             ticket2.list_price == 150 and
+#             ticket3.list_price == 150)
