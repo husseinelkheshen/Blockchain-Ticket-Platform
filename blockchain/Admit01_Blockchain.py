@@ -851,10 +851,21 @@ class Venue:
             return False
         if ticket_num >= self.events[event_id][0].next_ticket_num:
             return False
-        block, trans = self.events[event_id][1].findRecentBlockTrans(ticket_num)
+        ticket = self.events[event_id][0].tickets[ticket_num]
+        trans = ticket.mostRecentTransaction()
+        if trans is None:
+            return False
         if user_id != trans.target:
             return False
-        if hash != block.hashBlock(block.nonce):
+        if hash != ticket.history[-1][1]:
+            return False
+        # checks venue hash for validity
+        if hash != self.events[event_id][1].blocks[ticket.history[-1][0]].hashBlock\
+                (self.events[event_id][1].blocks[ticket.history[-1][0]].nonce):
+            return False
+        # checks event hash for validity
+        if hash != self.events[event_id][0].blockchain.blocks[ticket.history[-1][0]].hashBlock\
+                    (self.events[event_id][0].blockchain.blocks[ticket.history[-1][0]].nonce):
             return False
         if not self.events[event_id][0].rwValidation():
             return False
@@ -1098,7 +1109,15 @@ class Venue:
                 return True
 
     def scheduleRelease(self, event, ticket_class, time, number):
-        # iteration 2
+        """
+        Allows a Venue to schedule tickets to be released in the future
+            event: The event to schedule tickets for
+            ticket_class: The seat section of the tickets to be scheduled
+            time: The datetime object at which the tickets should be released
+            number: How many tickets of this type to release
+
+        returns a Boolean
+        """
         event.checkRelease()
         to_be_released = []
         if time > event.datetime:
@@ -1186,6 +1205,11 @@ class Event:
             return False
 
     def checkRelease(self):
+        """
+            Checks if any tickets for this event should be released now
+
+        returns an integer count of the number of tickets released
+        """
         released = []
         current = date.datetime.now()
         for ticket in self.scheduled:
