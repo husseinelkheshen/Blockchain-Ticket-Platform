@@ -155,5 +155,5 @@ Note: For Mac users who have not already enabled Python to install certificates,
 (Replace x with your installed version of Python, for example 3.5 or 3.6)
 
 If the terminal command does not work, please search "Install Certificates.command" on Finder, using the This Mac setting (search whole computer).
-Once the file is found, please double click on it. It should execute in Shell and permit Python on you machine to install certificates.
+Once the file is found, please double click on it. It should execute in Shell and permit Python on your machine to install certificates.
 Our Explore functions depends on a package which requires SSL certification to be downloaded.
