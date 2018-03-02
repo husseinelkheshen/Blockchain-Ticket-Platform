@@ -43,7 +43,7 @@ def schedule_release(request):
     pass
 
 @venue_login_required
-def view_events(request, venue_id):
+def venue(request, venue_id):
     """
     View the events of a venue.
     """
