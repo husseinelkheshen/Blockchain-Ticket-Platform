@@ -25,7 +25,7 @@ SECRET_KEY = 'ah#c09r&p=t-w*o(kmx7aygs!_6cgfzaz_a%!p^r4s&xe9u)g4'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '128.135.203.173', '128.135.203.175']
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -129,7 +129,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # Blockchain API
-BLOCKCHAIN_API = {'host': 'http://128.135.203.175', 'port': 80}
+BLOCKCHAIN_API = {'host': 'http://ec2-18-222-75-253.us-east-2.compute.amazonaws.com', 'port': 80}
 
 # Global API settings
 API_TIMEOUT = 5

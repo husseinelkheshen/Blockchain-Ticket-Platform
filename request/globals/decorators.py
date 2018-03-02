@@ -27,7 +27,7 @@ def customer_login_required(function=None, redirect_field_name=REDIRECT_FIELD_NA
     """
     actual_decorator = user_passes_test(
         lambda u:
-            u.is_authenticated and Customer.objects.get(user=user) is not None,
+            u.is_authenticated and Customer.objects.get(user=u) is not None,
         login_url=login_url,
         redirect_field_name=redirect_field_name
     )
