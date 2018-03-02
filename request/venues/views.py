@@ -34,26 +34,44 @@ def list_ticket(request, event_id, ticket_num):
     return redirect("home")
 
 @venue_login_required
-def validate_ticket(request, event_id, ticket_num):
-    venue = Venue.objects.get_object_or_404(user=request.user)
-    event = Event.objects.get_object_or_404(pk=event_id)
+def validate_ticket(request, venue_id, event_id):
+    venue = Venue.objects.get_object_or_404(user=request.user, pk=venue_id)
+    event = Event.objects.get_object_or_404(pk=event_id, venue=venue)
 
-    # TODO: send request to blockchain server to validate ticket
-    result = True
+    if request.method == "POST":
+        form = ValidateTicketForm(request.POST)
+        if form.is_valid():
+            ticket_num = form.cleaned_data.get("ticket-num")
 
-    if result:
-        messages.success(request, "Ticket validated.")
+            # TODO: send request to blockchain server to validate ticket
+            result = True
+
+            if result:
+                messages.success(request, "Ticket validated.")
+            else:
+                messages.error(request, "Ticket not valid.")
+
+            return redirect("validate_ticket", event_id)
     else:
-        messages.error(request, "Ticket not valid.")
+        form = ValidateTicketForm()
 
-    return redirect("venue", venue.pk)
+    context = {
+        "venue": venue,
+        "event": event,
+        "form": form
+    }
+
+    return render(request, "validate_ticket.html", context)
 
 @venue_login_required
-def schedule_release(request):
+def schedule_release(request, event_id, section, num_tickets):
     """
     Schedule the release of the tickets for an event.
     """
-    pass
+    venue = Venue.objects.get_object_or_404(user=request.user)
+    event = Event.objects.get_object_or_404(pk=event_id, venue=venue)
+
+
 
 @venue_login_required
 def venue(request, venue_id):
