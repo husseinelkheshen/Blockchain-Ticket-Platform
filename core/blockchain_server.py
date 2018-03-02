@@ -1,6 +1,7 @@
 from flask import Flask
 from flask import request, jsonify
 from blockchain_methods import *
+from misc import parse_events
 
 app = Flask(__name__)
 # api = Api(app)
@@ -345,11 +346,7 @@ def venue_view_events():
 
     # create list of events
     events = bc_get_all_events(v)
-    ret = []
-    for e in events:
-        e_dict = {'event_id': e.id, 'name': e.name, 'desc': e.desc,
-            'num_scheduled_tickets': len(e.scheduled)}
-        ret.append(e_dict)
+    ret = parse_events(events)
 
     return good_request(ret)
 
@@ -604,6 +601,132 @@ def venue_view_event():
             'num_scheduled_tickets': len(e.scheduled)}
 
     return good_request(e_dict)
+
+
+"""
+Search for events
+Input:
+{
+    "user_email": String,
+    "search_info": 
+    {
+        "search_text": String,
+        "date_range": Integer,
+        "date": 
+        {
+            "month": Integer,
+            "year": Integer,
+            "day": Integer
+        }
+    }
+}
+Output:
+[
+    {
+        'event_id': Integer, 
+        'name': String, 
+        'desc': String,
+        'num_scheduled_tickets': Integer
+    }
+]
+"""
+@app.route("/user/search", methods=['POST'])
+def user_search():
+    user_email = request.json.get('user_email')
+    u = Trackers.registered_users.get(user_email)
+    if u is None:
+        return bad_request('User does not exist')
+    search_info = request.json.get('search_info')
+
+    if search_info is None:
+        return bad_request('Need search_info')
+    search_text = search_info.get('search_text')
+    date_range = search_info.get('date_range')
+    date = search_info.get('date')
+    
+    events = bc_search(u, search_text, date, date_range)
+    ret = parse_events(events)
+    return good_request(ret)
+
+"""
+Explore feature
+Input:
+{
+    "user_email": String,
+}
+Output:
+[
+    {
+        'event_id': Integer, 
+        'name': String, 
+        'desc': String,
+        'num_scheduled_tickets': Integer
+    }
+]
+"""
+@app.route("/user/explore", methods=['POST'])
+def user_explore():
+    user_email = request.json.get('user_email')
+    u = Trackers.registered_users.get(user_email)
+    if u is None:
+        return bad_request('User does not exist')
+    events = bc_explore(u)
+    ret = parse_events(events)
+    return good_request(ret)
+
+
+"""
+Schedule release of all tickets for a section of an event
+Input:
+{
+    "event_id": Integer,
+    "venue": 
+    {
+        "venue_location": String,
+        "venue_name": String
+    },
+    "release_info":
+    {
+        "section": String,
+        "release_date":
+        {
+            "month": Integer,
+            "day": Integer, 
+            "year": Integer
+        }
+    }
+}
+"""
+@app.route("/venue/schedule_release", methods=['POST'])
+def venue_schedule_release():
+    # get venue
+    venue = request.json.get('venue')
+    if (venue is None):
+        return bad_request('Need venue')
+
+    # get venue object
+    v = parse_venue(venue)
+    if v is None:
+        return bad_request('Venue does not exist')
+
+    # get event
+    event_id = request.json.get('event_id')
+    e = bc_get_event(v, event_id)
+    if e is None:
+        return bad_request('Event does not exist')
+
+    # get release_info
+    release_info = request.json.get('release_info')
+    if release_info is None:
+        return bad_request('Need release_info')
+    section = release_info.get('section')
+    release_date = release_info.get('release_date')
+
+    # schedule releases
+    if bc_schedule_release(v, e, section, release_date):
+        return good_request({})
+    return bad_request("Scheduling failed")
+
 
 
 

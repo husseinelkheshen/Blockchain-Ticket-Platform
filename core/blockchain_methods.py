@@ -122,4 +122,31 @@ def bc_buy_ticket(venue, event, user, section, row, seat_num):
     return False
 
 
+def bc_search(user, text, date, date_range):
+    if date is not None:
+        month = date.get('month')
+        year = date.get('year')
+        day = date.get('day')
+        if month is None or year is None or day is None:
+            return []
+        dt = datetime(month=month, day=day, year=year)
+    else:
+        dt = None
+    print(text)
+    return user.search(text=(text or ""), datetime=dt, date_range=(date_range or 0))
 
+def bc_explore(user):
+    return user.explore()
+
+def bc_schedule_release(venue, event, section, release_date):
+    if release_date is not None:
+        month = release_date.get('month')
+        year = release_date.get('year')
+        day = release_date.get('day')
+        if month is None or year is None or day is None:
+            return False
+        dt = datetime(month=month, day=day, year=year)
+    else:
+        dt = None
+
+    return venue.scheduleRelease(event, section, dt, len(event.tickets))
