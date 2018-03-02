@@ -1,6 +1,5 @@
 from flask import Flask
-from flask_restful import Resource, Api
-from flask import request, jsonify, status
+from flask import request, jsonify
 from blockchain_methods import *
 
 app = Flask(__name__)
@@ -9,10 +8,10 @@ venue_i = 0
 
 def bad_request(reason):
     content = {'reason': reason}
-    return content, status.HTTP_400_BAD_REQUEST
+    return jsonify(content), 400
 
 def good_request(content):
-    return content, status.HTTP_200_OK
+    return jsonify(content), 200
 
 
 """
@@ -34,9 +33,9 @@ def venue_create():
 
 """
 {
-    fname: String,
-    lname: String,
-    email_address: String
+    "fname": String,
+    "lname": String,
+    "email_address": String
 }
 """
 @app.route("/user/create", methods=['POST'])
@@ -62,11 +61,11 @@ Input:
     description: String,
     event_id: Integer,
     time: {
-        minute: Integer,
-        hour: Integer,
-        day: Integer,
-        month: Integer,
-        year: Integer
+        minute: Integer [0-59],
+        hour: Integer [0-23],
+        day: Integer [1-31],
+        month: Integer [1-12],
+        year: Integer [1-infinity)
     }
 }
 Output:
@@ -117,12 +116,12 @@ def event_create():
 """
 Input:
 {
-    venue: {
+    "venue": {
         "venue_location": String,
         "venue_name": String
     },
-    event_id: Integer,
-    tickets_info: {
+    "event_id": Integer,
+    "tickets_info": {
         "face_value": Integer,
         "section": String,
         "row_range": {
@@ -169,15 +168,15 @@ def tickets_create():
     e = bc_get_event(v, event_id)
 
     # get ticket info
-    ticket_info = json.get('tickets_info')
-    if (ticket_info is None):
+    tickets_info = request.json.get('tickets_info')
+    if (tickets_info is None):
         return bad_request('Need ticket information')
 
     # get ticket value
-    face_value = int(ticket_info.get('face_value'))
+    face_value = int(tickets_info.get('face_value'))
 
     # get section name
-    section_name = ticket_info.get('section')
+    section_name = tickets_info.get('section')
 
     # get row range
     min_row = tickets_info.get('row_range')['begin']
@@ -188,7 +187,7 @@ def tickets_create():
     max_seat = tickets_info.get('seat_range')['end']
 
     # create tickets
-    no_tickets_created = bc_create_tickets(section_name, min_row, max_row, min_seat, max_seat, e, v, face_value):
+    no_tickets_created = bc_create_tickets(section_name, min_row, max_row, min_seat, max_seat, e, v, face_value)
 
     return good_request({'no_tickets_created': no_tickets_created})
 
@@ -303,9 +302,9 @@ def tickets_edit():
     which_seats = update_info.get('which_seats')
     if which_seats is None:
         return bad_request('Need update_info.which_seats')
-    section = update_info.get('section')
-    row = update_info.get('row')
-    seat_num = update_info.get('seat_num')
+    section = which_seats.get('section')
+    row = which_seats.get('row')
+    seat_num = which_seats.get('seat_num')
     if seat_num is not None:
         seat_num = int(seat_num)
 
@@ -365,12 +364,22 @@ Input:
     event_id: Integer
 }
 Output:
-{
-    event_id: Integer, 
-    name: String, 
-    desc: String,
-    num_scheduled_tickets': len(e.scheduled)
-}
+[
+    {
+        'ticket_num': Integer, 
+        'event_id': Integer,
+        'face_value': Number, 
+        'list_price': Number,
+        'for_sale': Bool, 
+        'is_scheduled': Bool,
+        'seat': 
+            {
+                'seat_no': Integer, 
+                'row': String, 
+                'section': String
+            }
+    }
+]
 """
 @app.route("/venue/event/view_tickets", methods=['POST'])
 def event_view_tickets():
@@ -396,13 +405,65 @@ def event_view_tickets():
         seat_dict = {'seat_no': seat.seat_no, 'row': seat.row, 'section': seat.section}
         t_dict = {'ticket_num': t.ticket_num, 'event_id': t.event.id,
             'face_value': t.face_value, 'list_price': t.list_price,
-            'for_sale': t.for_sale, 'is_scheduled': t.is_scheduled,
+            'for_sale': t.for_sale, 'is_scheduled': t.isScheduled,
             }
         t_dict['seat'] = seat_dict
         ret.append(t_dict)
     return good_request(ret)
 
 
+"""
+List all tickets for an event
+Input:
+{
+    venue: {
+        venue_location: String,
+        venue_name: String
+    },
+    event_id: Integer,
+    list_info: {
+        which_seats: {
+            section(+): String,
+            row(+): String,
+            seat_num(+): Integer
+        }
+    }
+}
+Output:
+{
+        
+}
+"""
+@app.route("/venue/event/tickets/list", methods=['POST'])
+def tickets_list():
+    # get venue
+    venue = request.json.get('venue')
+    if (venue is None):
+        return bad_request('Need venue')
+
+    # get venue object
+    v = parse_venue(venue)
+    if v is None:
+        return bad_request('Venue does not exist')
+
+    # get event
+    event_id = request.json.get('event_id')
+    e = bc_get_event(v, event_id)
+    if e is None:
+        return bad_request('Event does not exist')
+
+    list_info = request.json.get('list_info')
+    if list_info is None:
+        return bad_request('Need list_info')
+    which_seats = list_info.get('which_seats')
+    if which_seats is None:
+        return bad_request('Need list_info.which_seats')
+    section = which_seats.get('section')
+    row = which_seats.get('row')
+    seat_num = which_seats.get('seat_num')
+
+    ticketsListed = bc_list_tickets(v, e, section, row, seat_num)
+    return good_request({"num_tickets_listed": ticketsListed or 0})
 
 
 

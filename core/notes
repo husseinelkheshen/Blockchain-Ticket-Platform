@@ -13,6 +13,7 @@ Venue needs to be able to
 - View Tickets for an Event
 - Validate Ticket
 - Schedule release of ticket
+- List ticket
 
 Users need to be able to
 - Search for Tickets
