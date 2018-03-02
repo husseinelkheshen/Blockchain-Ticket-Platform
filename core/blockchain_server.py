@@ -17,10 +17,7 @@ def good_request(content):
 
 """
 {
-	"venue_location": {
-		"city": String,
-		"state": String
-	},
+	"venue_location": String,
 	"venue_name": String
 }
 """
@@ -29,10 +26,8 @@ def venue_create():
 	venue_name = request.json.get('venue_name')
 	venue_location = request.json.get('venue_location')
 	if venue_name is None or venue_location is None:
-		return bad_request('Bad parameters\n {\n"venue_location": {\n"city": String,\n"state": String},\n"venue_name": String\n}')
-	venue_city = venue_location.get('city')
-	venue_state = venue_location.get('state')
-	vid = bc_create_venue(venue_name, venue_city, venue_state)
+		return bad_request('Bad parameters')
+	vid = bc_create_venue(venue_name, venue_location)
 	if vid is False:
 		return bad_request('Creating venue failed')
 	return good_request({'venue_id': vid})
@@ -60,10 +55,7 @@ def user_create():
 Input:
 {
 	venue: {
-		"venue_location": {
-			"city": String,
-			"state": String
-		},
+		"venue_location": String,
 		"venue_name": String
 	},
 	name: String,
@@ -93,14 +85,11 @@ def event_create():
 	if venue_location is None:
 		return bad_request('Need venue location')
 
-	venue_city = venue_location.get('city')
-	venue_state = venue_location.get('state')
-
 	# get venue name
 	venue_name = venue.get('venue_name')
 
 	# get venue object
-	v = bc_get_venue(venue_name, venue_city, venue_state)
+	v = bc_get_venue(venue_name, venue_location)
 	if v is None:
 		return bad_request('Venue does not exist')
 	
@@ -127,10 +116,7 @@ def event_create():
 Input:
 {
 	venue: {
-		"venue_location": {
-			"city": String,
-			"state": String
-		},
+		"venue_location": String,
 		"venue_name": String
 	},
 	event_id: Integer,
@@ -164,14 +150,11 @@ def tickets_create():
 	if venue_location is None:
 		return bad_request('Need venue location')
 
-	venue_city = venue_location.get('city')
-	venue_state = venue_location.get('state')
-
 	# get venue name
 	venue_name = venue.get('venue_name')
 
 	# get venue object
-	v = bc_get_venue(venue_name, venue_city, venue_state)
+	v = bc_get_venue(venue_name, venue_location)
 	if v is None:
 		return bad_request('Venue does not exist')
 
@@ -207,6 +190,62 @@ def tickets_create():
 
 	return good_request({'no_tickets_created': no_tickets_created})
 
+
+"""
+Input:
+{
+	venue: {
+		"venue_location": String,
+		"venue_name": String
+	},
+	event_id: Integer,
+	update_info : {
+		name(+): String,
+		time(+): {
+			minute: Integer,
+			hour: Integer,
+			day: Integer,
+			month: Integer,
+			year: Integer
+		},
+		desc(+): String
+	}
+}
+Output:
+{
+	"no_tickets_created": Integer
+}
+"""
+@app.route("/venue/event/edit", methods=['POST'])
+def event_edit():
+	# get venue
+	venue = request.json.get('venue')
+	if (venue is None):
+		return bad_request('Need venue')
+
+	# get venue object
+	v = parse_venue(venue)
+	if v is None:
+		return bad_request('Venue does not exist')
+
+	# get event id
+	event_id = request.json.get('event_id')
+	if (event_id is None):
+		return bad_request('Event does not exist')
+
+	# get event object
+	e = bc_get_event(event_id)
+
+	update_info = request.json.get('update_info')
+	if update_info is None:
+		return bad_request('Need update_info')
+	name = update_info.get('name')
+	time = update_info.get('time')
+	desc = update_info.get('desc')
+
+	if not bc_edit_event(v, e, name, time, desc or e.desc):
+		return bad_request('Update failed')
+	return good_request({'event_id': e.id})
 
 if __name__ == "__main__":
     app.run(debug=True)

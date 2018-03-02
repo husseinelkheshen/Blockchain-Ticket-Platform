@@ -2,19 +2,17 @@ from blockchain.Admit01_Blockchain import *
 from misc import venue_location_to_string
 from datetime import datetime
 
-def bc_create_venue(venue_name, venue_city, venue_state):
+def bc_create_venue(venue_name, venue_city, venue_loc_str):
 	# check if parameters are valid
 	if (venue_city is None or venue_state is None or venue_name is None):
 		return False
-	venue_loc_str = venue_location_to_string(venue_city, venue_state)
 	v = Venue(venue_name, venue_loc_str)
 	# check if venue creation succeeded
 	if v.id is None:
 		return False
 	return v.id
 
-def bc_get_venue(venue_name, venue_city, venue_state):
-	venue_loc_str = venue_location_to_string(venue_city, venue_state)
+def bc_get_venue(venue_name, venue_loc_str):
 	if venue_loc_str in Trackers.registered_venues:
 		if venue_name in Trackers.registered_venues[venue_loc_str]:
 			return Trackers.registered_venues[venue_loc_str][venue_name]
@@ -45,8 +43,8 @@ def bc_create_event(event_name, event_desc, event_time, venue):
 		return False
 	return e.id
 
-def bc_get_event(event_id):
-	return Trackers.get(event_id)[0]
+def bc_get_event(event_id, venue):
+	return venue.events[event_id][0]
 
 def bc_create_tickets(section_name, min_row, max_row, min_seat, max_seat, event, venue, face_value):
 	seat_nos = range(min_seat, max_seat)
@@ -55,3 +53,6 @@ def bc_create_tickets(section_name, min_row, max_row, min_seat, max_seat, event,
 		no_tickets += len(venue.createTickets(event, face_value, section_name, row, seat_nos))
 	return no_tickets
 
+def bc_edit_event(venue, event, event_name, event_time, event_desc):
+	dt = parse_event_time(event_time)
+	return venue.manageEvent(event, event_name, event_time, event_desc)
