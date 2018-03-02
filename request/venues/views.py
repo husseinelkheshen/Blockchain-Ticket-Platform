@@ -33,9 +33,22 @@ def list_ticket(request, event_id, ticket_num):
 
     return redirect("home")
 
-def validate_ticket(request):
-    pass
+@venue_login_required
+def validate_ticket(request, event_id, ticket_num):
+    venue = Venue.objects.get_object_or_404(user=request.user)
+    event = Event.objects.get_object_or_404(pk=event_id)
 
+    # TODO: send request to blockchain server to validate ticket
+    result = True
+
+    if result:
+        messages.success(request, "Ticket validated.")
+    else:
+        messages.error(request, "Ticket not valid.")
+
+    return redirect("venue", venue.pk)
+
+@venue_login_required
 def schedule_release(request):
     """
     Schedule the release of the tickets for an event.
