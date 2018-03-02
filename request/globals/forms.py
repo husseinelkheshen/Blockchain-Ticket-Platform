@@ -1,8 +1,8 @@
 from django import forms
 
 USER_TYPE_CHOICES = (
-    ("customer": "Customer"),
-    ("venue": "Venue")
+    ("customer", "Customer"),
+    ("venue", "Venue")
 )
 
 class RegisterForm(forms.Form):
