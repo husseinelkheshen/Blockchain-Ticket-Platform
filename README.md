@@ -156,6 +156,10 @@ Before doing anything else, you must execute 'make install' from the main direct
 
 If you encounter an error which says CERTIFICATE_VERIFY_FAILED, please read the note below. This, of course, won't be an issue in the final deployment of the software since it will be a web app running on a remote server.
 
+Skeleton code for events to view the visualization fo their ticketing blockchain can be found at 'design/html_wireframes/ticket_visualization_demo.html', and the javascript utilized to write the visualization function is in the js folder under 'ticket_visualization_demo.js'. The html can be pulled up in any browser, with chrome likely being the best to view the visualization in. 
+
+(how to run the whole server code business/ what pages to view on the website and how the interact.)
+
 #### SSL CERTIFICATE VERIFICATION
 
 Note: For Mac users who have not already enabled Python to install certificates, please run the following command from the Terminal including the quotation marks:
@@ -173,12 +177,14 @@ You can use the Makefile to run our test cases by executing 'make unit_tests' fr
 If you wish to only run the unit_tests that are new since the last iteration, you can instead run 'make iter2_unittests' or 'make iter2_unittests_log' (if you'd like to store the pytest logs, as described above).
 
 ### Suggestions for Acceptance Tests
-To test API: Our API acceptance tests use the REST client Insomnia (https://insomnia.rest/download). To see our tests, import `tests/front_end/insomnia_api_tests.json` into Insomnia. Once that is done, the tests should appear in logical order, from top to bottom. Some implementation familiarity is necessary to edit the tests, but they are intuitive to read and therefore it is easy to validate its output. Failures in the API due to improper parameters return helpful failure messages. Successful API calls return easily readable JSON messages.
+To test API: Our API acceptance tests use the REST client Insomnia (https://insomnia.rest/download). To see our tests, import `tests/front_end/insomnia_api_tests.json` into Insomnia. Once that is done, the tests should appear in logical order, from top to bottom. Our API acceptance tests test the integration of the front end requests that the server makes to API library calls written by the back end team. Some implementation familiarity is necessary to edit the tests, but they are intuitive to read and therefore it is easy to validate its output. Failures in the API due to improper parameters should return helpful failure messages. Successful API calls return easily readable JSON messages.
 
 ### What is Implemented?
 
 #### Front end
-<TO-DO: @FRONTEND>
+On the front end, we have achieved integration with the request API server to the Python backend. We are able to make requests from our server to the python server as well as manipulate and interact with our database. In addition to fully integrating our API server, we've also complete the django templating engine for the website UI and, as well as having achieved basic integation of the API server and the website UI views. 
+
+Skeleton code for a blockchain visualization was also implemented. This visualization was proposed as an important measure for events and venues to be able to visualize the state of their ticketing block-chain as a way that distinguishes our ticketing blockchain from normal ticketing software. However, since this was not included in the original design plan, we eventually thought it best not to spend more time than necessary and just leave it as conceptual skeleton code that demonstrates the uniqueness of the ticketing blockchain, albeit not fully implemented.
 
 #### Back end
 On the back end, we have developed a three-point consensus mechanism, as planned, to serve as the fault-tolerance basis of our blockchain. We have also implemented a quick hash-based validation algorithm to ensure consistency across nodes prior to any reads and writes.
@@ -188,7 +194,11 @@ In terms of use cases, we have fully and successfully implemented **Explore**, *
 ### Who Did What?
 
 #### Front end
-<TO-DO: @FRONTEND>
+Pablo 
+
+Eurim
+
+Samantha wrote the django UI templating engine for the html wireframes developed during the last sprint, as well as writing wireframes for the event portal of the website and the code for a blockchain data visualization. 
 
 #### Back end
 Gina and Ethan paired to develop and test **Explore**.
@@ -198,4 +208,6 @@ Ross implemented and tested **Search**, **Create Event**, and **Create Tickets**
 Hayden and Hussein paired to develop and test **Manage Event**, **Manage Tickets** (and its helper **Venue Tickets**), **Schedule Release** (and its helper **Check Release**) and **Validate Ticket Code**, as well as improving the security of our already implemented blockchain infrastructure by adding a read-write validator (**rwValidation**) function that quickly validates the blockchain prior to any read or write access to it.
 
 ### Changes from Implementation Plan
-There were several minor test rigor and formatting changes to the unit tests since they were delivered with 4a, none of which changed the scope or diminished the coverage of the tests.
+For the back end, there were several minor test rigor and formatting changes to the unit tests since they were delivered with 4a, none of which changed the scope or diminished the coverage of the tests.
+
+For the front end, while we were able to achieve integration with the request server with the back end library calls, we weren't able to achieve full ui to back-end integration of the software. Because we don't learn a particularly great deal about how to integrate codebases, system architectures, and front end in general in the CS department and because we obviously had envisioned a finished product, we vastly underestimated the amount of code that is required to achieve fully integrated software from the back ends of library/api to the more minute detailed coding of ui that has to be able to interact with users and deal appropriately with user behaviour. There was also the unanticipated time cost of having to create manage the system architecture. That being said, while we deviated from the design goal of having a fully integrated website, we did manage to integrate the front end and the back ends, as well as building a templating engine for the UI that functions with dummy data that models the actual data context of the server.
