@@ -18,10 +18,7 @@ def buy_ticket(request, event_id, ticket_num):
 
     # build data
     data = {
-        "user": {
-            "id": customer.id,
-            "email": customer.user.email
-        },
+        "user_email": customer.user.email,
         "event": event_id,
         "ticket_num": ticket_num
     }
@@ -29,8 +26,8 @@ def buy_ticket(request, event_id, ticket_num):
     # send POST request to blockchain server with data.
     response = bcAPI.post("tickets/buy/", data=data)
 
-    # expect 201 response if successful.
-    if response[1] != 201:
+    # expect 200 response if successful.
+    if response[1] != 200:
         messages.error(request, "Couldn't contact blockchain server.")
     else:
         messages.success(request, "Ticket successfully purchased.")
@@ -53,7 +50,7 @@ def list_customer_tickets(request):
     # Expect JSON response with list of tickets, each with the name
     # of the event, details of the seat, the ticket id (num), and the venue.
     # TODO
-    response = bcAPI.get("tickets/" + str(customer.id)) 
+    response = bcAPI.post("user/view_tickets", data={"user_email": customer.user.email}) 
 
     if response[1] != 200: # request to blockchain server failed
         messages.error(

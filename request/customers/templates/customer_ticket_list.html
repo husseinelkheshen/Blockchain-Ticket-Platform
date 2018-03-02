@@ -7,9 +7,9 @@
     {% for ticket in tickets %}
     <div class="card">
         <div class="card-body">
-            <h3 class="card-title">{{ ticket.event.name }}</h3>
-            <h4 class="card-subtitle mb-2 text-muted">{{ ticket.event.name }}</h4>
-
+            <h3 class="card-title">{{ ticket.event_info.name }}</h3>
+            <h4 class="card-subtitle mb-2 text-muted">{{ ticket.venue.venue_name }}</h4>
+            <h4 class="card-subtitle mb-2 text-muted">{{ ticket.venue.venue_location }}</h4>
             <a href="#" class="card-link">Buy</a>
         </div>
     </div>

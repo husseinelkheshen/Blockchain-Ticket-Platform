@@ -21,8 +21,8 @@ def post(path, data):
     server, and return a tuple with decoding of the response and
     the status code. 
     """
-    r = requests.get(
+    r = requests.post(
             settings.BLOCKCHAIN_API["host"] + "/" + path, 
-            timeout=settings.API_TIMEOUT)
+            timeout=settings.API_TIMEOUT, json=data)
     
     return (r.json(), r.status_code)

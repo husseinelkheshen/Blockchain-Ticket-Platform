@@ -9,6 +9,7 @@ from .models import User
 from customers.models import Customer
 from venues.models import Venue
 from .forms import RegisterForm
+from globals import blockchain_api as bcAPI
 
 # Create your views here.
 def register(request):
@@ -30,14 +31,24 @@ def register(request):
                 user = User.objects.create_user(email=email, password=password1)
 
                 if user_type == "venue":
-                    Venue.objects.create(user=user, name=name)
-
-                    # TODO: Venue create call
+                    Venue.objects.create(user=user, name=name, location="Chicago, IL")
+                    data = {
+                        "venue_location": "Chicago, IL",
+                        "venue_name": name
+                    }
+                    response = bcAPI.post('venue/create', data=data).json()
+                    return str(response)
 
                 else:
                     Customer.objects.create(user=user, name=name)
+                    data = {
+                        "fname": name,
+                        "lname": "smith",
+                        "email_address": email
+                    }
+                    response = bcAPI.post('user/create', data=data).json
+                    return str(response)
 
-                    # TODO: Customer create call
 
             else:
                 messages.error(request, "Passwords do not match.")
@@ -86,9 +97,10 @@ def explore(request):
     user = request.user
 
     # TODO: submit request to blockchain server to get events for explore
-    response = {
-        "status": 200
+    data = {
+        "user_email": user.email
     }
+    response = bcAPI.post('user/explore', data=data)
 
     if response.status == 200:
         events = []

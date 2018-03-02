@@ -20,15 +20,19 @@ def list_ticket(request, event_id, ticket_num):
 
     # build data
     data = {
-        "event": event_id,
+        "venue": {
+            "venue_location": venue.location,
+            "venue_name": venue.name
+        },
+        "event_id": event_id,
         "ticket_num": ticket_num
     }
 
     # send POST request to blockchain server with data
-    response = bcAPI.post("tickets/list/", data=data)
+    response = bcAPI.post("venue/event/tickets/list", data=data)
 
     # expect 201 response if successful.
-    if response[1] != 201:
+    if response[1] != 200:
         messages.error(request, "Couldn't contact blockchain server.")
     else:
         messages.success(request, "Ticket successfully listed.")
@@ -82,9 +86,22 @@ def schedule_release(request, event_id):
         # TODO: send request to blockchain server indicating that
         # venue wants to schedule all the tickets.
 
-        response = {
-            "status": "200"
+        data = {
+            "venue": {
+                "venue_location": venue.location,
+                "venue_name": venue.name
+            },
+            "event_id": event_id,
+            "release_info": {
+                "section": "Big Section",
+                "release_date": {
+                    "month": 11,
+                    "day": 4,
+                    "year": 2017
+                }
+            }
         }
+        response = bcAPI.post("venue/schedule_release", data=data)
 
         if response["status"] == "200":
             messages.success(
@@ -114,7 +131,10 @@ def venue(request, venue_id):
         raise Http404("Venue does not exist.")
 
     # TODO: get events from API call to blockchain server
-    events = []
+    data = {"venue": {"venue_location": venue.location, "venue_name": venue.name}}
+    response = bcAPI.post("venue/event/tickets/list", data=data)
+    events = response.json()
+
 
     context = {
         "events": events,
