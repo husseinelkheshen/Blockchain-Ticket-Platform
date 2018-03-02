@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	{% load staticfiles %}
+	<link rel="stylesheet" href="{% static 'admit01/css/bootstrap.min.css' %}">
+	<link rel="stylesheet" href="{% static 'admit01/css/stylesheet.css' %}">
+	<link rel="shortcut icon" type="image/png" href="{% static 'admit01/images/favicon.png' %}"/>
+	<title>Admit 01 | Event Portal</title>
+</head>
+
+<body class="event">
+	<nav id="navigation" class="navbar nav-content-fill navbar-inverse color-white navbar-toggleable-sm">
+		<div class="container">
+			<div class="nav-brand">
+				<a class="nav-link d-none d-sm-inline-block" href="/event/"><img id="logo"
+					src="{% static 'admit01/images/logo_event_white_700.png' %}"/></a> <!-- Logo display for desktop -->
+				<a class="nav-link active d-sm-none" href="/event/"><img id="textlogo"
+					src="{% static 'admit01/images/textlogo_white.png' %}"/></a> <!-- Logo display for mobile -->
+				
+				<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#navCollapseToggler" aria-controls="navCollapseToggler"
+				aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button><!-- Toggle collapse button -->
+
+			</div>
+			
+			<div id="navCollapseToggler" class="collapse navbar-collapse">
+				<div class="navbar-nav ml-auto">
+					{% if logged_in %}
+					<a class="nav-link" href="my_account.html">Account</a>
+					<a class="nav-link" href="#">Logout</a>
+					{% else %}
+					<a class="nav-link" href="/event/login_register/">Login or Register</a>
+					{% endif %}
+				</div><!-- navbar-nav -->
+			</div><!-- collapse -->
+		</div><!-- container -->
+	</nav>
+<div id="search-container">
+	<div id="search">
+		<form id="search-form" method="post" action="">
+			<input type="text" id="searchbar" name="search" placeholder="Search Events"
+			style="font-family: 'Abel', sans-serif"/>
+			<input type="button" onclick="searchEvents()" value="Go" id="searchbtn" style="font-family: 'Abel', sans-serif; cursor: pointer;"/>
+		</form>
+	</div>
+</div>
+
+{% block main %}
+{% endblock %}
+
+<script src="{% static 'admit01/js/jquery.slim.min.js' %}"></script>
+<script src="{% static 'admit01/js/tether.min.js' %}"></script>
+<script src="{% static 'admit01/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'admit01/js/scripts.js' %}"></script>
+<script src="{% static 'admit01/js/pickaname.js' %}"></script>
+<script src="{% static 'admit01/js/validation.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+</body>
+
+</html>

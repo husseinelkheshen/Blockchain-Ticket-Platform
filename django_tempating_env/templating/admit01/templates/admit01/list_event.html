@@ -1,0 +1,30 @@
+{% extends 'admit01/base.html' %}
+
+{% block main%}
+
+<main>
+<div id = 'search-listings' style="margin-top: 1rem">
+		{% for event in search_results %}
+		<div class="container-fluid mb-2" style="width: 85%; height:150px; background-color: white; border: 1px solid black;">
+			<ul class="row" style="list-style: none">
+				<li class="col-12">
+					<h1><a href="#">{{event.event_name}}</a></h1>
+				</li>
+				<li class="col-12 col-sm-8">
+					{{event.venue}}
+				</li>
+				<li class="col-12 col-sm-4">
+					{{event.when}}
+				</li>
+				{% if isexplore %}
+				<button style="font-size: 12px">I'm Interested</button><button style="font-size: 12px">I'll pass</button>
+				{% endif %}
+			</ul>
+		</div>
+		{% endfor %}
+</div>
+
+</main>
+
+{% endblock %}
+

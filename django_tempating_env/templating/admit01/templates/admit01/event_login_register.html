@@ -1,0 +1,40 @@
+{% extends 'admit01/event_base.html' %}
+
+{% block main %}
+
+<main>
+	<div class="container" style="margin-top: 16px">
+		<div class="row">
+			<div class="container col-12 col-sm-6 mb-3">
+				<div class=" mx-auto rounded border text-center" style="width: 100%; height: 350px;
+				border:1px solid #4c4f68; background-color: white; padding: 10px; padding-top: 30px">
+					<h1 class="mb-4">Login</h1>
+					<p id='login-alert' style="color: red; font-size: 14px; visibility: hidden;">Invalid Username or Password</p>
+					<form id="login-form">
+						<input class="mb-4 login-register-input" type="text" name="email-id" placeholder="email"/>
+						<input class="mb-4 login-register-input" type="password" name="password" placeholder="password"/>
+						<button id="loginUserButton" class="mb-3 btn d-block mx-auto" type="button" value="Login"
+						style="color: white; background-color: #1b2838; font-family: 'Abel', sans-serif; cursor: pointer;">Login</button>
+					</form>
+				</div><!-- confirm ticket purchase container-->
+			</div>
+			<div class="container col-12 col-sm-6 mb-3">
+				<div class=" mx-auto rounded border text-center" style="width: 100%; height: 350px;
+				border:1px solid #4c4f68; background-color: white; padding: 10px; padding-top: 30px">
+					<h1 class="mb-2">Register</h1>
+					<p id='register-alert' style="color: red; font-size: 14px; visibility: hidden;">Alert</p>
+					<form id="register-form">
+						<input class="mb-3 login-register-input" type="text" name="email-id" placeholder="email"/>
+						<input class="mb-3 login-register-input" type="password" name="password" placeholder="password"/>
+						<input class="mb-3 login-register-input" type="password" name="confirm" placeholder="confirm password"/>
+						<button id="registerUserButton" class="mb-2 btn d-block mx-auto" type="button" value="Register" 
+						style="color: white; background-color: #1b2838; font-family: 'Abel', sans-serif; cursor: pointer;">Register</button>
+					</form>
+				</div><!-- confirm ticket purchase container-->
+			</div>
+
+		</div><!-- row -->
+	</div><!-- login/resgister container -->
+</main>
+
+{% endblock %}

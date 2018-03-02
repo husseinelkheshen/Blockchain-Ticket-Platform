@@ -12,7 +12,7 @@
 	<title>Admit 01 | Home</title>
 </head>
 
-<body style="background-color: #fffbf4">
+<body>
 	<nav id="navigation" class="navbar nav-content-fill navbar-inverse color-white navbar-toggleable-sm">
 		<div class="container">
 			<div class="nav-brand">
@@ -40,10 +40,10 @@
 	</nav>
 <div id="search-container">
 	<div id="search">
-		<form >
+		<form id="search-form" method="post" action="">
 			<input type="text" id="searchbar" name="search" placeholder="Search Events"
 			style="font-family: 'Abel', sans-serif"/>
-			<input type="submit" value="Go" id="searchbtn" style="font-family: 'Abel', sans-serif"/>
+			<input type="button" onclick="searchEvents()" value="Go" id="searchbtn" style="font-family: 'Abel', sans-serif; cursor: pointer;"/>
 		</form>
 	</div>
 </div>
@@ -51,42 +51,46 @@
 <main>
 	<div class="container-fluid" style="min-height: 200px;
 	background-image: url('images/stock_tickets.png');">
-		<div class="row" style="height: 100%">
+		<div class="row" style="height: 100%;  color: white;">
 			<section class="rale-heading col-12 col-sm-3" style="border: 2px solid #c8c8c8;
 			border-style: dotted none none none;
-			padding: 10px; height: 100%">
-				<h3 style="color: #c8c8c8">Buy Tickets for all your Favorite Events</h3>
+			padding: 10px; height: 100%;">
+				<h3>Buy Tickets for all your Favorite Events</h3>
 			</section>
 			<section class="rale-heading col-12 col-sm-3" style="border: 2px solid #c8c8c8;
 			border-style: dotted none none none;
 			padding: 10px; height: 100%">
-				<h3 style="color: #c8c8c8">List your own event and sell tickets with Us</h3>
+				<h3>List your own event and sell tickets with us</h3>
 			</section>
 			<section class="rale-heading col-12 col-sm-3" style="border: 2px solid #c8c8c8;
 			border-style: dotted none none none;
 			padding: 10px; height: 100%">
-				<h3 style="color: #c8c8c8">Buy and Re-Sell tickets on our Secure Re-Sale Market</h3>
+				<h3>Buy and Re-Sell tickets on our Secure Re-Sale Market</h3>
 			</section>
 			<section class="rale-heading col-12 col-sm-3" style="border: 2px solid #c8c8c8;
 			border-style: dotted none none none;
 			padding: 10px; height: 100%">
-				<h3 style="color: #c8c8c8">Explore Events Near You</h3>
+				<h3>Explore Events Near You</h3>
 			</section>
 		</div><!-- row -->
 	</div><!-- things to do container -->
 
-
-
-
-
 </main>
 
-<script src="js/jquery.slim.min.js"></script>
+<script src="js/jquery.min.js"></script>
+<script src="js/moment.min.js"></script>
 <script src="js/tether.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
+<script src="js/pickaname.js"></script>
+<script src="js/validation.js"></script>
+
+<!-- Include Date Range Picker -->
+<script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+
 <script src="js/scripts.js"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 </body>
 
 </html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/stylesheet.css">
+	<link rel="shortcut icon" type="image/png" href="images/favicon.png"/>
+	<title>Admit 01 | Home</title>
+</head>
+
+<body style="background-color: white">
+	<nav id="navigation" class="navbar nav-content-fill navbar-inverse color-white navbar-toggleable-sm">
+		<div class="container">
+			<div class="nav-brand">
+				<a class="nav-link d-none d-sm-inline-block" href="index.html"><img id="logo"
+					src="images/logo_white_700.png"/></a> <!-- Logo display for desktop -->
+				<a class="nav-link active d-sm-none" href="index.html"><img id="textlogo"
+					src="images/textlogo_white.png"/></a> <!-- Logo display for mobile -->
+				
+				<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#navCollapseToggler" aria-controls="navCollapseToggler"
+				aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button><!-- Toggle collapse button -->
+
+			</div>
+			
+			<div id="navCollapseToggler" class="collapse navbar-collapse">
+				<div class="navbar-nav ml-auto">
+					<a class="nav-link" href="my_account.html">My Account</a>
+					<a class="nav-link" href="login_register.html">Login or Register</a>
+					<a class="nav-link" href="#">Logout</a>
+				</div><!-- navbar-nav -->
+			</div><!-- collapse -->
+		</div><!-- container -->
+	</nav>
+<div id="search-container">
+	<div id="search">
+		<form >
+			<input type="text" id="searchbar" name="search" placeholder="Search Events"
+			style="font-family: 'Abel', sans-serif"/>
+			<input type="submit" value="Go" id="searchbtn" style="font-family: 'Abel', sans-serif"/>
+			<input type="text" name="daterange" value="01/01/2015 - 01/31/2015" />
+		</form>
+	</div>
+</div>
+
+<main>
+	<p style="margin: 1rem 1rem">
+		<span style="font-size: 24px"> Blockchain for {EVENTNAME} </span> Interact to see more information
+	</p> 
+	<div class="ticket-visualization">
+
+	</div>
+	<div id="visualization-info-bar" class="text-center container" style="overflow-y: scroll">
+		<ul class="row" id="visualization-info-list" style="font-size: 15px; padding-top: 10px">
+		<ul>
+	</div>
+</main>
+
+<script src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/moment.min.js"></script>
+<script src="js/tether.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="js/ticket_visualization_demo.js"></script>
+
+<!-- Include Date Range Picker -->
+<script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+
+<script src="js/scripts.js"></script>
+<!--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+</body>
+
+</html>
