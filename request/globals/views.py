@@ -39,7 +39,7 @@ def register(request):
                 return redirect("register")
 
             user = authenticate(email=email, password=password1)
-            login(request, user)
+            auth_login(request, user)
 
             return redirect("home")
     else:
