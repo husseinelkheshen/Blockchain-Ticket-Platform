@@ -3,7 +3,7 @@
 {% block content %}
 <h1>Create Event</h1>
 
-<form action="{% url 'create_event' %}" method="POST">
+<form action="{% url 'create-event' %}" method="POST">
   {% csrf_token %}
   {{ form.as_p }}
 </form>
