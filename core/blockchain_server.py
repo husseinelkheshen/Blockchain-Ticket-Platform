@@ -465,6 +465,147 @@ def tickets_list():
     ticketsListed = bc_list_tickets(v, e, section, row, seat_num)
     return good_request({"num_tickets_listed": ticketsListed or 0})
 
+"""
+Let a user buy a ticket
+Input:
+{
+    user_email: String,
+    venue: {
+        venue_location: String,
+        venue_name: String
+    },
+    event_id: Integer,
+    ticket_info: {
+        section: String,
+        row: String,
+        seat_num: Integer
+    }
+}
+Output:
+{
+    "ticket_num": Integer
+}
+"""
+@app.route("/user/buy_ticket", methods=['POST'])
+def user_buy_ticket():
+    # get venue
+    venue = request.json.get('venue')
+    if (venue is None):
+        return bad_request('Need venue')
+
+    # get venue object
+    v = parse_venue(venue)
+    if v is None:
+        return bad_request('Venue does not exist')
+
+    # get event
+    event_id = request.json.get('event_id')
+    e = bc_get_event(v, event_id)
+    if e is None:
+        return bad_request('Event does not exist')
+
+    # get ticket
+    tickets_info = request.json.get('ticket_info')
+    if tickets_info is None:
+        return bad_request('Need ticket_info')
+    section = tickets_info.get('section')
+    row = tickets_info.get('row')
+    seat_num = tickets_info.get('seat_num')
+
+    # get user email
+    user_email = request.json.get('user_email')
+    u = Trackers.registered_users.get(user_email)
+    if u is None:
+        return bad_request('User does not exist')
+    u.wallet = 100000
+
+    #buy ticket
+    ret = bc_buy_ticket(v, e, u, section, row, seat_num)
+    if ret is not False:
+        return good_request({"ticket_num": ret})
+    return bad_request('Buying ticket failed')
+
+"""
+Let a user see his tickets
+Input:
+{
+    user_email: String,
+}
+Output:
+[
+    {
+        "ticket_num": Integer,
+        "event_id": Integer,
+        "venue": 
+        {
+            "venue_location": String,
+            "venue_name": String
+        }
+    }
+]
+"""
+@app.route("/user/view_tickets", methods=['POST'])
+def user_view_tickets():
+    # get user email
+    user_email = request.json.get('user_email')
+    u = Trackers.registered_users.get(user_email)
+    if u is None:
+        return bad_request('User does not exist')
+
+    ret = []
+    for ticket in u.inventory:
+        event_id = ticket.event.id
+        venue = ticket.event.venue
+        venue_dict = {"venue_location": venue.location, "venue_name": venue.name}
+        ticket_dict = {"ticket_num": ticket.ticket_num, "event_id": event_id, "venue": venue_dict}
+        ticket_dict['seat_info'] = {"section": ticket.seat.section, "row": ticket.seat.row, "seat_num": ticket.seat.seat_no}
+        ret.append(ticket_dict)
+
+    return good_request(ret)
+
+"""
+View information for a single event
+Input:
+{
+    "event_id": Integer,
+    "venue": 
+    {
+        "venue_location": String,
+        "venue_name": String
+    }
+}
+Output:
+{
+    'event_id': Integer, 
+    'name': String, 
+    'desc': String,
+    'num_scheduled_tickets': Integer
+}
+"""
+@app.route("/venue/view_event", methods=['POST'])
+def venue_view_event():
+    # get venue
+    venue = request.json.get('venue')
+    if (venue is None):
+        return bad_request('Need venue')
+
+    # get venue object
+    v = parse_venue(venue)
+    if v is None:
+        return bad_request('Venue does not exist')
+
+    # get event
+    event_id = request.json.get('event_id')
+    e = bc_get_event(v, event_id)
+    if e is None:
+        return bad_request('Event does not exist')
+
+    e_dict = {'event_id': e.id, 'name': e.name, 'desc': e.desc,
+            'num_scheduled_tickets': len(e.scheduled)}
+
+    return good_request(e_dict)
+
+
 
 
 if __name__ == "__main__":

@@ -6,6 +6,14 @@ from datetime import datetime
 import sys
 Trackers.next_event_id = sys.maxsize-100000
 
+print('download crap')
+nltk.download('maxent_ne_chunker')
+nltk.download('punkt')
+nltk.download('averaged_perceptron_tagger')
+nltk.download('words')
+print('finished downloading crap')
+
+
 def bc_create_venue(venue_name, venue_loc_str):
     # check if parameters are valid
     if (venue_loc_str is None or venue_name is None):
@@ -92,18 +100,26 @@ def bc_list_tickets(venue, event, section, row, seat_num):
         return False
     
     ticketsListed = 0
-    print(len(event.tickets))
+    # print(len(event.tickets))
     for ticket in event.tickets:
-        print(ticket.seat.section)
+        # print(ticket.seat.section)
         if section == ticket.seat.section or section is None:
-            print(ticket.seat.row)
+            # print(ticket.seat.row)
             if row == ticket.seat.row or row is None:
-                print(ticket.seat.seat_no)
+                print('ticket seat_num', ticket.seat.seat_no)
+                print('seat_num', seat_num)
                 if seat_num == ticket.seat.seat_no or seat_num is None:
-                    ticketsListed += ticket.listTicket(venue.id, ticket.face_value)
+                    print('success')
+                    ticketsListed+=(ticket.listTicket(ticket.face_value, venue.id))
 
     return ticketsListed
 
+def bc_buy_ticket(venue, event, user, section, row, seat_num):
+    for ticket in event.tickets:
+        if ticket.seat.seat_no == seat_num and ticket.seat.row == row and ticket.seat.section == section:
+            print("found ticket")
+            return user.buyTicket(ticket) and ticket.ticket_num
+    return False
 
 
 
