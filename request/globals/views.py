@@ -18,11 +18,25 @@ def register(request):
         form = RegisterForm(request.POST)
 
         if form.is_valid():
-            form.save()
             email = form.cleaned_data.get("email")
-            password = form.cleaned_data.get("password1")
+            password1 = form.cleaned_data.get("password1")
+            password2 = form.cleaned_data.get("password2")
+            user_type = form.cleaned_data.get("user_type")
+            name = form.cleaned_data.get("name")
 
-            user = authenticate(email=email, password=password)
+            if password1 == password2:
+                user = User.objects.create(email=email, password=password1)
+
+                if user_type == "venue":
+                    Venue.objects.create(user=user, name=name)
+                else:
+                    Customer.objects.create(user=user, name=name)
+
+            else:
+                messages.error(request, "Passwords do not match.")
+                return redirect("register")
+
+            user = authenticate(email=email, password=password1)
             login(request, user)
 
             return redirect("home")
