@@ -30,3 +30,12 @@ def list_ticket(request, event_id, ticket_num):
         messages.success(request, "Ticket successfully listed.")
 
     return redirect("home")
+
+def validate_ticket(request):
+    pass
+
+def schedule_release(request):
+    """
+    Schedule the release of the tickets for an event.
+    """
+    pass
