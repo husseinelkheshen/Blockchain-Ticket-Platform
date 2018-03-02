@@ -3,6 +3,7 @@ import requests
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.http import Http404
 
 from globals.decorators import venue_login_required
 from .models import Event
@@ -23,7 +24,7 @@ def create_event(request):
 
             # TODO: API call to blockchain server to create event
 
-            message.success(request, "Event successfully created.")
+            messages.success(request, "Event successfully created.")
 
             return redirect("home")
     else:
@@ -33,6 +34,11 @@ def create_event(request):
 
 @venue_login_required
 def create_tickets(request, event_id):
+    try:
+        event = Event.objects.get(pk=event_id)
+    except Event.DoesNotExist:
+        raise Http404("Event does not exist.")
+
     if request.method == "POST":
         form = CreateTicketsForm(request.POST)
         if form.is_valid():
@@ -40,14 +46,19 @@ def create_tickets(request, event_id):
             section = form.cleaned_data.get("section")
             min_row = form.cleaned_data.get("min_row")
             max_row = form.cleaned_data.get("max_row")
-            event_id = form.cleaned_data.get("event_id")
 
-            venue = Venue.objects.get(user=user)
-            event = Event.objects.get(pk="event_id")
+            venue = Venue.objects.get(user=request.user)
 
+            # check if venue has the permissions to create tickets for
+            # an event.
             if event.venue == venue:
                 # TODO: API call to blockchain server to create tickets
 
+                messages.success(
+                    request, "Tickets successfully created."
+                )
+
+                return redirect("create-tickets", event.pk)
             else:
                 messages.error(
                     request,
@@ -58,7 +69,12 @@ def create_tickets(request, event_id):
     else:
         form = CreateTicketsForm()
 
-    return render(request, "create_tickets.html", {"form": form})
+    context = {
+        "form": form,
+        "event": event
+    }
+
+    return render(request, "create_tickets.html", context)
 
 @venue_login_required
 def manage_event(request):
@@ -68,6 +84,22 @@ def manage_event(request):
 def manage_tickets(request):
     pass
 
-@venue_login_required
-def view_events(request):
-    pass
+def event(request, event_id):
+    """
+    View for an event. A venue with the appropriate permissions can use
+    this view to view tickets for an event.
+    """
+    try:
+        event = Event.objects.get(pk=event_id)
+    except Event.DoesNotExist:
+        raise Http404("Event does not exist.")
+
+    # TODO: get tickets by making API call to blockchain server
+    tickets = []
+
+    context = {
+        "event": event,
+        "tickets": tickets
+    }
+
+    return render(request, "event.html", context)

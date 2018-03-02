@@ -8,5 +8,5 @@ from .views import (
 urlpatterns = [
     path("create", create_event, name="create-event"),
     # path("<int:event_id>/", view_event)
-    path("<int:event_id>/create-ticket/", create_tickets, name="create-tickets")
+    path("<int:event_id>/create-tickets/", create_tickets, name="create-tickets")
 ]
