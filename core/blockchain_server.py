@@ -60,6 +60,7 @@ Input:
 	},
 	name: String,
 	description: String,
+	event_id: Integer,
 	time: {
 		minute: Integer,
 		hour: Integer,
@@ -97,6 +98,7 @@ def event_create():
 	event_name = request.json.get('name')
 	event_desc = request.json.get('description')
 	event_time = request.json.get('time')
+	event_id = int(request.json.get('event_id'))
 	
 	if event_name is None:
 		return bad_request('Need event name')
@@ -106,7 +108,7 @@ def event_create():
 		return bad_request('Need event time')
 	
 	# create event
-	eid = bc_create_event(event_name, event_desc, event_time, v)
+	eid = bc_create_event(event_id, event_name, event_desc, event_time, v)
 	if eid is False:
 		return bad_request('Creating event failed')
 	return good_request({'event_id': eid})
@@ -246,6 +248,111 @@ def event_edit():
 	if not bc_edit_event(v, e, name, time, desc or e.desc):
 		return bad_request('Update failed')
 	return good_request({'event_id': e.id})
+
+"""
+Edit Ticket price by section, row and seat number
+No seat number means all seats in the row and section get updated
+No seat number and no row means all in the section get updated
+No anything means all tickets in the event get updated
+Input:
+{
+	venue: {
+		"venue_location": String,
+		"venue_name": String
+	},
+	event_id: Integer,
+	update_info : {
+		new_price: Number,
+		which_seats: {
+			section(+): String,
+			row(+): Integer,
+			seat_num(+): Integer
+		}
+	}
+}
+Output:
+{
+}
+"""
+@app.route("/venue/event/tickets/edit", methods=['POST'])
+def tickets_edit():
+	# get venue
+	venue = request.json.get('venue')
+	if (venue is None):
+		return bad_request('Need venue')
+
+	# get venue object
+	v = parse_venue(venue)
+	if v is None:
+		return bad_request('Venue does not exist')
+
+	# get event id
+	event_id = request.json.get('event_id')
+	if (event_id is None):
+		return bad_request('Event does not exist')
+
+	# get event object
+	e = bc_get_event(event_id)
+
+	update_info = request.json.get('update_info')
+	if update_info is None:
+		return bad_request('Need update_info')
+	new_price = update_info.get('new_price')
+	if new_price is None:
+		return bad_request('Need a new price')
+	which_seats = update_info.get('which_seats')
+	if which_seats is None:
+		return bad_request('Need update_info.which_seats')
+	section = update_info.get('section')
+	row = update_info.get('row')
+	seat_num = update_info.get('seat_num')
+	if seat_num is not None:
+		seat_num = int(seat_num)
+
+	if not bc_edit_tickets(v, e, new_price, section, row, seat_num):
+		return bad_request('Updating tickets failed')
+	return good_request({})
+
+"""
+List all of a venues events
+Input:
+{
+	venue: {
+		"venue_location": String,
+		"venue_name": String
+	}
+}
+Output:
+{
+	'event_id': Integer, 
+	'name': String, 
+	'desc': String,
+	'num_scheduled_tickets': len(e.scheduled)
+}
+"""
+@app.route("/venue/view_events", methods=['POST'])
+def venue_view_events():
+	# get venue
+	venue = request.json.get('venue')
+	if (venue is None):
+		return bad_request('Need venue')
+
+	# get venue object
+	v = parse_venue(venue)
+	if v is None:
+		return bad_request('Venue does not exist')
+
+	# create list of events
+	events = bc_get_all_events(v)
+	ret = []
+	for e in events:
+		e_dict = {'event_id': e.id, 'name': e.name, 'desc': e.desc,
+		'num_scheduled_tickets': len(e.scheduled)}
+		ret.append(e_dict)
+
+
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)

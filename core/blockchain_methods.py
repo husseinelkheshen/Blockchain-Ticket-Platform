@@ -28,9 +28,10 @@ def bc_create_user(user_fname, user_lname, user_email):
 		return False
 	return u.id
 
-def bc_create_event(event_name, event_desc, event_time, venue):
+def bc_create_event(event_id, event_name, event_desc, event_time, venue):
 	# check if parameters are valid
-	if (event_name is None or event_desc is None or event_time is None):
+	if (event_name is None or event_desc is None or event_time is None
+		or event_id is None):
 		return False
 	dt = datetime(
 		year=event_time.get('year'),
@@ -39,8 +40,12 @@ def bc_create_event(event_name, event_desc, event_time, venue):
 		hour=event_time.get('hour'),
 		minute=event_time.get('minute'))
 	e = venue.createEvent(event_name, dt, event_desc)
-	if e.id is None:
+	if e is None:
 		return False
+	# change event id
+	del venue.events[e.id]
+	e.id = event_id
+	venue.events[event_id] = e
 	return e.id
 
 def bc_get_event(event_id, venue):
@@ -50,9 +55,16 @@ def bc_create_tickets(section_name, min_row, max_row, min_seat, max_seat, event,
 	seat_nos = range(min_seat, max_seat)
 	no_tickets = 0
 	for row in range(min_row, max_row):
-		no_tickets += len(venue.createTickets(event, face_value, section_name, row, seat_nos))
+		no_tickets += len(venue.createTickets(event, face_value, section_name, str(row), seat_nos))
 	return no_tickets
 
 def bc_edit_event(venue, event, event_name, event_time, event_desc):
 	dt = parse_event_time(event_time)
-	return venue.manageEvent(event, event_name, event_time, event_desc)
+	return venue.manageEvent(event, event_name, dt, event_desc)
+
+def bc_edit_tickets(venue, event, new_price, section, row, seat_num):
+	return venue.manageTickets(event, new_price, section, row, seat_num)
+
+def bc_get_all_events(venue):
+	return [e[0] for e in venue.events.values()]
+
