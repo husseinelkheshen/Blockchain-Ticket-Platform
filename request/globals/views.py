@@ -27,7 +27,7 @@ def register(request):
             name = form.cleaned_data.get("name")
 
             if password1 == password2:
-                user = User.objects.create(email=email, password=password1)
+                user = User.objects.create_user(email=email, password=password1)
 
                 if user_type == "venue":
                     Venue.objects.create(user=user, name=name)
