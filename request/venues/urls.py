@@ -10,7 +10,7 @@ urlpatterns = [
         views.validate_ticket,
         name="validate-ticket"),
     path(
-        "schedule/<int:event_id>/<section>/<int:num_tickets>/",
+        "schedule/<int:event_id>/",
         views.schedule_release,
         name="schedule-release"),
 ]
