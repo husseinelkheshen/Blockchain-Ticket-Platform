@@ -4,7 +4,7 @@ from . import views
 
 urlpatterns = [
     path("<int:venue_id>/", views.venue, name="venue"),
-    path("list/<int:event_id>/<int:ticket_num>/", views.list_ticket, name="list-ticket")
+    path("list/<int:event_id>/<int:ticket_num>/", views.list_ticket, name="list-ticket"),
     path(
         "validate/<int:event_id>/<int:ticket_num>/",
         views.validate_ticket,

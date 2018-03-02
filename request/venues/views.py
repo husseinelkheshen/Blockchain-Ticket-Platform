@@ -4,6 +4,7 @@ from django.http import Http404
 
 from globals.decorators import venue_login_required
 from .models import Venue
+from events.models import Event
 from globals import blockchain_api as bcAPI
 from .forms import ValidateTicketForm, ScheduleReleaseForm
 
@@ -81,9 +82,11 @@ def schedule_release(request, event_id):
         # TODO: send request to blockchain server indicating that
         # venue wants to schedule all the tickets.
 
-        response = {}
+        response = {
+            "status": "200"
+        }
 
-        if response.status == "200":
+        if response["status"] == "200":
             messages.success(
                 request,
                 "The tickets have been successfully scheduled."
@@ -92,6 +95,11 @@ def schedule_release(request, event_id):
             messages.error(request, "Ticket scheduling failed.")
     else:
         form = ScheduleReleaseForm()
+
+    context = {
+        "form": form,
+        "event": event
+    }
 
     return render(request, "schedule_release.html", context)
 
