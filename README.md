@@ -158,7 +158,45 @@ If you encounter an error which says CERTIFICATE_VERIFY_FAILED, please read the 
 
 Skeleton code for events to view the visualization fo their ticketing blockchain can be found at 'design/html_wireframes/ticket_visualization_demo.html', and the javascript utilized to write the visualization function is in the js folder under 'ticket_visualization_demo.js'. The html can be pulled up in any browser, with chrome likely being the best to view the visualization in. 
 
-(how to run the whole server code business/ what pages to view on the website and how the interact.)
+To view the basic UI/database website integration code, where you can perform the following functions
+Navigate to http://ec2-18-219-133-194.us-east-2.compute.amazonaws.com:8000/
+
+Testing Basic standard User UI integration
+- Click register
+- Enter Information and Register the user as a Customer
+- Name should appear in upper right hand corner
+- Click Logout once on the welcome page
+- Login using the same credentials
+- Name should disapper from upper right hand corner
+- Name should appear in upper right hand corner
+- Logout
+
+Testing Basic event UI integration
+- Click register
+- Enter Information and Register the user as a Venue using a different using a different email
+- The name you entered when registering should appear in the upper right, click on it
+- See skeleton for an event profile page
+- Logout
+- Name should disappear from upper right hand corner
+- Login using the same venue credentials
+- Name should appear in upper right hand corner again
+- Logout
+- Name should disappear from upper right hand corner again
+
+
+To view non integrated django templating engine, navigate to http://ec2-18-219-133-194.us-east-2.compute.amazonaws.com:8001/
+The extensions are as follows to view the following pages:
+- To view the home page, either no extension or 'home/'
+- To veiw the event home page, 'event/'
+- To view the normal login page 'login_register/'
+- Event login page 'event/login_register/'
+- To view an event's page on the main site 'detail_event/'
+- Mock search results page 'search/'
+- Mock explore results page 'explore/'
+- Mock purchase page 'purchase/'
+
+All of these templates are being served with dummy formatted data, so all that remains is to integrate the code that gets the data with the actual templates themselves
+
 
 #### SSL CERTIFICATE VERIFICATION
 
@@ -194,9 +232,9 @@ In terms of use cases, we have fully and successfully implemented **Explore**, *
 ### Who Did What?
 
 #### Front end
-Pablo 
+Pablo wrote the blochain API server
 
-Eurim
+Eurim Implemented the Request server and the the beginning fully integrated UI to server templates 
 
 Samantha wrote the django UI templating engine for the html wireframes developed during the last sprint, as well as writing wireframes for the event portal of the website and the code for a blockchain data visualization. 
 
@@ -210,4 +248,4 @@ Hayden and Hussein paired to develop and test **Manage Event**, **Manage Tickets
 ### Changes from Implementation Plan
 For the back end, there were several minor test rigor and formatting changes to the unit tests since they were delivered with 4a, none of which changed the scope or diminished the coverage of the tests.
 
-For the front end, while we were able to achieve integration with the request server with the back end library calls, we weren't able to achieve full ui to back-end integration of the software. Because we don't learn a particularly great deal about how to integrate codebases, system architectures, and front end in general in the CS department and because we obviously had envisioned a finished product, we vastly underestimated the amount of code that is required to achieve fully integrated software from the back ends of library/api to the more minute detailed coding of ui that has to be able to interact with users and deal appropriately with user behaviour. There was also the unanticipated time cost of having to create manage the system architecture. That being said, while we deviated from the design goal of having a fully integrated website, we did manage to integrate the front end and the back ends, as well as building a templating engine for the UI that functions with dummy data that models the actual data context of the server.
+For the front end, while we were able to achieve integration with the request server with the back end library calls, we weren't able to achieve full ui to back-end integration of the software. Because we don't learn a particularly great deal about how to integrate codebases, system architectures, and front end in general in the CS department and because we obviously had envisioned a finished product, we vastly underestimated the amount of code that is required to achieve fully integrated software from the back ends of library/api to the more minute detailed coding of ui that has to be able to interact with users and deal appropriately with user behaviour. There was also the unanticipated time cost of having to create manage the system architecture with the servers not always being fully reliable and functional. That being said, while we deviated from the design goal of having a fully integrated website, we did manage to integrate the front end and the back ends, as well as building a templating engine for the UI that functions with dummy data that models the actual data context of the server.
