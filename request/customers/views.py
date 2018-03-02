@@ -3,10 +3,11 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 
 from globals import blockchain_api as bcAPI
+from globals.decorators import customer_login_required
 from .models import Customer
 
 # Create your views here.
-@login_required
+@customer_login_required
 def buy_ticket(request, event_id, ticket_num):
     """
     Tell the blockchain server that the logged in customer intends 
@@ -37,7 +38,7 @@ def buy_ticket(request, event_id, ticket_num):
     return redirect("home")
 
 
-@login_required
+@customer_login_required
 def list_customer_tickets(request):
     """
     Return the list of tickets purchased by the currently logged
@@ -51,10 +52,13 @@ def list_customer_tickets(request):
     # get the list of the customer's tickets. 
     # Expect JSON response with list of tickets, each with the name
     # of the event, details of the seat, the ticket id (num), and the venue.
+    # TODO
     response = bcAPI.get("tickets/" + str(customer.id)) 
 
     if response[1] != 200: # request to blockchain server failed
-        messages.error(request, "Couldn't contact blockchain server.")
+        messages.error(
+            request, 
+            "Couldn't contact blockchain server.")
         return redirect("home")
 
     context = {"tickets": response[0]}
