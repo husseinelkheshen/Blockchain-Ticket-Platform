@@ -195,7 +195,7 @@ Gina and Ethan paired to develop and test **Explore**.
 
 Ross implemented and tested **Search**, **Create Event**, and **Create Tickets**, as well as adding the consensus mechanism to the already-implemented Ticket.mostRecentTransaction() function.
 
-Hayden and Hussein paired to develop and test **Manage Event**, **Manage Tickets** (and its helper **Venue Tickets**), **Schedule Release** and **Validate Ticket**, as well as improving the security of our already implemented blockchain infrastructure by adding the ability to represent blocks as strings.
+Hayden and Hussein paired to develop and test **Manage Event**, **Manage Tickets** (and its helper **Venue Tickets**), **Schedule Release** (and its helper **Check Release**) and **Validate Ticket Code**, as well as improving the security of our already implemented blockchain infrastructure by adding a read-write validator (**rwValidation**) function that quickly validates the blockchain prior to any read or write access to it.
 
 ### Changes from Implementation Plan
 There were several minor test rigor and formatting changes to the unit tests since they were delivered with 4a, none of which changed the scope or diminished the coverage of the tests.
