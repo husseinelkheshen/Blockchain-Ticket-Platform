@@ -40,7 +40,18 @@ def bc_create_event(event_name, event_desc, event_time, venue):
 		day=event_time.get('day'),
 		hour=event_time.get('hour'),
 		minute=event_time.get('minute'))
-	e = Event(event_name, dt, event_desc)
+	e = venue.createEvent(event_name, dt, event_desc)
 	if e.id is None:
 		return False
 	return e.id
+
+def bc_get_event(event_id):
+	return Trackers.get(event_id)[0]
+
+def bc_create_tickets(section_name, min_row, max_row, min_seat, max_seat, event, venue, face_value):
+	seat_nos = range(min_seat, max_seat)
+	no_tickets = 0
+	for row in range(min_row, max_row):
+		no_tickets += len(venue.createTickets(event, face_value, section_name, row, seat_nos))
+	return no_tickets
+

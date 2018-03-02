@@ -57,6 +57,7 @@ def user_create():
 	return good_request({'user_id': uid})
 
 """
+Input:
 {
 	venue: {
 		"venue_location": {
@@ -74,6 +75,10 @@ def user_create():
 		month: Integer,
 		year: Integer
 	}
+}
+Output:
+{
+	'event_id': Integer
 }
 """
 @app.route("/venue/event/create", methods=['POST'])
@@ -97,7 +102,7 @@ def event_create():
 	# get venue object
 	v = bc_get_venue(venue_name, venue_city, venue_state)
 	if v is None:
-		return bad_request('Venue doesn\'t exist')
+		return bad_request('Venue does not exist')
 	
 	# get event details
 	event_name = request.json.get('name')
@@ -112,16 +117,96 @@ def event_create():
 		return bad_request('Need event time')
 	
 	# create event
-	eid = bc_create_event(event_name, event_desc, event_time, venue)
+	eid = bc_create_event(event_name, event_desc, event_time, v)
 	if eid is False:
 		return bad_request('Creating event failed')
 	return good_request({'event_id': eid})
 
 
+"""
+Input:
+{
+	venue: {
+		"venue_location": {
+			"city": String,
+			"state": String
+		},
+		"venue_name": String
+	},
+	event_id: Integer,
+	tickets_info: {
+		"face_value": Integer,
+		"section": String,
+		"row_range": {
+			begin: Integer,
+			end: Integer
+		},
+		"seat_range": {
+			"begin": Integer,
+			"end": Integer
+		},
+	}
+}
+Output:
+{
+	"no_tickets_created": Integer
+}
+"""
+@app.route("/venue/event/tickets/create", methods=['POST'])
+def tickets_create():
+	# get venue
+	venue = request.json.get('venue')
+	if (venue is None):
+		return bad_request('Need venue')
 
-# api.add_resource(TicketList, "/tickets")
-# api.add_resource(TicketCreate, "/tickets/create")
-# api.add_resource(Ticket, "/tickets/<ticket_id>")
+	# get venue location
+	venue_location = venue.get('venue_location')
+	if venue_location is None:
+		return bad_request('Need venue location')
+
+	venue_city = venue_location.get('city')
+	venue_state = venue_location.get('state')
+
+	# get venue name
+	venue_name = venue.get('venue_name')
+
+	# get venue object
+	v = bc_get_venue(venue_name, venue_city, venue_state)
+	if v is None:
+		return bad_request('Venue does not exist')
+
+	# get event
+	event_id = request.json.get('event_id')
+	if (event_id is None):
+		return bad_request('Event does not exist')
+
+	# get event object
+	e = bc_get_event(event_id)
+
+	# get ticket info
+	ticket_info = json.get('tickets_info')
+	if (ticket_info is None):
+		return bad_request('Need ticket information')
+
+	# get ticket value
+	face_value = int(ticket_info.get('face_value'))
+
+	# get section name
+	section_name = ticket_info.get('section')
+
+	# get row range
+	min_row = tickets_info.get('row_range')['begin']
+	max_row = tickets_info.get('row_range')['end']
+
+	# get seat range
+	min_seat = tickets_info.get('seat_range')['begin']
+	max_seat = tickets_info.get('seat_range')['end']
+
+	# create tickets
+	no_tickets_created = bc_create_tickets(section_name, min_row, max_row, min_seat, max_seat, e, v, face_value):
+
+	return good_request({'no_tickets_created': no_tickets_created})
+
 
 if __name__ == "__main__":
     app.run(debug=True)
