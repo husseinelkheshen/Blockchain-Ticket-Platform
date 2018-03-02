@@ -34,8 +34,8 @@ def list_ticket(request, event_id, ticket_num):
     return redirect("home")
 
 @venue_login_required
-def validate_ticket(request, venue_id, event_id):
-    venue = Venue.objects.get_object_or_404(user=request.user, pk=venue_id)
+def validate_ticket(request, event_id):
+    venue = Venue.objects.get_object_or_404(user=request.user)
     event = Event.objects.get_object_or_404(pk=event_id, venue=venue)
 
     if request.method == "POST":
