@@ -1,7 +1,7 @@
 {
 	"_type": "export",
 	"__export_format": 3,
-	"__export_date": "2018-03-02T09:13:14.074Z",
+	"__export_date": "2018-03-02T10:42:22.424Z",
 	"__export_source": "insomnia.desktop.app:v5.14.8",
 	"resources": [
 		{
@@ -51,7 +51,7 @@
 			],
 			"metaSortKey": -1519963758385,
 			"method": "POST",
-			"modified": 1519964628152,
+			"modified": 1519983770270,
 			"name": "Create Event",
 			"parameters": [],
 			"parentId": "wrk_0fa6989c5826432a96779b7034d00efc",
@@ -379,6 +379,93 @@
 			"settingSendCookies": true,
 			"settingStoreCookies": true,
 			"url": "http://127.0.0.1:5000/venue/view_event",
+			"_type": "request"
+		},
+		{
+			"_id": "req_9caef1e0eb7c487c8b7dd17593e3441c",
+			"authentication": {},
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n    \"user_email\": \"jsoong@uchicago.edu\",\n    \"search_info\": \n    {\n\t\t\t\"date\": \n\t\t\t{\n\t\t\t\t\"month\": 11,\n\t\t\t\t\"year\": 2020,\n\t\t\t\t\"day\": 9\n\t\t\t},\n\t\t\t\"date_range\": 2\n    }\n}"
+			},
+			"created": 1519983428277,
+			"description": "",
+			"headers": [
+				{
+					"id": "pair_da59ef2fd24e45e38d5845b4681b093f",
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"metaSortKey": -1519980345890.25,
+			"method": "POST",
+			"modified": 1519984832675,
+			"name": "Search Events",
+			"parameters": [],
+			"parentId": "wrk_0fa6989c5826432a96779b7034d00efc",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "http://127.0.0.1:5000/user/search",
+			"_type": "request"
+		},
+		{
+			"_id": "req_cfc19ff17a6c4c8ca44b866977d5e977",
+			"authentication": {},
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n    \"user_email\": \"jsoong@uchicago.edu\"\n}"
+			},
+			"created": 1519984660746,
+			"description": "",
+			"headers": [
+				{
+					"id": "pair_da59ef2fd24e45e38d5845b4681b093f",
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"metaSortKey": -1519981373352.5,
+			"method": "POST",
+			"modified": 1519984856904,
+			"name": "Explore",
+			"parameters": [],
+			"parentId": "wrk_0fa6989c5826432a96779b7034d00efc",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "http://127.0.0.1:5000/user/explore",
+			"_type": "request"
+		},
+		{
+			"_id": "req_060f11ac64204b73908b9f47df4ae274",
+			"authentication": {},
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\"event_id\": 100,\n\t\"venue\": {\n\t\t\"venue_location\": \"Chicago, IL\",\n\t\t\"venue_name\": \"House of Blues\"\n\t},\n\t\"release_info\": {\n\t\t\"section\": \"Big Section\",\n\t\t\"release_date\": {\n\t\t\t\"month\": 11,\n\t\t\t\"day\": 4,\n\t\t\t\"year\": 2017\n\t\t}\n\t}\n}"
+			},
+			"created": 1519985936382,
+			"description": "",
+			"headers": [
+				{
+					"id": "pair_c2fff3c79afa42c69cd85536432a5a9b",
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"metaSortKey": -1519985936382,
+			"method": "POST",
+			"modified": 1519986063839,
+			"name": "Schedule Release",
+			"parameters": [],
+			"parentId": "wrk_0fa6989c5826432a96779b7034d00efc",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "http://127.0.0.1:5000/venue/schedule_release",
 			"_type": "request"
 		}
 	]

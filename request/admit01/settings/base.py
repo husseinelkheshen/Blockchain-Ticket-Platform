@@ -40,7 +40,8 @@ INSTALLED_APPS = [
 
     'customers',
     'globals',
-    'venues'
+    'venues',
+    'events'
 ]
 
 MIDDLEWARE = [
@@ -66,6 +67,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'globals.context_processors.user_type',
             ],
         },
     },
@@ -81,9 +83,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'admit01',
-        'USER': os.environ['PSQL_USER'],
-        'PASSWORD': os.environ['PSQL_PASS'],
-        'HOST': '128.135.203.174',
+        'USER': 'admit01',
+        'PASSWORD': 'bl0ckch41n',
+        'HOST': 'admit01.cmidkm7xrxbp.us-east-2.rds.amazonaws.com',
         'PORT': '5432',
     }
 }
@@ -127,7 +129,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # Blockchain API
-BLOCKCHAIN_API = {'host': 'http://128.135.203.175', 'port': 80}
+BLOCKCHAIN_API = {'host': 'http://ec2-18-222-75-253.us-east-2.compute.amazonaws.com', 'port': 80}
 
 # Global API settings
 API_TIMEOUT = 5

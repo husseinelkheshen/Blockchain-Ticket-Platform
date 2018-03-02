@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>Welcome.</h2>
+<h2>Welcome</h2>
+{% if not request.user.is_authenticated %}
+<a class="btn btn-primary" href="{% url 'login' %}">Login</a>
+<a class="btn btn-primary" href="{% url 'register' %}">Register</a>
+{% endif %}
 {% endblock %}

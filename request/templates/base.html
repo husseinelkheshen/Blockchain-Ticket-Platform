@@ -18,7 +18,11 @@
                     </li>
                     {% else %}
                     <li class="nav-item">
-                        <span class="navbar-text">{{ request.user.username }}</span>
+                        {% if userType == "venue" %}
+                        <a class="navbar-text" href="{% url 'venue' userClass.id %}">{{ userClass.name }}</a>
+                        {% else %}
+                        <a class="navbar-text" href="{% url 'list-customer-tickets' %}">{{ userClass.name }}</a>
+                        {% endif %}
                     </li>
                     <li class="nav-item">
                         <a class="navbar-text" href="{% url 'logout' %}">Logout</a>
@@ -29,6 +33,7 @@
         </nav>
 
         <div class="container">
+            <br />
             {% if messages %}
                 {% for message in messages %}
                 <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %}">
@@ -40,9 +45,16 @@
 
             {% block content %}
             {% endblock %}
-        </div>
 
-        {% block endjs %}
+            <hr />
+            <div class="row">
+                <div class="col-md-12">
+                    <p class="text-center">
+                        © 2018 Admit01
+                    </p>
+                </div>
+            </div>
+        {% block end_js %}
         {% endblock %}
     </body>
 </html>

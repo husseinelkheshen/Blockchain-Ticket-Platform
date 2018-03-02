@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{{ event.name }}</h1>
+
+<h2>Tickets</h2>
+{% for ticket in tickets %}
+<h3>{{ ticket.section }}</h3>
+<p>{{ ticket.row }}{{ ticket.seat }}</p>
+<hr />
+{% endfor %}
+{% endblock %}
