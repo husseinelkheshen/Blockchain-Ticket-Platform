@@ -449,17 +449,18 @@ def tickets_list():
     if e is None:
         return bad_request('Event does not exist')
 
-    list_info = request.json.get('list_info')
-    if list_info is None:
-        return bad_request('Need list_info')
-    which_seats = list_info.get('which_seats')
-    if which_seats is None:
-        return bad_request('Need list_info.which_seats')
-    section = which_seats.get('section')
-    row = which_seats.get('row')
-    seat_num = which_seats.get('seat_num')
+    # list_info = request.json.get('list_info')
+    ticket_num = request.json.get('ticket_num')
+    # if list_info is None:
+    #     return bad_request('Need list_info')
+    # which_seats = list_info.get('which_seats')
+    # if which_seats is None:
+    #     return bad_request('Need list_info.which_seats')
+    # section = which_seats.get('section')
+    # row = which_seats.get('row')
+    # seat_num = which_seats.get('seat_num')
 
-    ticketsListed = bc_list_tickets(v, e, section, row, seat_num)
+    ticketsListed = bc_list_tickets(v, e, ticket_num)
     return good_request({"num_tickets_listed": ticketsListed or 0})
 
 """
@@ -556,6 +557,7 @@ def user_view_tickets():
         venue_dict = {"venue_location": venue.location, "venue_name": venue.name}
         ticket_dict = {"ticket_num": ticket.ticket_num, "event_id": event_id, "venue": venue_dict}
         ticket_dict['seat_info'] = {"section": ticket.seat.section, "row": ticket.seat.row, "seat_num": ticket.seat.seat_no}
+        ticket_dict['event_info'] = {"name": ticket.event.name}
         ret.append(ticket_dict)
 
     return good_request(ret)

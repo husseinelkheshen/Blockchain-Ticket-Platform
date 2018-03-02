@@ -92,25 +92,26 @@ def bc_edit_tickets(venue, event, new_price, section, row, seat_num):
 def bc_get_all_events(venue):
     return [e[0] for e in venue.events.values()]
 
-def bc_list_tickets(venue, event, section, row, seat_num):
-    if section is None and (row is not None or seat_num is not None):
-        return False
+def bc_list_tickets(venue, event, ticket_num):
+    # if section is None and (row is not None or seat_num is not None):
+    #     return False
 
-    if section is not None and row is None and seat_num is not None:
-        return False
+    # if section is not None and row is None and seat_num is not None:
+    #     return False
     
     ticketsListed = 0
     # print(len(event.tickets))
     for ticket in event.tickets:
         # print(ticket.seat.section)
-        if section == ticket.seat.section or section is None:
-            # print(ticket.seat.row)
-            if row == ticket.seat.row or row is None:
-                print('ticket seat_num', ticket.seat.seat_no)
-                print('seat_num', seat_num)
-                if seat_num == ticket.seat.seat_no or seat_num is None:
-                    print('success')
-                    ticketsListed+=(ticket.listTicket(ticket.face_value, venue.id))
+        # if section == ticket.seat.section or section is None:
+        #     # print(ticket.seat.row)
+        #     if row == ticket.seat.row or row is None:
+        #         print('ticket seat_num', ticket.seat.seat_no)
+        #         print('seat_num', seat_num)
+        #         if seat_num == ticket.seat.seat_no or seat_num is None:
+        if ticket_num == ticket.ticket_num:
+            print('success')
+            ticketsListed+=(ticket.listTicket(ticket.face_value, venue.id))
 
     return ticketsListed
 
