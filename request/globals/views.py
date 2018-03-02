@@ -31,8 +31,13 @@ def register(request):
 
                 if user_type == "venue":
                     Venue.objects.create(user=user, name=name)
+
+                    # TODO: Venue create call
+
                 else:
                     Customer.objects.create(user=user, name=name)
+
+                    # TODO: Customer create call
 
             else:
                 messages.error(request, "Passwords do not match.")
