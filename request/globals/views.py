@@ -16,13 +16,13 @@ def register(request):
 
     if request.method == "POST":
         form = RegisterForm(request.POST)
-        
+
         if form.is_valid():
             form.save()
-            username = form.cleaned_data.get("username")
+            email = form.cleaned_data.get("email")
             password = form.cleaned_data.get("password1")
 
-            user = authenticate(username=username, password=password)
+            user = authenticate(email=email, password=password)
             login(request, user)
 
             return redirect("home")
@@ -38,11 +38,11 @@ def login(request):
 
     if request.method == "POST":
         user = authenticate(
-            username=request.POST["username"], 
+            email=request.POST["email"],
             password=request.POST["password"])
 
         if user and user.is_active:
-            auth_login(request, user) 
+            auth_login(request, user)
             messages.success(request, "Successfully logged in.")
             return redirect("home") # redirect to homepage
         else: # login failed
@@ -53,7 +53,7 @@ def login(request):
 
 @login_required
 def logout(request):
-    auth_logout(request) 
+    auth_logout(request)
     messages.success(request, "Successfully logged out.")
     return redirect("home")
 
