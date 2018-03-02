@@ -99,16 +99,25 @@ Each *User* will be able to discover new events in two ways. Users will be able 
 
 In order to complete the *Event* and *Venue* classes, we will be finalizing comprehensive creation and management of tickets and events. To make the creation of tickets easier, each venue will be able to create multiple tickets at a time (**Create Tickets**). Venues will be able to change attributes of tickets they have created (**Manage Ticket**), events they are hosting (**Manage Event**), as well as schedule a release time for tickets they have created (**Schedule Release**). We will also be implementing an easier and more controlled way for venues to create events (**Create Event**) to avoid any potential issues.
 
-New tests for iteration 2 can be found in Blockchain-Ticket-Platform/tests/back_end and include:
+(**New tests for iteration 2 can be found in Blockchain-Ticket-Platform/tests/back_end and include:**)
+
+
 Test_Explore.py
+
 Test_ManageEvent.py
+
 Test_ManageTicket.py
+
 Test_ReadWriteValidation.py
+
 Test_ScheduleRelease.py
+
 Test_Search.py
+
 Test_Trackers.py
+
 Test_ValidateTicketCode.py
-Test_VenueTickets.py
+
 
 
 ### Workload Division
@@ -121,7 +130,7 @@ Euirim will design and implement the request forms for the web server and the re
 
 #### Back end
 
-Hayden and Hussein will pair up to write **Validate Ticket**, **Manage Tickets**, **Manage Event**
+Hayden and Hussein will pair up to write **Validate Ticket**, **Manage Tickets**, **Manage Event** and **Schedule Release**
 
 Ethan and Gina will pair up to write **Explore** and **Create Event**
 
@@ -164,7 +173,7 @@ You can use the Makefile to run our test cases by executing 'make unit_tests' fr
 If you wish to only run the unit_tests that are new since the last iteration, you can instead run 'make iter2_unittests' or 'make iter2_unittests_log' (if you'd like to store the pytest logs, as described above).
 
 ### Suggestions for Acceptance Tests
-<TO-DO: @FRONTEND>
+To test API: Our API acceptance tests use the REST client Insomnia (https://insomnia.rest/download). To see our tests, import `tests/front_end/insomnia_api_tests.json` into Insomnia. Once that is done, the tests should appear in logical order, from top to bottom. Some implementation familiarity is necessary to edit the tests, but they are intuitive to read and therefore it is easy to validate its output. Failures in the API due to improper parameters return helpful failure messages. Successful API calls return easily readable JSON messages.
 
 ### What is Implemented?
 
@@ -174,7 +183,7 @@ If you wish to only run the unit_tests that are new since the last iteration, yo
 #### Back end
 On the back end, we have developed a three-point consensus mechanism, as planned, to serve as the fault-tolerance basis of our blockchain. We have also implemented a quick hash-based validation algorithm to ensure consistency across nodes prior to any reads and writes.
 
-In terms of use cases, we have fully and successfully implemented **Explore**, **Search**,  **Validate Ticket**, **Create Event**, **Schedule Release**, **Manage Event**, and **Manage Ticket(s)**, as well as a 'plural' form of Create Ticket called **Create Tickets**, which is more practical for real-world situations. We made minor security improvements to **Generate Ticket Code** and other peripheral helper functions as well to better integrate the fault-tolerant properties of the blockchain.
+In terms of use cases, we have fully and successfully implemented **Explore**, **Search**,  **Validate Ticket**, **Create Event**, **Schedule Release**, **Manage Event**, and **Manage Tickets**, as well as a 'plural' form of Create Ticket called **Create Tickets**, which is more practical for real-world situations. To assist with Manage Tickets, we also wrote a helper function **Venue Tickets** which traverses the blockchain to produce a list of ID numbers for tickets belonging to the Venue for a given event. This was also fully implemented and unit tested in Test_VenueTickets.py. We made minor security improvements to **Generate Ticket Code** and other peripheral helper functions as well to better integrate the fault-tolerant properties of the blockchain.
 
 ### Who Did What?
 
@@ -186,7 +195,7 @@ Gina and Ethan paired to develop and test **Explore**.
 
 Ross implemented and tested **Search**, **Create Event**, and **Create Tickets**, as well as adding the consensus mechanism to the already-implemented Ticket.mostRecentTransaction() function.
 
-Hayden and Hussein paired to develop and test <TO-DO: @HAYDEN @HUSSEIN>
+Hayden and Hussein paired to develop and test **Manage Event**, **Manage Tickets** (and its helper **Venue Tickets**), **Schedule Release** (and its helper **Check Release**) and **Validate Ticket Code**, as well as improving the security of our already implemented blockchain infrastructure by adding a read-write validator (**rwValidation**) function that quickly validates the blockchain prior to any read or write access to it.
 
 ### Changes from Implementation Plan
 There were several minor test rigor and formatting changes to the unit tests since they were delivered with 4a, none of which changed the scope or diminished the coverage of the tests.

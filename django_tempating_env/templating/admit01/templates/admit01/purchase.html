@@ -1,0 +1,79 @@
+{% extends 'admit01/base.html' %}
+
+{% block main %}
+{% load staticfiles %}
+<main>
+	<div class="container mx-auto rounded border mb-2 text-left" style="width: 95%;
+	border: 1px solid #003470; background-color: white; padding: 10px;
+	margin-top: 1rem;">
+		<h1>PURCHASE TICKETS</h1>
+		<div class="container">
+			<div class="row text-left mx-auto mb-3" style="border: 1px solid #003470; min-height: 200px; width: 100%; padding: 10px; max-width: 700px; color: #1b2838">
+				<div id="ticket-summary" class="col-8" style="border-right: 1px dotted #003470">
+					<style type="text/css">
+						#ticket-summary p, #ticket-summary h2 {
+							margin: 0;
+							padding: 0;
+						}
+					</style>
+					<h2>{{detail_event.event_name}}</h2>
+					<p>
+						<span style="font-size: 20px">SEAT {{ticket_wanted.seat}} </span><span>{{ticket_wanted.row}}{{ticket_wanted.seat}}</span>
+					</p>
+					<p class="mb-2">
+						<span style="font-size: 14px">{{detail_event.venue}} at {{detail_event.when}}</span>
+					</p>
+
+				</div>
+				<div class="col-4">
+					<h2>PRICE</h2>
+					<h3>${{ticket_wanted.price}}</h3>
+				</div>
+			</div>
+			<form>
+				<div class="ticketlist mb-4" style="max-height: 200px;">
+					<ul>
+						{% for ticket in already.purchased %}
+						{% if ticket.can_upgrade %}
+						<li class="row align-items-center">
+							<div class="col-8">
+								<p>SEAT {{ticket.section}}</p>
+								<p><span>{{ticket.row}}{{ticket.seat}}</span></p>
+								<p>VALUE ${{ticket.price}}</p>
+							</div>
+							<div class="col-4"><input class="form-check-input" type="checkbox"/> Upgrade</div>
+						</li>
+						{% endif %}
+						{% endfor %}
+					</ul>
+				</div>
+			<div id="wallet-purchase-summary" class="mx-auto row" style="max-width: 500px">
+				<style type="text/css">
+					#wallet-purchase-summary p {
+						margin: 0;
+						padding: 0;
+					}
+				</style>
+				<h3 class="col-12">Your Wallet</h3>
+				<div class="mb-2 col-12 col-sm-6">
+					<img style="width:100px" src="{% static 'admit01/images/wallet-icon.png' %}">
+					<p><a href="#">+ Add money to Wallet</a></p>
+				</div>
+				<div class="col-12 col-sm-6 text-left text-sm-right">
+					<p> &nbsp;&nbsp;${{wallet_info.money_in_wallet}}</p>
+					<p><u>- ${{ticket_wanted.price}}</u></p>
+					<p> &nbsp;&nbsp;$MiW - PoT</p>
+				</div>
+				<div class="col-12 text-center">
+					<button class="btn d-block mx-auto" type="submit" value="Purchase"
+					style="color: #c8c8c8; background-color: #1b2838; font-family: 'Abel', sans-serif">Purchase</button>
+					<p> or </p>
+					<p><a href="/home/">Cancel</a></p>
+				</div>
+			</div><!-- Wallet Display Container-->
+			</form>
+		</div><!-- container -->
+	</div><!-- confirm ticket purchase container-->
+
+</main>
+{% endblock %}

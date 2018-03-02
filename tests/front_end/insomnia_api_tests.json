@@ -1,0 +1,385 @@
+{
+	"_type": "export",
+	"__export_format": 3,
+	"__export_date": "2018-03-02T09:13:14.074Z",
+	"__export_source": "insomnia.desktop.app:v5.14.8",
+	"resources": [
+		{
+			"_id": "wrk_0fa6989c5826432a96779b7034d00efc",
+			"created": 1519963745251,
+			"description": "",
+			"modified": 1519963745251,
+			"name": "Insomnia",
+			"parentId": null,
+			"_type": "workspace"
+		},
+		{
+			"_id": "env_e5a51d8470c14b02b22831a912c289d8",
+			"color": null,
+			"created": 1519963745276,
+			"data": {},
+			"isPrivate": false,
+			"modified": 1519963745276,
+			"name": "New Environment",
+			"parentId": "wrk_0fa6989c5826432a96779b7034d00efc",
+			"_type": "environment"
+		},
+		{
+			"_id": "jar_0e114c33f78b4164af91c557cafc9522",
+			"cookies": [],
+			"created": 1519963745324,
+			"modified": 1519963745324,
+			"name": "Default Jar",
+			"parentId": "wrk_0fa6989c5826432a96779b7034d00efc",
+			"_type": "cookie_jar"
+		},
+		{
+			"_id": "req_f92a387a71e44501a1308772259af68b",
+			"authentication": {},
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n    \"venue\": {\n        \"venue_location\": \"Chicago, IL\",\n        \"venue_name\": \"House of Blues\"\n    },\n    \"name\": \"Event 1\",\n    \"description\": \"The first event ever.\",\n    \"event_id\": 100,\n    \"time\": {\n        \"minute\": 0,\n        \"hour\": 12,\n        \"day\": 10,\n        \"month\": 11,\n        \"year\": 2020\n    }\n}"
+			},
+			"created": 1519963758385,
+			"description": "",
+			"headers": [
+				{
+					"id": "pair_802b6435ef79488d8f5e5039e29379e7",
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"metaSortKey": -1519963758385,
+			"method": "POST",
+			"modified": 1519964628152,
+			"name": "Create Event",
+			"parameters": [],
+			"parentId": "wrk_0fa6989c5826432a96779b7034d00efc",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "http://127.0.0.1:5000/venue/event/create",
+			"_type": "request"
+		},
+		{
+			"_id": "req_afa8a58fc9a64add97eba5d10f93fff1",
+			"authentication": {},
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n    \"venue_location\": \"Chicago, IL\",\n    \"venue_name\": \"House of Blues\"\n}"
+			},
+			"created": 1519964551460,
+			"description": "",
+			"headers": [
+				{
+					"id": "pair_daccd165e75e40fe90f0f35496251b42",
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"metaSortKey": -1519963758335,
+			"method": "POST",
+			"modified": 1519981888650,
+			"name": "Create Venue",
+			"parameters": [],
+			"parentId": "wrk_0fa6989c5826432a96779b7034d00efc",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "http://127.0.0.1:5000/venue/create",
+			"_type": "request"
+		},
+		{
+			"_id": "req_e0bd059c41e148b2bcf760d495bc0721",
+			"authentication": {},
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n    \"fname\": \"Joshua\",\n    \"lname\": \"Soong\",\n    \"email_address\": \"jsoong@uchicago.edu\"\n}"
+			},
+			"created": 1519964648287,
+			"description": "",
+			"headers": [
+				{
+					"id": "pair_738a91573b5d450993d5db3447460f30",
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"metaSortKey": -1519973472382,
+			"method": "POST",
+			"modified": 1519981952681,
+			"name": "Create User",
+			"parameters": [],
+			"parentId": "wrk_0fa6989c5826432a96779b7034d00efc",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "http://127.0.0.1:5000/user/create",
+			"_type": "request"
+		},
+		{
+			"_id": "req_1f7622317fec4c05b7b87d371b86802a",
+			"authentication": {},
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n    \"venue\": {\n\t\t\t\"venue_location\": \"Chicago, IL\",\n\t\t\t\"venue_name\": \"House of Blues\"\n    },\n    \"event_id\": 100,\n    \"tickets_info\": {\n        \"face_value\": 10.99,\n        \"section\": \"Big Section\",\n        \"row_range\": {\n            \"begin\": 1,\n\t\t\t\t\t\t\"end\": 5\n        },\n        \"seat_range\": {\n            \"begin\": 1,\n            \"end\": 10\n        }\n    }\n}"
+			},
+			"created": 1519964905571,
+			"description": "",
+			"headers": [
+				{
+					"id": "pair_f602fa958c1e47bc92e70a49685551ba",
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"metaSortKey": -1519964203336,
+			"method": "POST",
+			"modified": 1519981893514,
+			"name": "Create Tickets",
+			"parameters": [],
+			"parentId": "wrk_0fa6989c5826432a96779b7034d00efc",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "http://127.0.0.1:5000/venue/event/tickets/create",
+			"_type": "request"
+		},
+		{
+			"_id": "req_82b3f16223644d77af24fa317dd269cf",
+			"authentication": {},
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\"venue\": {\n\t\t\"venue_location\": \"Chicago, IL\",\n\t\t\"venue_name\": \"House of Blues\"\n\t},\n\t\"event_id\": 100,\n\t\"update_info\": {\n\t\t\"name\": \"Scooby Doo\"\n\t}\n}"
+			},
+			"created": 1519966213527,
+			"description": "",
+			"headers": [
+				{
+					"id": "pair_5ae7a57777c44ba1b534a96293fdf22d",
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"metaSortKey": -1519964147717.125,
+			"method": "POST",
+			"modified": 1519981931915,
+			"name": "Manage Event",
+			"parameters": [],
+			"parentId": "wrk_0fa6989c5826432a96779b7034d00efc",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "http://127.0.0.1:5000/venue/event/edit",
+			"_type": "request"
+		},
+		{
+			"_id": "req_6465eec4e55b42a0afd6533e8cdb77ae",
+			"authentication": {},
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n    \"venue\": {\n        \"venue_location\": \"Chicago, IL\",\n        \"venue_name\": \"House of Blues\"\n    },\n    \"event_id\": 100,\n    \"update_info\" : {\n        \"new_price\": 100.0,\n        \"which_seats\": {\n            \"section\": \"Big Section\",\n            \"row\": \"3\",\n            \"seat_num\": 5\n        }\n    }\n}"
+			},
+			"created": 1519966877554,
+			"description": "",
+			"headers": [
+				{
+					"id": "pair_8ec3389be99042e4b0ca2c39795c2366",
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"metaSortKey": -1519966877554,
+			"method": "POST",
+			"modified": 1519967485975,
+			"name": "Manage Tickets",
+			"parameters": [],
+			"parentId": "wrk_0fa6989c5826432a96779b7034d00efc",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "http://127.0.0.1:5000/venue/event/tickets/edit",
+			"_type": "request"
+		},
+		{
+			"_id": "req_2fa8b2dcc0ca48ebb03252283db476a6",
+			"authentication": {},
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n    \"venue\": {\n        \"venue_location\": \"Chicago, IL\",\n        \"venue_name\": \"House of Blues\"\n    }\n}"
+			},
+			"created": 1519967015739,
+			"description": "",
+			"headers": [
+				{
+					"id": "pair_420fa3ec12c44d62945fa595be5baff6",
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"metaSortKey": -1519963980860.5,
+			"method": "POST",
+			"modified": 1519981919262,
+			"name": "View Events",
+			"parameters": [],
+			"parentId": "wrk_0fa6989c5826432a96779b7034d00efc",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "http://127.0.0.1:5000/venue/view_events",
+			"_type": "request"
+		},
+		{
+			"_id": "req_e09b6f0fac6c4f2ebf83698f34bec9f7",
+			"authentication": {},
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n    \"venue\": {\n        \"venue_location\": \"Chicago, IL\",\n        \"venue_name\": \"House of Blues\"\n    },\n    \"event_id\": 100\n}"
+			},
+			"created": 1519967123391,
+			"description": "",
+			"headers": [
+				{
+					"id": "pair_3aa958e7268149fd897150d902fd1681",
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"metaSortKey": -1519964425811.5,
+			"method": "POST",
+			"modified": 1519981916284,
+			"name": "View Tickets",
+			"parameters": [],
+			"parentId": "wrk_0fa6989c5826432a96779b7034d00efc",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "http://127.0.0.1:5000/venue/event/view_tickets",
+			"_type": "request"
+		},
+		{
+			"_id": "req_35025f009b214a8d9ae7948429c48c6b",
+			"authentication": {},
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n    \"venue\": {\n        \"venue_location\": \"Chicago, IL\",\n        \"venue_name\": \"House of Blues\"\n    },\n    \"event_id\": 100,\n    \"list_info\": {\n        \"which_seats\": {\n        }\n    }\n}"
+			},
+			"created": 1519969060380,
+			"description": "",
+			"headers": [
+				{
+					"id": "pair_bc27059f548848c8ace44daafd80b64b",
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"metaSortKey": -1519969060380,
+			"method": "POST",
+			"modified": 1519976801103,
+			"name": "List Tickets",
+			"parameters": [],
+			"parentId": "wrk_0fa6989c5826432a96779b7034d00efc",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "http://127.0.0.1:5000/venue/event/tickets/list",
+			"_type": "request"
+		},
+		{
+			"_id": "req_59db22bd853e4bc98b9407e364f89c50",
+			"authentication": {},
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\"user_email\": \"jsoong@uchicago.edu\",\n\t\"venue\": {\n\t\t\"venue_location\": \"Chicago, IL\",\n\t\t\"venue_name\": \"House of Blues\"\n\t},\n\t\"event_id\": 100,\n\t\"ticket_info\": {\n\t\t\"section\": \"Big Section\",\n\t\t\"row\": \"3\"\n\t}\n}"
+			},
+			"created": 1519977884384,
+			"description": "",
+			"headers": [
+				{
+					"id": "pair_73826e0d3f414a6d887684e259593176",
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"metaSortKey": -1519977884384,
+			"method": "POST",
+			"modified": 1519979698088,
+			"name": "Buy Ticket",
+			"parameters": [],
+			"parentId": "wrk_0fa6989c5826432a96779b7034d00efc",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "http://127.0.0.1:5000/user/buy_ticket",
+			"_type": "request"
+		},
+		{
+			"_id": "req_4eff434316b84c4dbe2c7ccfddee956c",
+			"authentication": {},
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n    \"user_email\": \"jsoong@uchicago.edu\"\n}"
+			},
+			"created": 1519979318428,
+			"description": "",
+			"headers": [
+				{
+					"id": "pair_6a66b409fb6c4900bdf289c27415ca01",
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"metaSortKey": -1519979318428,
+			"method": "POST",
+			"modified": 1519979410541,
+			"name": "View User Tickets",
+			"parameters": [],
+			"parentId": "wrk_0fa6989c5826432a96779b7034d00efc",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "http://127.0.0.1:5000/user/view_tickets",
+			"_type": "request"
+		},
+		{
+			"_id": "req_24ad5fefb54240959fb9ecf08ef3bdca",
+			"authentication": {},
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n    \"venue\": {\n        \"venue_location\": \"Chicago, IL\",\n        \"venue_name\": \"House of Blues\"\n    },\n\t\t\"event_id\": 100\n}"
+			},
+			"created": 1519979965832,
+			"description": "",
+			"headers": [
+				{
+					"id": "pair_420fa3ec12c44d62945fa595be5baff6",
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"metaSortKey": -1519964092098.25,
+			"method": "POST",
+			"modified": 1519981920881,
+			"name": "View Event",
+			"parameters": [],
+			"parentId": "wrk_0fa6989c5826432a96779b7034d00efc",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "http://127.0.0.1:5000/venue/view_event",
+			"_type": "request"
+		}
+	]
+}

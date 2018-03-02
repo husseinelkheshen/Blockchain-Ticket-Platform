@@ -20,5 +20,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("customers/", include("customers.urls")),
     path("venues/", include("venues.urls")),
+    path("events/", include("events.urls")),
     path("", include("globals.urls"))
 ]
