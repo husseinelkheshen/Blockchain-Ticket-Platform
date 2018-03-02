@@ -103,3 +103,12 @@ def test_noresults():
     """ Run a search that returns no Events """
     search_results = user1.search('hamilton new york')
     assert len(search_results) == 0
+
+def test_expiredevent():
+    """ Events that are past-dated should not show up in search results """
+    event1.datetime = datetime.now() - timedelta(days=5)
+    search_results = user1.search()
+    assert len(search_results) == 3
+    assert event2 in search_results
+    assert event3 in search_results
+    assert event4 in search_results

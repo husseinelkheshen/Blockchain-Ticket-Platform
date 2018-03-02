@@ -84,7 +84,7 @@ A minor change, as already discussed, resulted from ambiguity about how list tic
 ### What Will Be Implemented?
 
 #### Front end
-In this iteration we will implement the web portalenables venues to create and manage events, create and manage tickets, schedule release, and validate tickets. We will also wireframe other aspects of the site (described below), and create a visualization for venues hosting events so that they may visualize the status of their ticket sales.
+In this iteration we will implement the web portal, which enables venues to create and manage events, create and manage tickets, schedule ticket releases, and validate tickets. We will also wireframe other aspects of the site (described below), and create a visualization for venues hosting events so that they may visualize the status of their ticket sales.
 
 The API and request servers will also have implemented endpoints for genertaing ticket codes, validating tickets, searching for events. We will also implement endpoints that allow venues to mange their events. These include creating multiple tickets at a time, editing tickets, editing events, and scheduling releases of tickets.
 
@@ -145,7 +145,7 @@ Since our code is written in Python, there is no need to compile.
 ### How to Run Our Code
 Before doing anything else, you must execute 'make install' from the main directory in order to install the correct versions of our packages.
 
-If you encounter an error which says CERTIFICATE_VERIFY_FAILED, please read the note below.
+If you encounter an error which says CERTIFICATE_VERIFY_FAILED, please read the note below. This, of course, won't be an issue in the final deployment of the software since it will be a web app running on a remote server.
 
 #### SSL CERTIFICATE VERIFICATION
 
@@ -159,6 +159,34 @@ Once the file is found, please double click on it. It should execute in Shell an
 Our Explore functions depends on a package which requires SSL certification to be downloaded.
 
 ### How to Run the Unit Test Cases
-You can use the Makefile to do so by executing 'make unit_tests' from the main directory. To store the outputs of the unit tests as .log files in './tests/back_end/pytest_logs', you can run 'make unit_tests_log' instead.
+You can use the Makefile to run our test cases by executing 'make unit_tests' from the main directory. To store the outputs of the unit tests as .log files in './tests/back_end/pytest_logs', you can run 'make unit_tests_log' instead.
 
+If you wish to only run the unit_tests that are new since the last iteration, you can instead run 'make iter2_unittests' or 'make iter2_unittests_log' (if you'd like to store the pytest logs, as described above).
 
+### Suggestions for Acceptance Tests
+<TO-DO: @FRONTEND>
+
+### What is Implemented?
+
+#### Front end
+<TO-DO: @FRONTEND>
+
+#### Back end
+On the back end, we have developed a three-point consensus mechanism, as planned, to serve as the fault-tolerance basis of our blockchain. We have also implemented a quick hash-based validation algorithm to ensure consistency across nodes prior to any reads and writes.
+
+In terms of use cases, we have fully and successfully implemented **Explore**, **Search**,  **Validate Ticket**, **Create Event**, **Schedule Release**, **Manage Event**, and **Manage Ticket(s)**, as well as a 'plural' form of Create Ticket called **Create Tickets**, which is more practical for real-world situations. We made minor security improvements to **Generate Ticket Code** and other peripheral helper functions as well to better integrate the fault-tolerant properties of the blockchain.
+
+### Who Did What?
+
+#### Front end
+<TO-DO: @FRONTEND>
+
+#### Back end
+Gina and Ethan paired to develop and test **Explore**.
+
+Ross implemented and tested **Search**, **Create Event**, and **Create Tickets**, as well as adding the consensus mechanism to the already-implemented Ticket.mostRecentTransaction() function.
+
+Hayden and Hussein paired to develop and test <TO-DO: @HAYDEN @HUSSEIN>
+
+### Changes from Implementation Plan
+There were several minor test rigor and formatting changes to the unit tests since they were delivered with 4a, none of which changed the scope or diminished the coverage of the tests.
