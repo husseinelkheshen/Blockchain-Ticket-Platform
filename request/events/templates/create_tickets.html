@@ -6,5 +6,6 @@
 <form action="{% url 'create-tickets' event.pk %}" method="POST">
   {% csrf_token %}
   {{ form.as_p }}
+  <input type="submit" value="Create" />
 </form>
 {% endblock %}

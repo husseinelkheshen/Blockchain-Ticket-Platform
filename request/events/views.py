@@ -47,11 +47,16 @@ def create_tickets(request, event_id):
             min_row = form.cleaned_data.get("min_row")
             max_row = form.cleaned_data.get("max_row")
 
-            venue = Venue.objects.get(user=user)
+            venue = Venue.objects.get(user=request.user)
 
             if event.venue == venue:
                 # TODO: API call to blockchain server to create tickets
-                pass
+
+                messages.success(
+                    request, "Tickets successfully created."
+                )
+
+                return redirect("create-tickets", event.pk)
             else:
                 messages.error(
                     request,
