@@ -1,6 +1,6 @@
 import requests
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
@@ -51,7 +51,10 @@ def create_tickets(request, event_id):
             else:
                 messages.error(
                     request,
-                    "You are not authorized to create tickets for this event.")
+                    "You are not authorized to create tickets for this event."
+                )
+
+                return redirect("home")
     else:
         form = CreateTicketsForm()
 
