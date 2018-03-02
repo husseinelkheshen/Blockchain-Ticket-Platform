@@ -1,11 +1,11 @@
 from django.db import models
 
-from globals.models import User
+from venues.models import Venue
 
 # Create your models here.
-class Venue(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+class Event(models.Model):
     name = models.CharField(max_length=100)
+    venue = models.ForeignKey(Venue)
 
     def __str__(self):
         return self.name

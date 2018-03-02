@@ -132,3 +132,4 @@ BLOCKCHAIN_API = {'host': 'http://128.135.203.175', 'port': 80}
 # Global API settings
 API_TIMEOUT = 5
 
+AUTH_USER_MODEL = "globals.User"
