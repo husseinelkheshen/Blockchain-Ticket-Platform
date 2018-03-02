@@ -194,7 +194,7 @@ In terms of use cases, we have fully and successfully implemented **Explore**, *
 ### Who Did What?
 
 #### Front end
-Pablo 
+Pablo created the remaining Flask endpoints for the Blockchain API besides **Validate Ticket**. Pablo also created acceptance tests for these API endpoints. Finally, Pablo began to implement the API/Django integration. 
 
 Eurim
 
