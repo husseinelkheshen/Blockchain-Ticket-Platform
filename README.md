@@ -173,7 +173,7 @@ You can use the Makefile to run our test cases by executing 'make unit_tests' fr
 If you wish to only run the unit_tests that are new since the last iteration, you can instead run 'make iter2_unittests' or 'make iter2_unittests_log' (if you'd like to store the pytest logs, as described above).
 
 ### Suggestions for Acceptance Tests
-<TO-DO: @FRONTEND>
+To test API: Our API acceptance tests use the REST client Insomnia (https://insomnia.rest/download). To see our tests, import `tests/front_end/insomnia_api_tests.json` into Insomnia. Once that is done, the tests should appear in logical order, from top to bottom. Some implementation familiarity is necessary to edit the tests, but they are intuitive to read and therefore it is easy to validate its output. Failures in the API due to improper parameters return helpful failure messages. Successful API calls return easily readable JSON messages.
 
 ### What is Implemented?
 
