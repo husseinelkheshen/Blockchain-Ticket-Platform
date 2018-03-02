@@ -72,6 +72,7 @@ iter2_unittests:
 	python3 -m pytest tests/back_end/Test_ManageEvent.py
 	python3 -m pytest tests/back_end/Test_UpdatePreferences.py
 	python3 -m pytest tests/back_end/Test_Explore.py
+	python3 -m pytest tests/back_end/Test_ChunkTags.py
 	python3 -m pytest tests/back_end/Test_VenueTickets.py
 	python3 -m pytest tests/back_end/Test_ManageTickets.py
 	python3 -m pytest tests/back_end/Test_ReadWriteValidation.py
