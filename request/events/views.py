@@ -47,7 +47,7 @@ def create_tickets(request, event_id):
 
             if event.venue == venue:
                 # TODO: API call to blockchain server to create tickets
-
+                pass
             else:
                 messages.error(
                     request,
