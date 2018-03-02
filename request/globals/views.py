@@ -3,13 +3,17 @@ from django.contrib import messages
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
-from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
+from .models import User
 from .forms import RegisterForm
 
 # Create your views here.
 def register(request):
+    # if user is already logged in, redirect to home page
+    if request.user.is_authenticated:
+        return redirect("home")
+
     if request.method == "POST":
         form = RegisterForm(request.POST)
         
