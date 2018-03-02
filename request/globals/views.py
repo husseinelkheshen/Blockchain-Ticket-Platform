@@ -6,6 +6,8 @@ from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
 
 from .models import User
+from customers.models import Customer
+from venues.models import Venue
 from .forms import RegisterForm
 
 # Create your views here.
