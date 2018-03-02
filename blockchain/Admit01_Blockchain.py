@@ -1014,7 +1014,7 @@ class Venue:
         # create tickets
         tickets = []
         for seat in seats:
-            ticket = createTicket(event, face_value, seat)
+            ticket = self.createTicket(event, face_value, seat)
             if ticket is not None:
                 tickets.append(ticket)
 
