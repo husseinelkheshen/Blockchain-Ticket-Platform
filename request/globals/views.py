@@ -81,3 +81,23 @@ def logout(request):
 
 def home(request):
     return render(request, "home.html")
+    
+def explore(request):
+    user = request.user
+
+    # TODO: submit request to blockchain server to get events for explore
+    response = {
+        "status": 200
+    }
+
+    if response.status == 200:
+        events = []
+
+        context = {
+            "events": events
+        }
+
+        return render(request, "explore.html", context)
+    else:
+        messages.error(request, "Can't contact blockchain server.")
+        return redirect("/")
