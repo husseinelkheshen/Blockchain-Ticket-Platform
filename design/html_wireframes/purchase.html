@@ -68,19 +68,6 @@
 					<p class="mb-2">
 						<span style="font-size: 14px">VENUE NAME at HH:MM on MM/DD/YY</span>
 					</p>
-					<form>
-						<fieldset>
-								<div>
-									<label>Upgrade From Your Old Tickets</label>
-
-									<div class="form-check">
-										<label class="form-check-label">
-											<input class="form-check-input" type="checkbox" disabled> Yes
-										</label>
-									</div><!-- form-check -->
-								</div><!-- form-group -->
-							</fieldset><!-- form-group -->
-					</form>
 
 				</div>
 				<div class="col-4">
@@ -88,6 +75,35 @@
 					<h3>${Price}</h3>
 				</div>
 			</div>
+			<form>
+				<div class="ticketlist mb-4" style="max-height: 200px;">
+					<ul>
+						<li class="row align-items-center">
+							<div class="col-8">
+								<p>SECTION {section}</p>
+								<p><span>RowSeat - RowSeat</span></p>
+								<p>VALUE ${Price}</p>
+							</div>
+							<div class="col-4"><input class="form-check-input" type="checkbox"/> Upgrade</div>
+						</li>
+						<li class="row align-items-center">
+							<div class="col-8">
+								<p>SECTION {section}</p>
+								<p><span>RowSeat - RowSeat</span></p>
+								<p>VALUE ${Price}</p>
+							</div>
+							<div class="col-4"><input class="form-check-input" type="checkbox"/> Upgrade</div>
+						</li>
+						<li class="row align-items-center">
+							<div class="col-8">
+								<p>SECTION {section}</p>
+								<p><span>RowSeat - RowSeat</span></p>
+								<p>VALUE ${Price}</p>
+							</div>
+							<div class="col-4"><input class="form-check-input" type="checkbox"/> Upgrade</div>
+						</li>
+					</ul>
+				</div>
 			<div id="wallet-purchase-summary" class="mx-auto row" style="max-width: 500px">
 				<style type="text/css">
 					#wallet-purchase-summary p {
@@ -112,6 +128,7 @@
 					<p><a href="my_account.html">Cancel</a></p>
 				</div>
 			</div><!-- Wallet Display Container-->
+			</form>
 		</div><!-- container -->
 	</div><!-- confirm ticket purchase container-->
 
