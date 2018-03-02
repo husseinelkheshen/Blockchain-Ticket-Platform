@@ -350,6 +350,7 @@ def venue_view_events():
 		'num_scheduled_tickets': len(e.scheduled)}
 		ret.append(e_dict)
 
+	return good_request(ret)
 
 
 
