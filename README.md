@@ -232,7 +232,11 @@ In terms of use cases, we have fully and successfully implemented **Explore**, *
 ### Who Did What?
 
 #### Front end
+<<<<<<< HEAD
 Pablo wrote the blochain API server
+=======
+Pablo created the remaining Flask endpoints for the Blockchain API besides **Validate Ticket**. Pablo also created acceptance tests for these API endpoints. Finally, Pablo began to implement the API/Django integration. 
+>>>>>>> c0370d3de6da46c235cd2f7856661440bbf3f229
 
 Eurim Implemented the Request server and the the beginning fully integrated UI to server templates 
 
@@ -249,3 +253,4 @@ Hayden and Hussein paired to develop and test **Manage Event**, **Manage Tickets
 For the back end, there were several minor test rigor and formatting changes to the unit tests since they were delivered with 4a, none of which changed the scope or diminished the coverage of the tests.
 
 For the front end, while we were able to achieve integration with the request server with the back end library calls, we weren't able to achieve full ui to back-end integration of the software. Because we don't learn a particularly great deal about how to integrate codebases, system architectures, and front end in general in the CS department and because we obviously had envisioned a finished product, we vastly underestimated the amount of code that is required to achieve fully integrated software from the back ends of library/api to the more minute detailed coding of ui that has to be able to interact with users and deal appropriately with user behaviour. There was also the unanticipated time cost of having to create manage the system architecture with the servers not always being fully reliable and functional. That being said, while we deviated from the design goal of having a fully integrated website, we did manage to integrate the front end and the back ends, as well as building a templating engine for the UI that functions with dummy data that models the actual data context of the server.
+
