@@ -39,3 +39,23 @@ def schedule_release(request):
     Schedule the release of the tickets for an event.
     """
     pass
+
+@venue_login_required
+def view_events(request, venue_id):
+    """
+    View the events of a venue.
+    """
+    try:
+        venue = Venue.objects.get(pk=venue_id)
+    except Venue.DoesNotExist:
+        raise Http404("Venue does not exist.")
+
+    # TODO: get events from API call to blockchain server
+    events = []
+
+    context = {
+        "events": events,
+        "venue": venue
+    }
+
+    return render(request, "venue.html", context)

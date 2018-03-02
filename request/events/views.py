@@ -81,7 +81,3 @@ def manage_event(request):
 @venue_login_required
 def manage_tickets(request):
     pass
-
-@venue_login_required
-def view_events(request):
-    pass
