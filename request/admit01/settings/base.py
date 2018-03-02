@@ -40,7 +40,8 @@ INSTALLED_APPS = [
 
     'customers',
     'globals',
-    'venues'
+    'venues',
+    'events'
 ]
 
 MIDDLEWARE = [
