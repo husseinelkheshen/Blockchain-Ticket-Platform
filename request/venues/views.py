@@ -1,6 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
+from django.http import Http404
 
+from globals.decorators import venue_login_required
 from .models import Venue
 from globals import blockchain_api as bcAPI
 
