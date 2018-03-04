@@ -132,8 +132,8 @@ def venue(request, venue_id):
 
     # TODO: get events from API call to blockchain server
     data = {"venue": {"venue_location": venue.location, "venue_name": venue.name}}
-    response = bcAPI.post("venue/event/tickets/list", data=data)
-    events = response.json()
+    response = bcAPI.post("venue/view_events", data=data)
+    events = response[0]
 
 
     context = {

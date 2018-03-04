@@ -159,7 +159,10 @@ def event(request, event_id):
     tickets = []
     # TODO: get tickets by making API call to blockchain server
     # tickets = []
-    user_venue = Venue.objects.get(user=request.user)
+    try:
+        user_venue = Venue.objects.get(user=request.user)
+    except Venue.DoesNotExist as ex:
+        user_venue = None
 
     # check if venue has the permissions to create tickets for
     # an event.

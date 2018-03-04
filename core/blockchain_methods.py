@@ -115,9 +115,9 @@ def bc_list_tickets(venue, event, ticket_num):
 
     return ticketsListed
 
-def bc_buy_ticket(venue, event, user, section, row, seat_num):
+def bc_buy_ticket(venue, event, user, ticket_num):
     for ticket in event.tickets:
-        if ticket.seat.seat_no == seat_num and ticket.seat.row == row and ticket.seat.section == section:
+        if ticket.ticket_num == ticket_num:
             print("found ticket")
             return user.buyTicket(ticket) and ticket.ticket_num
     return False

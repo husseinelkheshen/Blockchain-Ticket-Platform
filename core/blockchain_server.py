@@ -503,12 +503,13 @@ def user_buy_ticket():
         return bad_request('Event does not exist')
 
     # get ticket
-    tickets_info = request.json.get('ticket_info')
-    if tickets_info is None:
-        return bad_request('Need ticket_info')
-    section = tickets_info.get('section')
-    row = tickets_info.get('row')
-    seat_num = tickets_info.get('seat_num')
+    # tickets_info = request.json.get('ticket_info')
+    # if tickets_info is None:
+    #     return bad_request('Need ticket_info')
+    # section = tickets_info.get('section')
+    # row = tickets_info.get('row')
+    # seat_num = tickets_info.get('seat_num')
+    ticket_num = request.json.get('ticket_num')
 
     # get user email
     user_email = request.json.get('user_email')
@@ -518,7 +519,7 @@ def user_buy_ticket():
     u.wallet = 100000
 
     #buy ticket
-    ret = bc_buy_ticket(v, e, u, section, row, seat_num)
+    ret = bc_buy_ticket(v, e, u, ticket_num)
     if ret is not False:
         return good_request({"ticket_num": ret})
     return bad_request('Buying ticket failed')

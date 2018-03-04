@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from globals import blockchain_api as bcAPI
 from globals.decorators import customer_login_required
 from .models import Customer
+from events.models import Event
 
 # Create your views here.
 @customer_login_required
@@ -26,17 +27,15 @@ def buy_ticket(request, event_id, ticket_num):
         "venue": {
             "venue_location": venue.location,
             "venue_name": venue.name
-        },
-        "ticket_info": {
-            
         }
     }
 
     # send POST request to blockchain server with data.
-    response = bcAPI.post("tickets/buy/", data=data)
+    response = bcAPI.post("user/buy_ticket", data=data)
 
     # expect 200 response if successful.
     if response[1] != 200:
+        print(response[0])
         messages.error(request, "Couldn't contact blockchain server.")
     else:
         messages.success(request, "Ticket successfully purchased.")

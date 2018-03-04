@@ -25,7 +25,15 @@ def parse_event_time(event_time):
 def parse_events(events):
     ret = []
     for e in events:
+        dt = e.datetime
         e_dict = {'event_id': e.id, 'name': e.name, 'desc': e.desc,
             'num_scheduled_tickets': len(e.scheduled)}
+        e_dict['time'] = {
+            "minute": dt.minute,
+            "hour": dt.hour,
+            "day": dt.day,
+            "month": dt.month,
+            "year": dt.year
+        }
         ret.append(e_dict)
     return ret
