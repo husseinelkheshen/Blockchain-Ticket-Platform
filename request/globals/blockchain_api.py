@@ -22,7 +22,8 @@ def post(path, data):
     the status code. 
     """
     r = requests.post(
-            settings.BLOCKCHAIN_API["host"] + "/" + path, 
+            settings.BLOCKCHAIN_API["host"]+ ":"+ str(settings.BLOCKCHAIN_API['port']) + "/" + path, 
             timeout=settings.API_TIMEOUT, json=data)
-    
+
+    print(data)   
     return (r.json(), r.status_code)

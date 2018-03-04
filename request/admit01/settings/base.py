@@ -129,7 +129,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # Blockchain API
-BLOCKCHAIN_API = {'host': 'http://ec2-18-222-75-253.us-east-2.compute.amazonaws.com', 'port': 80}
+# BLOCKCHAIN_API = {'host': 'http://ec2-18-222-75-253.us-east-2.compute.amazonaws.com', 'port': 80}
+BLOCKCHAIN_API = {'host': 'http://localhost', 'port': 5000}
+
 
 # Global API settings
 API_TIMEOUT = 5

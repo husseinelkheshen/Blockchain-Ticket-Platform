@@ -15,12 +15,21 @@ def buy_ticket(request, event_id, ticket_num):
     """
     # get customer
     customer = get_object_or_404(Customer, user=request.user)
+    event = get_object_or_404(Event, pk=event_id)
+    venue = event.venue
 
     # build data
     data = {
         "user_email": customer.user.email,
-        "event": event_id,
-        "ticket_num": ticket_num
+        "event_id": event_id,
+        "ticket_num": ticket_num,
+        "venue": {
+            "venue_location": venue.location,
+            "venue_name": venue.name
+        },
+        "ticket_info": {
+            
+        }
     }
 
     # send POST request to blockchain server with data.

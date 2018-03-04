@@ -26,36 +26,41 @@ def register(request):
             password2 = form.cleaned_data.get("password2")
             user_type = form.cleaned_data.get("user_type")
             name = form.cleaned_data.get("name")
-
+            bc_created = False
             if password1 == password2:
-                user = User.objects.create_user(email=email, password=password1)
 
                 if user_type == "venue":
-                    Venue.objects.create(user=user, name=name, location="Chicago, IL")
                     data = {
                         "venue_location": "Chicago, IL",
                         "venue_name": name
                     }
-                    response = bcAPI.post('venue/create', data=data).json()
-                    return str(response)
+                    response = bcAPI.post('venue/create', data=data)
+                    if response[1] == 200:
+                        user = User.objects.create_user(email=email, password=password1)
+                        Venue.objects.create(user=user, name=name, location="Chicago, IL")
+                        bc_created = True
+                    else:
+                        print(response[1])
 
                 else:
-                    Customer.objects.create(user=user, name=name)
                     data = {
                         "fname": name,
                         "lname": "smith",
                         "email_address": email
                     }
-                    response = bcAPI.post('user/create', data=data).json
-                    return str(response)
-
+                    response = bcAPI.post('user/create', data=data)
+                    if response[1] == 200:
+                        bc_created = True
+                        user = User.objects.create_user(email=email, password=password1)
+                        Customer.objects.create(user=user, name=name)
 
             else:
                 messages.error(request, "Passwords do not match.")
                 return redirect("register")
 
-            user = authenticate(email=email, password=password1)
-            auth_login(request, user)
+            if bc_created:
+                user = authenticate(email=email, password=password1)
+                auth_login(request, user)
 
             return redirect("home")
     else:
