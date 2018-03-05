@@ -119,8 +119,8 @@ def schedule_release(request, event_id):
         form = ScheduleReleaseForm()
 
     context = {
-        # "form": form,
-        # "event": event
+        "form": form,
+        "event": event
     }
 
     return render(request, template_name="schedule_release.html", context=context)
