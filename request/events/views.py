@@ -1,6 +1,6 @@
 import requests
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import Http404
@@ -8,7 +8,12 @@ from django.http import Http404
 from globals.decorators import venue_login_required
 from .models import Event
 from venues.models import Venue
-from .forms import CreateEventForm, CreateTicketsForm
+from .forms import (
+    CreateEventForm, 
+    CreateTicketsForm, 
+    EditEventForm,
+    EditTicketForm
+)
 from globals import blockchain_api as bcAPI
 
 
@@ -43,17 +48,15 @@ def create_event(request):
                     "month": when.month,
                     "year": when.year
                 }
-
             }
+
             response = bcAPI.post('venue/event/create', data=data)
-            print(response)
             if response[0].get('event_id') == event.id:
                 messages.success(request, "Event successfully created.")
             else:
                 # messages.failure(request, "Event non ")
+                messages.error(request, "Failed to create event.")
                 event.delete()
-                print(response)
-
 
             return redirect("home")
     else:
@@ -130,19 +133,84 @@ def create_tickets(request, event_id):
     return render(request, "create_tickets.html", context)
 
 @venue_login_required
-def manage_event(request):
-    pass
+def edit_event(request, event_id):
+    """
+    Allows a venue to edit an event's date, time, and description.
+    """
+    event = get_object_or_404(Event, pk=event_id)
+
+    if request.method == "POST":
+        form = EditEventForm(request.POST, instance=event)
+
+        if form.is_valid():
+            venue = Venue.objects.get(user=request.user)
+            event = form.save(commit=False)
+
+            data = {
+                "venue": {
+                    "venue_location": venue.location,
+                    "venue_name": venue.name
+                },
+                "event_id": event.id,
+                "update_info": {
+                    "name": event.name,
+                    "desc": event.description,
+                    "time": {
+                        "minute": event.when.minute,
+                        "hour": event.when.hour,
+                        "day": event.when.day,
+                        "month": event.when.month,
+                        "year": event.when.year
+                    }
+                }
+            }
+
+            response = bcAPI.post('venue/event/edit', data=data)
+            print(response)
+            if response[0].get('event_id') == event.id:
+                messages.success(request, "Event successfully edited.")
+                event.save()
+            else:
+                messages.error(request, "Failed to edit event.")
+
+            return redirect("venue", venue.id)
+    else:
+        form = EditEventForm(instance=event)
+
+    context = {
+        "form": form,
+        "event": event
+    }
+
+    return render(request, "edit_event.html", context)
+
 
 @venue_login_required
-def manage_tickets(request):
-    pass
+def edit_ticket(request, event_id):
+    """
+    Edit the price of a ticket given ticket number, section, and seat.
+    """
+    event = get_object_or_404(Event, pk=event_id)
+    venue = get_object_or_404(Venue, user=request.user)
+
+    if request.method == "POST":
+    else:
+        form = Edit
+    
+    context = {
+        "form": form,
+        "event": event,
+        "venue": venue
+    }
+
+    return render(request, "edit_ticket.html", context)
+    
 
 def event(request, event_id):
     """
     View for an event. A venue with the appropriate permissions can use
     this view to view tickets for an event.
     """
-    print(request.user)
     try:
         event = Event.objects.get(pk=event_id)
     except Event.DoesNotExist:
@@ -176,7 +244,7 @@ def event(request, event_id):
 
     print(response)
     context = {
-        "event": e,
+        "event": event,
         "tickets": tickets
     }
 
