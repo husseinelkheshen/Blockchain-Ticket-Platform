@@ -107,8 +107,8 @@ def explore(request):
     }
     response = bcAPI.post('user/explore', data=data)
 
-    if response.status == 200:
-        events = []
+    if response[1] == 200:
+        events = response[0]
 
         context = {
             "events": events

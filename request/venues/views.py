@@ -77,8 +77,9 @@ def schedule_release(request, event_id):
     """
     Schedule the release of the tickets for an event.
     """
-    # venue = Venue.objects.get(user=request.user)
-    # event = Event.objects.get(pk=event_id, venue=venue)
+
+    venue = get_object_or_404(Venue, user=request.user)
+    event = get_object_or_404(Event, pk=event_id, venue=venue)
 
     if request.method == "POST":
         form = ScheduleReleaseForm(request.POST)

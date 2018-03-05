@@ -130,10 +130,10 @@ STATIC_URL = '/static/'
 
 # Blockchain API
 # BLOCKCHAIN_API = {'host': 'http://ec2-18-222-75-253.us-east-2.compute.amazonaws.com', 'port': 80}
-BLOCKCHAIN_API = {'host': 'http://localhost', 'port': 5000}
+BLOCKCHAIN_API = {'host': 'http://128.135.203.175', 'port': 80}
 
 
 # Global API settings
-API_TIMEOUT = 5
+API_TIMEOUT = 100
 
 AUTH_USER_MODEL = "globals.User"

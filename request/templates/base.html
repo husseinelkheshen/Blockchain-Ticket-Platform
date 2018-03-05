@@ -20,8 +20,10 @@
                     <li class="nav-item">
                         {% if userType == "venue" %}
                         <a class="navbar-text" href="{% url 'venue' userClass.id %}">{{ userClass.name }}</a>
-                        {% else %}
+                        {% elif userType == "customer" %}
                         <a class="navbar-text" href="{% url 'list-customer-tickets' %}">{{ userClass.name }}</a>
+                        {% else %}
+                        <span class="text-muted">Superuser</span>
                         {% endif %}
                     </li>
                     <li class="nav-item">

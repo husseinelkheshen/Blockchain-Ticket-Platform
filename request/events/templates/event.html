@@ -2,13 +2,20 @@
 
 {% block content %}
 <h1>{{ event.name }}</h1>
+<p>{{ event.description }}</p>
 
 <h2>Tickets</h2>
 {% for ticket in tickets %}
-<h3>{{ ticket.seat.section }}</h3>
-<h7>(Ticket number: {{ ticket.ticket_num }})</h7>
-<h5>Row: {{ ticket.seat.row }}</h5>
-<h5>Seat Number: {{ ticket.seat.seat_no }}</h5>
-<hr />
+    <h3>{{ ticket.seat.section }}</h3>
+    <h7>(Ticket number: {{ ticket.ticket_num }})</h7>
+    <h5>Row: {{ ticket.seat.row }}</h5>
+    <h5>Seat Number: {{ ticket.seat.seat_no }}</h5>
+
+    {% if userType == "venue" %}
+    <p><a href="{% url 'list-ticket' event_id=event.pk ticket_num=ticket.ticket_num %}">List</a></p>
+    {% else %}
+    <p><a href="{% url 'buy-ticket' event.pk ticket.ticket_num %}">Buy Ticket</a></p>
+    {% endif %}
+    <hr />
 {% endfor %}
 {% endblock %}

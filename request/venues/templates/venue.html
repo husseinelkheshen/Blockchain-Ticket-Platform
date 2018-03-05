@@ -6,7 +6,25 @@
 <h2>Events</h2>
 <ul>
   {% for event in events %}
-  <li>{{ event.name }}</li>
+  <li>
+    <div>
+      <h4><a href="{% url 'event' event.event_id %}">{{ event.name }}</a></h4>
+      <ul>
+        <li>
+          <a href="{% url 'create-tickets' event.event_id %}">Create tickets</a>
+        </li>
+        <li>
+          <a href="{% url 'schedule-release' event.event_id %}">Schedule release</a>
+        </li>
+        <li>
+          <a href="{% url 'edit-event' event.event_id %}">Edit Event</a>
+        </li>
+        <li>
+          <a href="{% url 'edit-tickets' event.event_id %}">Edit Tickets</a>
+        </li>
+      </ul>
+    </div>
+  </li>
   {% endfor %}
 </ul>
 {% endblock %}
