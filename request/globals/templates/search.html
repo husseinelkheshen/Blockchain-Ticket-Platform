@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Search{% if query %}: {{ query }}{% endif %}</h1>
+
+<form action="{% url 'search' %}" method="GET">
+    <input type="text" placeholder="Search"/>
+    <input type="submit" value="Search" />
+</form>
+
+{% for result in results %}
+<h3><a href="{% url 'event' result.event_id %}">{{ result.name }}</a></h3>
+{% endfor %}
+
+{% endblock %}

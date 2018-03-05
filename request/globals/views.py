@@ -3,13 +3,16 @@ from django.contrib import messages
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
+from django.db import models
 from django.contrib.auth.decorators import login_required
+from django.http import Http404
 
 from .models import User
 from customers.models import Customer
 from venues.models import Venue
 from .forms import RegisterForm
 from globals import blockchain_api as bcAPI
+from globals.decorators import customer_login_required
 
 # Create your views here.
 def register(request):
@@ -98,6 +101,7 @@ def logout(request):
 def home(request):
     return render(request, "home.html")
     
+@login_required
 def explore(request):
     user = request.user
 
@@ -118,3 +122,43 @@ def explore(request):
     else:
         messages.error(request, "Can't contact blockchain server.")
         return redirect("/")
+
+@customer_login_required
+def search(request):
+    query = request.GET.get("q")
+    date = request.GET.get("date")
+    date_range = request.GET.get("date-range")
+    results = None
+
+    if query:
+        date = models.DateField().to_python(date)
+
+        if date is None:
+            raise Http404("Incorrectly formatted date.")
+
+        data = {
+            "user_email": request.user.email,
+            "search_info": {
+                "search_text": query,
+                "date_range": date_range,
+                "date": {
+                    "month": date.month,
+                    "year": date.year,
+                    "day": date.day
+                }
+            }
+        }
+
+        response = bcAPI.post('user/search', data=data)
+
+        if response[1] == 200:
+            results = response[0]
+        else:
+            messages.error(request, "Something went wrong while searching. Please try again.")
+
+    context = {
+        "results": results,
+        "query": query
+    }
+
+    return render(request, "search.html", context)
