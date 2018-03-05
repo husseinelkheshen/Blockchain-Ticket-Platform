@@ -26,4 +26,5 @@ def post(path, data):
             timeout=settings.API_TIMEOUT, json=data)
 
     print(data)   
+    print(r.text)
     return (r.json(), r.status_code)
