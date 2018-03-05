@@ -4,12 +4,18 @@
 <h1>Search{% if query %}: {{ query }}{% endif %}</h1>
 
 <form action="{% url 'search' %}" method="GET">
-    <input type="text" placeholder="Search"/>
+    <input type="text" name="q" placeholder="Search"/>
+    <input type="text" name="date" placeholder="YYYY-MM-DD"/>
+    <input type="text" name="date_range" placeholder="Number of days"/>
     <input type="submit" value="Search" />
 </form>
 
-{% for result in results %}
-<h3><a href="{% url 'event' result.event_id %}">{{ result.name }}</a></h3>
-{% endfor %}
+{% if results %}
+    {% for result in results %}
+    <h3><a href="{% url 'event' result.event_id %}">{{ result.name }}</a></h3>
+    {% endfor %}
+{% else %}
+<h4>No results found.</h4>
+{% endif %}
 
 {% endblock %}

@@ -12,6 +12,7 @@
             <ul>
                 {% if userType == "customer" %}
                 <li><a href="{% url 'explore' %}">Explore</a></li>
+                <li><a href="{% url 'search' %}">Search</a></li>
                 <li><a href="{% url 'list-customer-tickets' %}">My Tickets</a></li>
                 {% else %}
                 <li><a href="{% url 'venue' userClass.id %}">My Venue</a></li>

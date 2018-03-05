@@ -131,7 +131,10 @@ def search(request):
     results = None
 
     if query:
-        date = models.DateField().to_python(date)
+        try:
+            date = models.DateField().to_python(date)
+        except:
+            raise Http404("Incorrectly formatted date.")
 
         if date is None:
             raise Http404("Incorrectly formatted date.")
@@ -142,8 +145,8 @@ def search(request):
                 "search_text": query,
                 "date_range": date_range,
                 "date": {
-                    "month": date.month,
                     "year": date.year,
+                    "month": date.month,
                     "day": date.day
                 }
             }
