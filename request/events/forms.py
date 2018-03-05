@@ -21,8 +21,8 @@ class EditEventForm(forms.ModelForm):
         model = Event
         fields = ("name", "description", "when")
 
-class EditTicketForm(forms.Form):
+class EditTicketsForm(forms.Form):
     section = forms.CharField(max_length=100)
-    row = forms.IntegerField()
-    seat = forms.IntegerField()
-    face_value = forms.FloatField()
+    row = forms.IntegerField(required=False)
+    seat = forms.IntegerField(required=False)
+    face_value = forms.FloatField(required=False)

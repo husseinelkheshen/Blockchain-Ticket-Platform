@@ -12,7 +12,7 @@ from .forms import (
     CreateEventForm, 
     CreateTicketsForm, 
     EditEventForm,
-    EditTicketForm
+    EditTicketsForm
 )
 from globals import blockchain_api as bcAPI
 
@@ -186,7 +186,7 @@ def edit_event(request, event_id):
 
 
 @venue_login_required
-def edit_ticket(request, event_id):
+def edit_tickets(request, event_id):
     """
     Edit the price of a ticket given ticket number, section, and seat.
     """
@@ -194,8 +194,41 @@ def edit_ticket(request, event_id):
     venue = get_object_or_404(Venue, user=request.user)
 
     if request.method == "POST":
+        form = EditTicketsForm(request.POST)
+
+        if form.is_valid():
+            new_price = form.cleaned_data.get("face_value")
+            section = form.cleaned_data.get("section")
+            row = form.cleaned_data.get("row")
+            seat_num = form.cleaned_data.get("seat")
+
+            data = {
+                "venue": {
+                    "venue_location": venue.location,
+                    "venue_name": venue.name
+                },
+                "event_id": event_id,
+                "update_info": {
+                    "new_price": new_price,
+                    "which_seats": {
+                        "section": section,
+                        "row": row,
+                        "seat_num": seat_num
+                    }
+                }
+            }
+
+            response = bcAPI.post('venue/event/tickets/edit', data=data)
+            print(response)
+            if response[1] == 200:
+                messages.success(request, "Tickets edited.")
+            else:
+                messages.error(request, "Failed to edit tickets.")
+
+        else:
+            messages.error(request, "Something went wrong.")
     else:
-        form = Edit
+        form = EditTicketsForm()
     
     context = {
         "form": form,
@@ -203,7 +236,7 @@ def edit_ticket(request, event_id):
         "venue": venue
     }
 
-    return render(request, "edit_ticket.html", context)
+    return render(request, "edit_tickets.html", context)
     
 
 def event(request, event_id):
