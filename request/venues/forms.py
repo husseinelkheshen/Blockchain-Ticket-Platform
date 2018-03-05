@@ -5,3 +5,4 @@ class ValidateTicketForm(forms.Form):
 
 class ScheduleReleaseForm(forms.Form):
     scheduled_for = forms.DateField()
+    section = forms.CharField(max_length=100)

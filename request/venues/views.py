@@ -1,4 +1,7 @@
+import requests
+
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import Http404
 
@@ -74,6 +77,7 @@ def schedule_release(request, event_id):
     """
     Schedule the release of the tickets for an event.
     """
+
     venue = get_object_or_404(Venue, user=request.user)
     event = get_object_or_404(Event, pk=event_id, venue=venue)
 
@@ -82,6 +86,7 @@ def schedule_release(request, event_id):
 
         if form.is_valid():
             date = form.cleaned_data.get("date")
+            section = form.cleaned_data.get('section')
 
         # TODO: send request to blockchain server indicating that
         # venue wants to schedule all the tickets.
@@ -93,17 +98,17 @@ def schedule_release(request, event_id):
             },
             "event_id": event_id,
             "release_info": {
-                "section": "Big Section",
+                "section": section,
                 "release_date": {
-                    "month": 11,
-                    "day": 4,
-                    "year": 2017
+                    "month": date.month,
+                    "day": date.day,
+                    "year": date.year
                 }
             }
         }
         response = bcAPI.post("venue/schedule_release", data=data)
 
-        if response["status"] == "200":
+        if response[1] == "200":
             messages.success(
                 request,
                 "The tickets have been successfully scheduled."
@@ -118,7 +123,7 @@ def schedule_release(request, event_id):
         "event": event
     }
 
-    return render(request, "schedule_release.html", context)
+    return render(request, template_name="schedule_release.html", context=context)
 
 @venue_login_required
 def venue(request, venue_id):
