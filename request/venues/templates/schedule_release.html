@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<form action="{% url 'schedule_release.html' event.id %}" method="POST">
+<form action="{% url 'schedule_release' event.pk %}" method="POST">
     {% csrf_token %}    
     {{ form.as_p }}
 </form>
