@@ -63,7 +63,7 @@ def bc_create_event(event_id, event_name, event_desc, event_time, venue):
     dt = parse_event_time(event_time)
     e = venue.createEvent(event_name, dt, event_desc)
     if e is None:
-        print('e is none')
+        # print('e is none')
         return False
     # change event id
     venue.events[event_id] = venue.events[e.id]
@@ -86,7 +86,7 @@ def bc_edit_event(venue, event, event_name, event_time, event_desc):
     return venue.manageEvent(event, event_name, dt, event_desc)
 
 def bc_edit_tickets(venue, event, new_price, section, row, seat_num):
-    print(new_price, section, row, seat_num)
+    # print(new_price, section, row, seat_num)
     return venue.manageTickets(event, new_price, section, row, seat_num)
 
 def bc_get_all_events(venue):
@@ -104,13 +104,13 @@ def bc_list_tickets(venue, event, ticket_num):
     for ticket in event.tickets:
         # print(ticket.seat.section)
         # if section == ticket.seat.section or section is None:
-        #     # print(ticket.seat.row)
+            # print(ticket.seat.row)
         #     if row == ticket.seat.row or row is None:
-        #         print('ticket seat_num', ticket.seat.seat_no)
-        #         print('seat_num', seat_num)
+                # print('ticket seat_num', ticket.seat.seat_no)
+                # print('seat_num', seat_num)
         #         if seat_num == ticket.seat.seat_no or seat_num is None:
         if ticket_num == ticket.ticket_num:
-            print('success')
+            # print('success')
             ticketsListed+=(ticket.listTicket(ticket.face_value, venue.id))
 
     return ticketsListed
@@ -118,7 +118,7 @@ def bc_list_tickets(venue, event, ticket_num):
 def bc_buy_ticket(venue, event, user, ticket_num):
     for ticket in event.tickets:
         if ticket.ticket_num == ticket_num:
-            print("found ticket")
+            # print("found ticket")
             return user.buyTicket(ticket) and ticket.ticket_num
     return False
 
@@ -133,7 +133,7 @@ def bc_search(user, text, date, date_range):
         dt = datetime(month=month, day=day, year=year)
     else:
         dt = None
-    print(text)
+    # print(text)
     return user.search(text=(text or ""), datetime=dt, date_range=(date_range or 0))
 
 def bc_explore(user):
