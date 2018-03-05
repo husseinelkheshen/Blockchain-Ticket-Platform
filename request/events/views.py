@@ -270,9 +270,8 @@ def event(request, event_id):
     print("user venue: "+ str(user_venue))
     print("event venue" + str(event.venue))
     print(event.venue == user_venue)
-    if event.venue == user_venue:
-        response = bcAPI.post('venue/event/view_tickets', data=data)
-        tickets = response[0]
+    response = bcAPI.post('venue/event/view_tickets', data=data)
+    tickets = response[0]
 
 
     print(response)
