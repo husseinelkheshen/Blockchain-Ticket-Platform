@@ -238,7 +238,7 @@ def edit_tickets(request, event_id):
 
     return render(request, "edit_tickets.html", context)
     
-
+@login_required
 def event(request, event_id):
     """
     View for an event. A venue with the appropriate permissions can use
