@@ -50,10 +50,27 @@ def validate_ticket(request, event_id):
     if request.method == "POST":
         form = ValidateTicketForm(request.POST)
         if form.is_valid():
-            ticket_num = form.cleaned_data.get("ticket-num")
+            ticket_num = form.cleaned_data.get("ticket_num")
+            h = form.cleaned_data.get("hsh")
+            user_email = form.cleaned_data.get("user_email")
 
             # TODO: send request to blockchain server to validate ticket
-            result = True
+            data = {
+                "event_id": event_id,
+                "ticket_num": ticket_num,
+                "user_email": user_email,
+                "hash": h,
+                "venue": 
+                {
+                    "venue_location": venue.location,
+                    "venue_name": venue.name
+                }
+            }
+            response = bcAPI.post("venue/event/tickets/validate", data=data)
+            if response[1] == 200:
+                result = True
+            else:
+                result = False
 
             if result:
                 messages.success(request, "Ticket validated.")
