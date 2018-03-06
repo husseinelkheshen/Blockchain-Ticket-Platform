@@ -131,7 +131,7 @@ def explore(request):
 def search(request):
     query = request.GET.get("q")
     date = request.GET.get("date")
-    date_range = int(request.GET.get("date_range"))
+    date_range = request.GET.get("date-range")
     results = None
 
     if query:
@@ -147,7 +147,7 @@ def search(request):
             "user_email": request.user.email,
             "search_info": {
                 "search_text": query,
-                "date_range": date_range,
+                "date_range": int(date_range),
                 "date": {
                     "year": date.year,
                     "month": date.month,
