@@ -44,7 +44,7 @@
             <ul>
                 {% for ticket in tickets %}
                 {% if ticket.for_sale %}
-                <li class="row">
+                <li class="row" style="min-height: 110px;">
                     <div style="font-size: 18px" class="col-12">{{ ticket.seat.section }} <span>(Ticket number: {{ ticket.ticket_num }})</span>
                     </div>
                     <div class="col-12">
