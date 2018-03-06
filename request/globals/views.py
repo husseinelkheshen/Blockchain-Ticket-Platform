@@ -133,7 +133,7 @@ def explore(request):
 def search(request):
     query = request.GET.get("q")
     print('query',query)
-    date = request.GET.get("date") or datetime.now()
+    date = request.GET.get("date")
     print('date',date)
     date_range = request.GET.get("date-range")
     print('date range',date_range)
@@ -148,10 +148,7 @@ def search(request):
         try:
             date = models.DateField().to_python(date)
         except:
-            raise Http404("Incorrectly formatted date.")
-
-        if date is None:
-            raise Http404("Incorrectly formatted date.")
+            date = None
 
         data = {
             "user_email": request.user.email,
