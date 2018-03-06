@@ -131,8 +131,8 @@ def explore(request):
 
 @customer_login_required
 def search(request):
-    print('query',query)
     query = request.GET.get("q")
+    print('query',query)
     date = request.GET.get("date") or datetime.datetime.now()
     date_range = request.GET.get("date-range")
     if len(date_range == 0):
