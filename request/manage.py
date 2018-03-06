@@ -2,9 +2,9 @@
 import os
 import sys
 
-if not os.environ["ADMIT01_ENV_TYPE"]:
-    env = "dev"
-else:
+try:
+    env = os.environ["ADMIT01_ENV_TYPE"]
+except:
     env = "prod"
 
 if __name__ == "__main__":
