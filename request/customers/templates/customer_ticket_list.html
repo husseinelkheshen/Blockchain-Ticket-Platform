@@ -17,8 +17,10 @@
             <h7>Seat Number: {{ ticket.seat_info.seat_num }}</h7>
             <br>
             {% if not ticket.for_sale %}
-            <a href="#" class="card-link">List</a>
+            <a href="{% url 'list-customer-ticket' ticket.event_id ticket.ticket_num %}" class="card-link">List</a>
             <a href="/customers/ticket_code/{{ ticket.event_id }}/{{ ticket.ticket_num }}" class="card-link">QR Code</a>
+            {% else %}
+            <p class="text-success">Listed</p> 
             {% endif %}
         </div>
     </div>

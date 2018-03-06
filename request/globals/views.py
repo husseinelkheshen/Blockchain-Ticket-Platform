@@ -43,7 +43,9 @@ def register(request):
                         Venue.objects.create(user=user, name=name, location="Chicago, IL")
                         bc_created = True
                     else:
+                        messages.error(request, "Request to blockchain API failed.")
                         print(response[1])
+                        return redirect("register")
 
                 else:
                     data = {
@@ -56,7 +58,9 @@ def register(request):
                         bc_created = True
                         user = User.objects.create_user(email=email, password=password1)
                         Customer.objects.create(user=user, name=name)
-
+                    else:
+                        messages.error(request, "Request to blockchain API failed.")
+                        return redirect("register")
             else:
                 messages.error(request, "Passwords do not match.")
                 return redirect("register")
