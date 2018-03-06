@@ -5,7 +5,7 @@ import sys
 try:
     env = os.environ["ADMIT01_ENV_TYPE"]
 except:
-    env = "prod"
+    env = "dev"
 
 if __name__ == "__main__":
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "admit01.settings." + env)
