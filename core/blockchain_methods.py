@@ -72,7 +72,10 @@ def bc_create_event(event_id, event_name, event_desc, event_time, venue):
     return e.id
 
 def bc_get_event(venue, event_id):
-    return venue.events[event_id][0]
+    e = venue.events.get(event_id)
+    if e is None:
+        return None
+    return e[0]
 
 def bc_create_tickets(section_name, min_row, max_row, min_seat, max_seat, event, venue, face_value):
     seat_nos = range(min_seat, max_seat)
