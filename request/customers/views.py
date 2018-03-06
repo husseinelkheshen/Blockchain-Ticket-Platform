@@ -53,7 +53,7 @@ def upgrade_ticket(request, event_id, ticket_num):
     if request.method == "POST":
 
         user_email = customer.user.email
-        old_ticket_num = request.POST.get("current-ticket")
+        old_ticket_num = int(request.POST.get("current-ticket"))
         if old_ticket_num is None:
             print('none')
             return redirect('upgrade-ticket')
@@ -69,6 +69,7 @@ def upgrade_ticket(request, event_id, ticket_num):
                 "venue_name": venue.name
             }
         }
+        print(data)
         response = bcAPI.post("user/upgrade_ticket", data=data)
         if response[1] == 200:
             result = True
