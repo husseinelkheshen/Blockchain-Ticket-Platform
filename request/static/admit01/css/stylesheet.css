@@ -1,0 +1,220 @@
+
+@import url('https://fonts.googleapis.com/css?family=Abel|Raleway:extra-bold');
+
+body{
+	font-family: 'Abel', sans-serif;
+}
+.login-register-input {
+	width: 70%;
+	height: 40px;
+	font-family: 'Abel', sans-serif;
+	border-radius: 50px;
+	border-style: none;
+	border: 1px solid #003470;
+	padding: 0px 10px 0px 20px;
+	box-shadow: none;
+}
+.navbar {
+	background-color: #003470;
+}
+.event a {
+	color: #6c76d1;
+}
+.login-register-input:focus {
+   outline: none;
+}
+.event .login-register-input {
+	border: 1px solid #4c4f68;
+}
+.rale-heading {
+	font-family: 'Raleway', sans-serif;
+}
+.event .ticketlist {
+	border: 2px solid #4c4f68;
+}
+.ticketlist {
+	max-height: 400px;
+	width: 80%;
+	max-width: 400px;
+	border: 2px solid #003470;
+	border-radius: 5px;
+	margin: 0 auto;
+	overflow-y: scroll;
+}
+.ticketlist ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	text-align: left;
+	letter-spacing: 1px;
+	font-size: 13px;
+}
+.ticketlist ul li {
+	height: 75px;
+	border: 1px solid black;
+	border-style: solid none;
+	margin: 0;
+}
+.event .ticketlist ul li {
+	border: 1px solid #4c4f68;
+}
+.ticketlist span {
+	font-size: 10px;
+}
+.ticketlist a {
+	letter-spacing: 2px;
+	font-size: 12px;
+}
+.ticketlist p {
+	margin: 0;
+	padding: 0;
+}
+.ticketlist h4 {
+	margin: 0;
+	padding: 0;
+}
+.ticket-info {
+	margin: 0;
+}
+.ticket-visualization {
+	padding: 10px;
+	margin-bottom: 150px;
+}
+
+.ticket-visualization .block-container {
+	width: 115px;
+	height: 75px;
+	margin: 5px 0;
+	display: inline-block;
+}
+.block-container div {
+	display: inline-block;
+	vertical-align: top;
+}
+.ticket-visualization .block {
+	width: 75px;
+	height: 75px;
+	padding: 5px;
+	margin: 0;
+	background-color: rgba(66, 134, 244, .7);
+	transition: background-color .4s ease;
+}
+.ticket-visualization .block:hover{
+	background-color: rgba(66, 134, 244, 1);
+}
+
+.ticket-visualization .invisible-arrow {
+	width: 20px;
+	height: 75px;
+
+}
+.ticket-visualization .start-arrow {
+	width: 20px;
+	height: 75px;
+	background-image: url('images/arrow-start.png');
+ 	background-repeat: no-repeat;
+ 	background-position: center;
+ 	background-size: contain;
+ 	opacity: .5;
+}
+.ticket-visualization .end-arrow {
+	width: 20px;
+	height: 75px;
+	background-image: url('images/arrow-end.png');
+ 	background-repeat: no-repeat;
+ 	background-position: center;
+ 	background-size: contain;
+ 	opacity: .5;
+}
+
+.tooltip {
+	background-color: red;
+	width: 100px;
+	height: 100px;
+}
+
+#visualization-info-bar {
+	background-color: #d4d4d4;
+	width: 100%;
+	height: 150px;
+	position: fixed;
+	z-index: 100;
+	bottom: 0;
+	border-top: 2px dashed black;
+}
+#visualization-info-bar ul {
+	list-style: none;
+}
+
+#navigation {
+	background-color: #003470;
+}
+.event #navigation {
+	background-color: #7cba8c;
+}
+#logo {
+	width: 100px;
+}
+#textlogo {
+	height: 45px;
+}
+#search-input {
+	border-radius: 50px;
+	width: 300px;
+}
+
+#search-navigation {
+	width: 50%;
+}
+.form-control {
+	width: 80%;
+}
+#search-container {
+	width: 100%;
+	height: 4rem;
+	background-color: #003470;
+	margin: 0;
+	padding: 0;
+}
+.event #search-container {
+	background-color: #7cba8c;
+	display: none;
+}
+#search {
+    width: 80%;
+    margin: 0 auto;
+    
+}
+#search form{
+    padding: 1rem 0;
+    margin: 0;
+}
+#search form input:focus {
+   outline: none;
+}
+#searchbar {
+    width: 75%;
+    height: 1.5rem;
+    padding: .25rem 1rem .25rem 1rem;
+    border: none;
+    border-color: transparent;
+    border-radius: 1.25rem;
+    box-shadow: none;
+    font-size: 18px;
+    letter-spacing: 1px;
+    background-color: white;
+    float: left;
+    margin-right: 10px;
+}
+#searchbtn {
+	color:#c8c8c8;
+	background-color: black;
+	border: none;
+	border-radius: 1.25rem;
+	letter-spacing: 1px;
+	float: left;
+}
+.event #searchbtn {
+	color: white;
+	background-color: #7c809d;
+}
