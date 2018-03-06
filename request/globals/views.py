@@ -133,7 +133,7 @@ def explore(request):
 def search(request):
     query = request.GET.get("q")
     print('query',query)
-    date = request.GET.get("date") or datetime.datetime.now()
+    date = request.GET.get("date") or datetime.now()
     print('date',date)
     date_range = request.GET.get("date-range")
     print('date range',date_range)
