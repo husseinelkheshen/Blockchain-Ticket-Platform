@@ -710,6 +710,7 @@ def user_view_tickets():
         ticket_dict = {"ticket_num": ticket.ticket_num, "event_id": event_id, "venue": venue_dict}
         ticket_dict['seat_info'] = {"section": ticket.seat.section, "row": ticket.seat.row, "seat_num": ticket.seat.seat_no}
         ticket_dict['event_info'] = {"name": ticket.event.name}
+        ticket_dict['for_sale'] = ticket.for_sale
         ret.append(ticket_dict)
 
     return good_request(ret)
