@@ -9,9 +9,9 @@
     </head>
     
     <body>
-        <nav class="navbar navbar-dark bg-dark">
+        <nav class="navbar navbar-dark navbar-expand-lg bg-dark">
             <a class="navbar-brand" href="{% url 'home' %}">Admit01</a>
-            <div class="">
+            <div class="collapse navbar-collapse">
                 <ul class="navbar-nav mr-auto">
                     {% if not request.user.is_authenticated %}
                     <li class="nav-item">
@@ -20,15 +20,20 @@
                     {% else %}
                     <li class="nav-item">
                         {% if userType == "venue" %}
-                        <a class="navbar-text" href="{% url 'venue' userClass.id %}">{{ userClass.name }}</a>
+                        <a class="nav-link" href="{% url 'venue' userClass.id %}">{{ userClass.name }}</a>
                         {% elif userType == "customer" %}
-                        <a class="navbar-text" href="{% url 'list-customer-tickets' %}">{{ userClass.name }}</a>
+                        <a class="nav-link" href="{% url 'list-customer-tickets' %}">{{ userClass.name }}</a>
                         {% else %}
                         <span class="text-muted">Superuser</span>
                         {% endif %}
                     </li>
+                    {% if balance %}
                     <li class="nav-item">
-                        <a class="navbar-text" href="{% url 'logout' %}">Logout</a>
+                        <span class="text-success">{{ balance }}</span>
+                    </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
                     </li>
                     {% endif %}
                 </ul>
