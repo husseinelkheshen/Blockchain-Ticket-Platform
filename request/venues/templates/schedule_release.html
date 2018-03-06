@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Schedule release</h1>
+<h2 class="rale-heading">Schedule release</h2>
 
 <form action="{% url 'schedule-release' event.id %}" method="POST">
     {% csrf_token %}    

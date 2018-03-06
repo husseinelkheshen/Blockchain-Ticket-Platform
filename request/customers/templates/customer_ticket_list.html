@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>My tickets</h2>
+<h2 class="rale-heading">My tickets: Face Value and List price are not very good descriptors, which one should we be displaying</h2>
 
 {% if tickets %}
     {% for ticket in tickets %}
-    <div class="card">
+    <div class="card mb-3" style="border: 1px solid black; width: 85%; margin: 0 auto">
         <div class="card-body">
             <h3 class="card-title">{{ ticket.event_info.name }}</h3>
             <h4 class="card-subtitle mb-2 text-muted">{{ ticket.venue.venue_name }}</h4>
@@ -16,6 +16,7 @@
 
             <h7>Seat Number: {{ ticket.seat_info.seat_num }}</h7>
             <br>
+            <p><h7>Seat Number: ${{ ticket.seat_info.seat_num }}</h7></p>
             {% if not ticket.for_sale %}
             <a href="{% url 'list-customer-ticket' ticket.event_id ticket.ticket_num %}" class="card-link">List</a>
             <a href="/customers/ticket_code/{{ ticket.event_id }}/{{ ticket.ticket_num }}" class="card-link">QR Code</a>
