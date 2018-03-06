@@ -137,8 +137,10 @@ def search(request):
     print('date',date)
     date_range = request.GET.get("date-range")
     print('date range',date_range)
-    if date_range is None or len(date_range) == 0:
-        date_range = 1
+    if date_range is None:
+        date_range = "1"
+    if len(date_range == 0):
+        date_range = "1"
     print('date range',date_range)
     results = None
 
