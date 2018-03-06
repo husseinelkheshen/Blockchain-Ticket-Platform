@@ -131,12 +131,11 @@ def explore(request):
 
 @customer_login_required
 def search(request):
+    print('query',query)
     query = request.GET.get("q")
-    date = request.GET.get("date")
-    if date is None:
-        date = datetime.datetime.now()
+    date = request.GET.get("date") or datetime.datetime.now()
     date_range = request.GET.get("date-range")
-    if date_range is None:
+    if len(date_range == 0):
         date_range = 1
     results = None
 
