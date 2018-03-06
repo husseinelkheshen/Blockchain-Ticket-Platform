@@ -963,7 +963,7 @@ def user_generate_ticket_code():
     qrobj = bc_generate_ticket_code(v, e, ticket_num, u)
     if qrobj is None:
         return bad_request('failed getting qr code')
-    qrobj.png('/tmp/tempqr.png')
+    qrobj.png('/tmp/tempqr.png', scale=10)
     return send_file('/tmp/tempqr.png', mimetype='image/png')
 
 
