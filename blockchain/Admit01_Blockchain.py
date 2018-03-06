@@ -863,18 +863,50 @@ class Venue:
             return False
         if user_id != trans.target:
             return False
-        if hash != ticket.history[-1][1]:
+        if hash[-5:] != ticket.history[-1][1][-5:]:
             return False
         # checks venue hash for validity
-        if hash != self.events[event_id][1].blocks[ticket.history[-1][0]].hashBlock\
-                (self.events[event_id][1].blocks[ticket.history[-1][0]].nonce):
+        if hash[-5:] != self.events[event_id][1].blocks[ticket.history[-1][0]].hashBlock\
+                (self.events[event_id][1].blocks[ticket.history[-1][0]].nonce)[-5:]:
             return False
         # checks event hash for validity
-        if hash != self.events[event_id][0].blockchain.blocks[ticket.history[-1][0]].hashBlock\
-                    (self.events[event_id][0].blockchain.blocks[ticket.history[-1][0]].nonce):
+        if hash[-5:] != self.events[event_id][0].blockchain.blocks[ticket.history[-1][0]].hashBlock\
+                (self.events[event_id][0].blockchain.blocks[ticket.history[-1][0]].nonce)[-5:]:
             return False
         if not self.events[event_id][0].rwValidation():
             return False
+
+        new_txn = Transaction(None, user_id, 0,
+                              ticket_num)
+        prev_hash = None
+        event = self.events[event_id][0]
+        new_block_index = len(event.blockchain.blocks)
+        if new_block_index > 0:
+            prev_hash = event.blockchain.blocks[-1].hash
+        new_block = Block(new_block_index, date.datetime.now(),
+                          [new_txn], prev_hash)
+        event_chain = event.blockchain
+        venue_chain = self.events[event.id][1]
+        # add new block to both chains
+        event_chain.blocks.append(new_block)
+        venue_chain.blocks.append(new_block)
+        # mine the new block
+        if event_chain.mineNewBlock([venue_chain]):
+            new_block_hash = event_chain.blocks[-1].hash
+            i = 0
+            while i < len(self.events[event_id][0].tickets):
+                if self.events[event_id][0].tickets[i].ticket_num == ticket_num:
+                    Trackers.getUser(user_id).inventory.remove(self.events[event_id][0].tickets[i])
+                    self.events[event_id][0].tickets[i].history.append((new_block_index,
+                                                                        new_block_hash))
+                    self.events[event_id][0].tickets[i].for_sale = False
+                    break
+                i += 1
+
+        else:
+            del event_chain.blocks[-1]
+            del venue_chain.blocks[-1]
+            print("Transaction aborted: could not mine block")
         return True
 
     def createEvent(self, name, datetime, desc):
@@ -999,22 +1031,68 @@ class Venue:
         Returns a list of Ticket objects
 
         """
-        if not (section and row and seat_nos):
-            return []
-
-        # create seats
-        seats = []
-        for seat_no in seat_nos:
-            new_seat = Seat(section, row, seat_no)
-            if new_seat is not None and new_seat not in seats:
-                seats.append(new_seat)
-
-        # create tickets
         tickets = []
-        for seat in seats:
-            ticket = self.createTicket(event, face_value, seat)
-            if ticket is not None:
-                tickets.append(ticket)
+        # make sure Venue is valid
+        if self.id is not None:
+            # make sure Event is valid
+            if (event is not None and
+                        event.id is not None and
+                        event.id in self.events and
+                        event == self.events[event.id][0]):
+                # make sure Ticket for this Seat does not already exist
+                # make sure Ticket has a positive face value
+                valid_face_value = face_value is not None and face_value >= 0
+                if seat_nos is None or not valid_face_value:
+                    return None
+                valid_ticket = True
+                new_nos = set(seat_nos)
+                for ticket in event.tickets:
+                    if (ticket.seat.section == section) and \
+                                ticket.seat.row == row and \
+                                ticket.seat.seat_no in new_nos:
+                        valid_ticket = False
+                        break
+                if valid_ticket:
+                    # create the new Ticket
+                    seats = []
+                    for seat_no in seat_nos:
+                        new_seat = Seat(section, row, seat_no)
+                        if new_seat is not None and new_seat not in seats:
+                            seats.append(new_seat)
+
+                    # create tickets
+                    transactions = []
+
+                    for seat in seats:
+                        new_ticket = Ticket(event, face_value, seat)
+                        if new_ticket.ticket_num is not None:
+                            tickets.append(new_ticket)
+                            # post to both blockchains and Ticket history
+                            new_txn = Transaction(self.id, None, 0,
+                                                  new_ticket.ticket_num)
+                            transactions.append(new_txn)
+                    prev_hash = None
+                    new_block_index = len(event.blockchain.blocks)
+                    if new_block_index > 0:
+                        prev_hash = event.blockchain.blocks[-1].hash
+                    new_block = Block(new_block_index, date.datetime.now(),
+                                      transactions, prev_hash)
+                    event_chain = event.blockchain
+                    venue_chain = self.events[event.id][1]
+                    # add new block to both chains
+                    event_chain.blocks.append(new_block)
+                    venue_chain.blocks.append(new_block)
+                    # mine the new block
+                    if event_chain.mineNewBlock([venue_chain]):
+                        new_block_hash = event_chain.blocks[-1].hash
+                        for new_ticket in tickets:
+                            new_ticket.history.append((new_block_index,
+                                                       new_block_hash))
+                            event.tickets.append(new_ticket)
+                    else:
+                        del event_chain.blocks[-1]
+                        del venue_chain.blocks[-1]
+                        print("Transaction aborted: could not mine block")
 
         return tickets
 
@@ -1131,8 +1209,10 @@ class Venue:
         if time > date.datetime.now():
             if number < 1:
                 return False
+            owned_by_venue = event.venue.venueTickets(event.id)
             for ticket in event.tickets:
-                if ticket.seat.section == ticket_class and not ticket.isScheduled and not ticket.isForSale():
+                if ticket.seat.section == ticket_class and not ticket.isScheduled and not ticket.isForSale() and \
+                        ticket.ticket_num in owned_by_venue:
                     to_be_released.append((ticket, time))
                     if number <= len(to_be_released):
                         break

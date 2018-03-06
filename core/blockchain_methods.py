@@ -122,6 +122,22 @@ def bc_buy_ticket(venue, event, user, ticket_num):
             return user.buyTicket(ticket) and ticket.ticket_num
     return False
 
+def bc_upgrade_ticket(venue, event, user, ticket_num, new_ticket_num):
+    old_ticket = None
+    for ticket in user.inventory:
+        if ticket.ticket_num == ticket_num:
+            old_ticket = ticket
+    print("old ticket", old_ticket.ticket_num)
+
+    new_ticket = None
+    for ticket in event.tickets:
+        if ticket.ticket_num == new_ticket_num:
+            new_ticket = ticket
+    print("new_ticket", new_ticket.ticket_num)
+
+    if new_ticket is not None and old_ticket is not None:
+        return user.upgradeTicket(old_ticket, new_ticket) and new_ticket.ticket_num
+    return False
 
 def bc_search(user, text, date, date_range):
     if date is not None:
@@ -151,3 +167,16 @@ def bc_schedule_release(venue, event, section, release_date):
         dt = None
 
     return venue.scheduleRelease(event, section, dt, len(event.tickets))
+
+def bc_validate_ticket(venue, event, ticket_num, user, hsh):
+    return venue.validateTicketCode(event.id, ticket_num, user.id, hsh)
+
+def bc_generate_ticket_code(venue, event, ticket_num, user):
+    t = None
+    for t in event.tickets:
+        if ticket_num == t.ticket_num:
+            ticket = t
+    if t is None:
+        return None
+    return user.generateTicketCode(venue, event, ticket)
+
