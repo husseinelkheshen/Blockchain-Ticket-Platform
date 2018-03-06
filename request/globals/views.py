@@ -14,6 +14,8 @@ from .forms import RegisterForm
 from globals import blockchain_api as bcAPI
 from globals.decorators import customer_login_required
 
+from datetime import datetime
+
 # Create your views here.
 def register(request):
     # if user is already logged in, redirect to home page
@@ -131,7 +133,11 @@ def explore(request):
 def search(request):
     query = request.GET.get("q")
     date = request.GET.get("date")
+    if date is None:
+        date = datetime.datetime.now()
     date_range = request.GET.get("date-range")
+    if date_range is None:
+        date_range = 1
     results = None
 
     if query:
