@@ -1,4 +1,5 @@
 from django import forms
+from datetime import datetime
 
 class ValidateTicketForm(forms.Form):
     ticket_num = forms.IntegerField()
@@ -7,5 +8,5 @@ class ValidateTicketForm(forms.Form):
 
 
 class ScheduleReleaseForm(forms.Form):
-    scheduled_for = forms.DateField()
+    scheduled_for = forms.DateField(initial=datetime.now())
     section = forms.CharField(max_length=100)
