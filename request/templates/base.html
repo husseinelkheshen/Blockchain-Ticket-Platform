@@ -27,11 +27,9 @@
                         <span class="text-muted">Superuser</span>
                         {% endif %}
                     </li>
-                    {% if balance %}
                     <li class="nav-item">
                         <span class="text-success">{{ balance }}</span>
                     </li>
-                    {% endif %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'logout' %}">Logout</a>
                     </li>
