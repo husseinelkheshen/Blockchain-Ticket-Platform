@@ -148,7 +148,7 @@ def search(request):
         try:
             date = models.DateField().to_python(date)
         except:
-            date = None
+            raise Http404("Incorrectly formatted date.")
 
         data = {
             "user_email": request.user.email,
