@@ -2,6 +2,7 @@
 <html>
     <head>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="{% static 'admit01/css/stylesheet.css' %}">
 
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -9,11 +10,11 @@
     </head>
     
     <body>
-        <nav class="navbar navbar-dark bg-dark">
-        	{% load staticfiles %}
-            <a class="navbar-brand" href="{% url 'home' %}"><img style="width:100px" src="{% static 'admit01/images/logo_event_white_700.png' %}"></a>
+        <nav class="navbar navbar-dark" style="padding: 10px 15px">
+        	
+            <a class="navbar-brand" href="{% url 'home' %}"><img style="width:100px" src="{% static 'admit01/images/logo_white_700.png' %}"></a>
             <div class="">
-                <ul class="navbar-nav mr-auto">
+                <ul class="navbar-nav mr-auto" style="letter-spacing: 1.5px; margin-left: 5px">
                     {% if not request.user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'login' %}">Login</a>
