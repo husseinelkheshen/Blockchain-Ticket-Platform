@@ -140,7 +140,7 @@ def search(request):
     if date_range is None:
         date_range = "1"
     if len(date_range) == 0:
-        date_range = "1"
+        date_range = None
     print('date range',date_range)
     results = None
 
@@ -153,6 +153,8 @@ def search(request):
         if date is None:
             raise Http404("Incorrectly formatted date.")
 
+        if (date_range is not None): 
+            date_range = int(date_range)
         data = {
             "user_email": request.user.email,
             "search_info": {
