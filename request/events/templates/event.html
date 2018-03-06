@@ -12,10 +12,14 @@
         <h5>Row: {{ ticket.seat.row }}</h5>
         <h5>Seat Number: {{ ticket.seat.seat_no }}</h5>
         <h5 class="text-danger">Price: {{ ticket.face_value }}</h5>
+<<<<<<< HEAD
 
         {% if ticket.history_length > 1 %}
         <p class="text-danger">SOLD</p>
         {% elif not ticket.for_sale %}
+=======
+        {% if not ticket.for_sale %}
+>>>>>>> f08d672d00be7e3d515ff19032163c06ec021124
         <p><a href="{% url 'list-ticket' event_id=event.pk ticket_num=ticket.ticket_num %}">List</a></p>
         {% else %}
         <p class="text-success">Listed</p>
@@ -31,6 +35,7 @@
         <h5>Seat Number: {{ ticket.seat.seat_no }}</h5>
 
         <p><a href="{% url 'buy-ticket' event.pk ticket.ticket_num %}">Buy Ticket</a></p>
+        <p><a href="/customers/upgrade_ticket/{{ event.pk }}/{{ ticket.ticket_num }} ">Upgrade to this ticket.</a></p>
 
         <hr />
         {% endif %}

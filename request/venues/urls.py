@@ -6,7 +6,7 @@ urlpatterns = [
     path("<int:venue_id>/", venue, name="venue"),
     path("list/<int:event_id>/<int:ticket_num>/", list_ticket, name="list-ticket"),
     path(
-        "validate/<int:event_id>/<int:ticket_num>/",
+        "validate/<int:event_id>",
         validate_ticket,
         name="validate-ticket"),
     path(

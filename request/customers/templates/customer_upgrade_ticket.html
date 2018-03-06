@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Upgrade Ticket</h2>
+
+
+{% if tickets %}
+<form action="" method="POST">
+    {% csrf_token %}
+    <select name="current-ticket">
+        {% for ticket in tickets %}
+        <option value="{{ ticket.ticket_num }}">{{ ticket.event_info.name }}, Section: {{ ticket.seat_info.section }}, Row: {{ ticket.seat_info.row }}, Seat: {{ ticket.seat_info.seat_num }}
+        </option>
+        {% endfor %}
+    </select>
+    <br>
+    <br>
+    <input type="submit">
+</form>
+{% else %}
+<p>You have not purchased any tickets.</p>
+{% endif %}
+
+{% endblock %}
