@@ -14,7 +14,9 @@
     {% if userType == "venue" %}
     <p><a href="{% url 'list-ticket' event_id=event.pk ticket_num=ticket.ticket_num %}">List</a></p>
     {% else %}
-    <p><a href="{% url 'buy-ticket' event.pk ticket.ticket_num %}">Buy Ticket</a></p>
+    <p><a href="{% url 'buy-ticket' event.pk ticket.ticket_num %}">Buy Ticket</a>
+    <a href="/customers/upgrade_ticket/{{ event.pk }}/{{ ticket.ticket_num }} ">Upgrade to this ticket.</a>
+    </p>
     {% endif %}
     <hr />
 {% endfor %}

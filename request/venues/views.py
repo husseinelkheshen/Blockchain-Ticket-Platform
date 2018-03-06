@@ -44,8 +44,8 @@ def list_ticket(request, event_id, ticket_num):
 
 @venue_login_required
 def validate_ticket(request, event_id):
-    venue = Venue.objects.get_object_or_404(user=request.user)
-    event = Event.objects.get_object_or_404(pk=event_id, venue=venue)
+    venue = get_object_or_404(Venue, user=request.user)
+    event = get_object_or_404(Event, pk=event_id, venue=venue)
 
     if request.method == "POST":
         form = ValidateTicketForm(request.POST)
@@ -77,7 +77,7 @@ def validate_ticket(request, event_id):
             else:
                 messages.error(request, "Ticket not valid.")
 
-            return redirect("validate_ticket", event_id)
+            return redirect("validate-ticket", event_id)
     else:
         form = ValidateTicketForm()
 

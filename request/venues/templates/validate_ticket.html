@@ -4,5 +4,6 @@
 <form action="{% url 'validate-ticket' event.id %}" method="POST">
     {% csrf_token %}
     {{ form.as_p }}
+    <input type="submit" value="Validate" />
 </form>
 {% endblock %}

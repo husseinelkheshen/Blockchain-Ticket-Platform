@@ -731,7 +731,7 @@ class User:
                 if self.id == current_owner:
                     ticket_data = ("event_id = " + str(event.id) +
                                    "\nticket_num = " + str(ticket.ticket_num) +
-                                   "\ncurrent_owner = " + str(current_owner) +
+                                   "\ncurrent_owner = " + self.email_address +
                                    "\nhash = " + ticket.history[-1][1])
                     # generate ticket code
                     ticket_code = qr.create(ticket_data)
