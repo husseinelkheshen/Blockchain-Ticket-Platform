@@ -134,8 +134,10 @@ def search(request):
     query = request.GET.get("q")
     print('query',query)
     date = request.GET.get("date") or datetime.datetime.now()
+    print('date',date)
     date_range = request.GET.get("date-range")
-    if len(date_range == 0):
+    print('date range',date_range)
+    if len(date_range) == 0:
         date_range = 1
     results = None
 
