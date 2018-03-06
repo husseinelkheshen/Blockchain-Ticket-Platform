@@ -5,16 +5,16 @@
 
 <div id="search-listings" style="margin-top: 1rem">
 	{% for event in events %}
-		<div class="rounded container-fluid mb-3" style="width: 85%; height:150px; background-color: white; border: 1px solid black; padding-top: 10px;">
+		<div class="rounded container-fluid mb-3" style="width: 85%; min-height:150px; background-color: white; border: 1px solid black; padding-top: 20px;">
 			<ul class="row" style="list-style: none">
 				<li class="col-12">
-					<h1><a href="{% url 'event' event.event_id %}">{{ event.name }}</a></h1>
+					<h2><a href="{% url 'event' event.event_id %}">{{ event.name }}</a></h2>
 				</li>
 				<li class="col-12 col-sm-8">
 					<h4>{{ event.desc }}</h4>
 				</li>
 				<li class="col-12 col-sm-4">
-					<h4>{{event.time.month}}/{{event.time.day}}/{{event.time.year}}</h4>
+					<h4>{{event.time.year}}/{{event.time.month}}/{{event.time.day}}</h4>
 				</li>
 			</ul>
 		</div>

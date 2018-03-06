@@ -10,6 +10,30 @@
     <input type="submit" value="Search" />
 </form>
 
+
+
+{% if results %}
+<div id="search-listings" style="margin-top: 1rem">
+	{% for result in results %}
+		<div class="rounded container-fluid mb-3" style="width: 85%; min-height:150px; background-color: white; border: 1px solid black; padding-top: 20px;">
+			<ul class="row" style="list-style: none">
+				<li class="col-12">
+					<h2><a href="{% url 'event' result.event_id %}">{{ result.name }}</a></h2>
+				</li>
+				<li class="col-12 col-sm-8">
+					<h4>{{ result.desc }}</h4>
+				</li>
+				<li class="col-12 col-sm-4">
+					<h4>{{result.time.year}}/{{result.time.month}}/{{result.time.day}}</h4>
+				</li>
+			</ul>
+		</div>
+	{% endfor %}
+</div>
+{% else %}
+<h4>No results found.</h4>
+{% endif %}
+<!-- Original Template
 {% if results %}
     {% for result in results %}
     <h3><a href="{% url 'event' result.event_id %}">{{ result.name }}</a></h3>
@@ -17,5 +41,6 @@
 {% else %}
 <h4>No results found.</h4>
 {% endif %}
+-->
 
 {% endblock %}
