@@ -118,7 +118,6 @@ def list_customer_tickets(request):
 
     return render(request, "customer_ticket_list.html", context)
 
-<<<<<<< HEAD
 @customer_login_required
 def list_customer_ticket(request, event_id, ticket_num):
     """
@@ -148,7 +147,6 @@ def list_customer_ticket(request, event_id, ticket_num):
         messages.success(request, "Ticket successfully listed.")
 
     return redirect("list-customer-tickets")
-=======
 
 @customer_login_required
 def ticket_code(request, event_id, ticket_num):
@@ -182,4 +180,3 @@ def ticket_code(request, event_id, ticket_num):
         return redirect("home")
     
     return HttpResponse((response[0]), content_type="image/gif")
->>>>>>> f08d672d00be7e3d515ff19032163c06ec021124
