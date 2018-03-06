@@ -9,7 +9,8 @@
     
     <body>
         <nav class="navbar navbar-dark bg-dark">
-            <a class="navbar-brand" href="{% url 'home' %}">Admit01</a>
+        	{% load staticfiles %}
+            <a class="navbar-brand" href="{% url 'home' %}"><img style="width:100px" src="{% static 'admit01/images/logo_event_white_700.png' %}"></a>
             <div class="">
                 <ul class="navbar-nav mr-auto">
                     {% if not request.user.is_authenticated %}
