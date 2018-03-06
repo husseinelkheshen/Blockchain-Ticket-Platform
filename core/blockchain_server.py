@@ -615,7 +615,6 @@ def user_buy_ticket():
     u = Trackers.registered_users.get(user_email)
     if u is None:
         return bad_request('User does not exist')
-    u.wallet = 100000
 
     #buy ticket
     ret = bc_buy_ticket(v, e, u, ticket_num)

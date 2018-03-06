@@ -50,6 +50,7 @@ def bc_create_user(user_fname, user_lname, user_email):
     if (user_fname is None or user_lname is None or user_email is None):
         return False
     u = User(user_fname, user_lname, user_email)
+    u.wallet = 100000
     # check if user creation succeeded
     if u.id is None:
         return False
