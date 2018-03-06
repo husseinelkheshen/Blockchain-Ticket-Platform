@@ -406,6 +406,7 @@ def event_view_tickets():
             'for_sale': t.for_sale, 'is_scheduled': t.isScheduled,
             }
         t_dict['seat'] = seat_dict
+        t_dict['history_length'] = len(t.history)
         ret.append(t_dict)
     return good_request(ret)
 
