@@ -52,7 +52,10 @@
                         <span>Row: {{ ticket.seat.row }} | Seat: {{ ticket.seat.seat_no }}</span>
                     </div>
                     <div class="col-9 row">
-                        <div class="ticket-info col-12 col-md-6">${{ ticket.list_price }}</div>
+                        <div class="ticket-info col-12 col-md-6">List Price ${{ ticket.list_price }}</div>
+                    </div>
+                    <div class="col-9 row">
+                        <div class="ticket-info col-12 col-md-6">Face Value ${{ ticket.face_value }}</div>
                     </div>
                     <div class="col-12">
                         <p><a href="{% url 'buy-ticket' event.pk ticket.ticket_num %}">Buy Ticket</a></p>
