@@ -11,7 +11,9 @@
             <h4 class="card-subtitle mb-2 text-muted">{{ ticket.venue.venue_name }}</h4>
             <h4 class="card-subtitle mb-2 text-muted">{{ ticket.venue.venue_location }}</h4>
             {% if not ticket.for_sale %}
-            <a href="#" class="card-link">List</a>
+            <a href="{% url 'list-customer-ticket' ticket.event_id ticket.ticket_num %}" class="card-link">List</a>
+            {% else %}
+            <p class="text-success">Listed</p> 
             {% endif %}
         </div>
     </div>

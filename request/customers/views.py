@@ -69,3 +69,33 @@ def list_customer_tickets(request):
     context = {"tickets": response[0]}
 
     return render(request, "customer_ticket_list.html", context)
+
+@customer_login_required
+def list_customer_ticket(request, event_id, ticket_num):
+    """
+    List a ticket that a customer owns.
+    """
+    # get venue
+    event = get_object_or_404(Event, pk=event_id)
+
+    # build data
+    data = {
+        "venue": {
+            "venue_location": event.venue.location,
+            "venue_name": event.venue.name
+        },
+        "event_id": event_id,
+        "ticket_num": ticket_num,
+        "user_email": request.user.email
+    }
+
+    # send POST request to blockchain server with data
+    response = bcAPI.post("user/list_ticket", data=data)
+
+    # expect 201 response if successful.
+    if response[1] != 200:
+        messages.error(request, "Couldn't contact blockchain server.")
+    else:
+        messages.success(request, "Ticket successfully listed.")
+
+    return redirect("list-customer-tickets")
