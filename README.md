@@ -156,7 +156,7 @@ Before doing anything else, you must execute 'make install' from the main direct
 
 If you encounter an error which says CERTIFICATE_VERIFY_FAILED, please read the note below. This, of course, won't be an issue in the final deployment of the software since it will be a web app running on a remote server.
 
-Skeleton code for events to view the visualization fo their ticketing blockchain can be found at 'design/html_wireframes/ticket_visualization_demo.html', and the javascript utilized to write the visualization function is in the js folder under 'ticket_visualization_demo.js'. The html can be pulled up in any browser, with chrome likely being the best to view the visualization in. 
+Skeleton code for events to view the visualization fo their ticketing blockchain can be found at 'design/html_wireframes/ticket_visualization_demo.html', and the javascript utilized to write the visualization function is in the js folder under 'ticket_visualization_demo.js'. The html can be pulled up in any browser, with chrome likely being the best to view the visualization in.
 
 To view the basic UI/database website integration code, where you can perform the following functions
 Navigate to http://ec2-18-219-133-194.us-east-2.compute.amazonaws.com:8000/
@@ -220,7 +220,7 @@ To test API: Our API acceptance tests use the REST client Insomnia (https://inso
 ### What is Implemented?
 
 #### Front end
-On the front end, we have achieved integration with the request API server to the Python backend. We are able to make requests from our server to the python server as well as manipulate and interact with our database. In addition to fully integrating our API server, we've also complete the django templating engine for the website UI and, as well as having achieved basic integation of the API server and the website UI views. 
+On the front end, we have achieved integration with the request API server to the Python backend. We are able to make requests from our server to the python server as well as manipulate and interact with our database. In addition to fully integrating our API server, we've also complete the django templating engine for the website UI and, as well as having achieved basic integation of the API server and the website UI views.
 
 Skeleton code for a blockchain visualization was also implemented. This visualization was proposed as an important measure for events and venues to be able to visualize the state of their ticketing block-chain as a way that distinguishes our ticketing blockchain from normal ticketing software. However, since this was not included in the original design plan, we eventually thought it best not to spend more time than necessary and just leave it as conceptual skeleton code that demonstrates the uniqueness of the ticketing blockchain, albeit not fully implemented.
 
@@ -232,15 +232,12 @@ In terms of use cases, we have fully and successfully implemented **Explore**, *
 ### Who Did What?
 
 #### Front end
-<<<<<<< HEAD
-Pablo wrote the blochain API server
-=======
-Pablo created the remaining Flask endpoints for the Blockchain API besides **Validate Ticket**. Pablo also created acceptance tests for these API endpoints. Finally, Pablo began to implement the API/Django integration. 
->>>>>>> c0370d3de6da46c235cd2f7856661440bbf3f229
 
-Eurim Implemented the Request server and the the beginning fully integrated UI to server templates 
+Pablo created the remaining Flask endpoints for the Blockchain API besides **Validate Ticket**. Pablo also created acceptance tests for these API endpoints. Finally, Pablo began to implement the API/Django integration.
 
-Samantha wrote the django UI templating engine for the html wireframes developed during the last sprint, as well as writing wireframes for the event portal of the website and the code for a blockchain data visualization. 
+Euirim implemented the Request server and the the beginning fully integrated UI to server templates
+
+Samantha wrote the django UI templating engine for the html wireframes developed during the last sprint, as well as writing wireframes for the event portal of the website and the code for a blockchain data visualization.
 
 #### Back end
 Gina and Ethan paired to develop and test **Explore**.
@@ -252,5 +249,4 @@ Hayden and Hussein paired to develop and test **Manage Event**, **Manage Tickets
 ### Changes from Implementation Plan
 For the back end, there were several minor test rigor and formatting changes to the unit tests since they were delivered with 4a, none of which changed the scope or diminished the coverage of the tests.
 
-For the front end, while we were able to achieve integration with the request server with the back end library calls, we weren't able to achieve full ui to back-end integration of the software. Because we don't learn a particularly great deal about how to integrate codebases, system architectures, and front end in general in the CS department and because we obviously had envisioned a finished product, we vastly underestimated the amount of code that is required to achieve fully integrated software from the back ends of library/api to the more minute detailed coding of ui that has to be able to interact with users and deal appropriately with user behaviour. There was also the unanticipated time cost of having to create manage the system architecture with the servers not always being fully reliable and functional. That being said, while we deviated from the design goal of having a fully integrated website, we did manage to integrate the front end and the back ends, as well as building a templating engine for the UI that functions with dummy data that models the actual data context of the server.
-
+For the front end, while we were able to achieve integration with the request server with the back end library calls, we weren't able to achieve full ui to back-end integration of the software. Because we don't learn a particularly great deal about how to integrate codebases, system architectures, and front end in general in the CS department and because we obviously had envisioned a finished product, we vastly underestimated the amount of code that is required to achieve fully integrated software from the back ends of library/api to the more minute detailed coding of ui that has to be able to interact with users and deal appropriately with user behavior. There was also the unanticipated time cost of having to create manage the system architecture with the servers not always being fully reliable and functional. That being said, while we deviated from the design goal of having a fully integrated website, we did manage to integrate the front end and the back ends, as well as building a templating engine for the UI that functions with dummy data that models the actual data context of the server.
