@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
 
 from globals import blockchain_api as bcAPI
 from globals.decorators import customer_login_required
@@ -42,6 +43,52 @@ def buy_ticket(request, event_id, ticket_num):
 
     return redirect("home")
 
+@customer_login_required
+def upgrade_ticket(request, event_id, ticket_num):
+    customer = get_object_or_404(Customer, user=request.user)
+    event = get_object_or_404(Event, pk=event_id)
+    venue = event.venue
+
+
+    if request.method == "POST":
+
+        user_email = customer.user.email
+        old_ticket_num = request.POST.get("current-ticket")
+        if old_ticket_num is None:
+            print('none')
+            return redirect('upgrade-ticket')
+        # TODO: send request to blockchain server to Upgrade ticket
+        data = {
+            "event_id": event_id,
+            "ticket_num": old_ticket_num,
+            "user_email": user_email,
+            "new_ticket_num": ticket_num,
+            "venue": 
+            {
+                "venue_location": venue.location,
+                "venue_name": venue.name
+            }
+        }
+        response = bcAPI.post("user/upgrade_ticket", data=data)
+        if response[1] == 200:
+            result = True
+        else:
+            result = False
+
+        if result:
+            messages.success(request, "Ticket upgraded.")
+        else:
+            messages.error(request, "Ticket not valid.")
+
+        return redirect("list-customer-tickets")
+    else:
+        response = bcAPI.post("user/view_tickets", data={"user_email": customer.user.email})
+        if response[1] == 200:
+            context = {"tickets": response[0]}
+        else:
+            return redirect('home')
+        return render(request, "customer_upgrade_ticket.html", context)
+
 
 @customer_login_required
 def list_customer_tickets(request):
@@ -69,3 +116,37 @@ def list_customer_tickets(request):
     context = {"tickets": response[0]}
 
     return render(request, "customer_ticket_list.html", context)
+
+
+@customer_login_required
+def ticket_code(request, event_id, ticket_num):
+    """ 
+    Get the qr ticket code png from the server
+    """
+    # get customer
+    customer = get_object_or_404(Customer, user=request.user)
+    event = get_object_or_404(Event, pk=event_id)
+    venue = event.venue
+
+    # build data
+    data = {
+        "venue": 
+        {
+            "venue_location": venue.location,
+            "venue_name": venue.name
+        },
+        "user_email": customer.user.email,
+        "event_id": event_id,
+        "ticket_num": ticket_num
+    }
+    # send POST request to blockchain server with data.
+    response = bcAPI.post_raw("user/generate_ticket_code", data=data)
+    f = open("./image.gif", "w")
+    f.write(str(response[0]))
+    f.close()
+    print(len(response[0]))
+    # expect 200 response if successful.
+    if response[1] != 200:
+        return redirect("home")
+    
+    return HttpResponse((response[0]), content_type="image/gif")
