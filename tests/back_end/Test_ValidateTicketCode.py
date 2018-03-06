@@ -7,6 +7,8 @@ def test_validateticketcode():
     event = venue.createEvent("Rock Show", datetime.now() + timedelta(hours=4),
                               "An event for students to rock out!")
     seat = Seat("General Admission", "N/A", 1)
+    seat2 = Seat("General Admission", "N/A", 2)
+    seat3 = Seat("General Admission", "N/A", 3)
     ticket = venue.createTicket(event, 20, seat)
     user1 = User("Ethan", "Reeder", "er@example.com")
     user2 = User("Ross", "Piper", "rp@example.com")
@@ -14,23 +16,26 @@ def test_validateticketcode():
     user2.wallet = 100000
     ticket.listTicket(ticket.face_value, venue.id)
     user1.buyTicket(ticket)
-    # checks original purchaser still holds ticket, true
-    assert venue.validateTicketCode(event.id, ticket.ticket_num,
-                                    user1.id, event.blockchain.blocks[-1].hash)
     # checks bogus event id doesn't pass
     assert not venue.validateTicketCode(event.id + 5, ticket.ticket_num, user1.id, event.blockchain.blocks[-1].hash)
     # checks invalid ticket number doesnt pass
     assert not venue.validateTicketCode(event.id, ticket.ticket_num + 1, user1.id, event.blockchain.blocks[-1].hash)
-    ticket.listTicket(21, user1.id)
-    user2.buyTicket(ticket)
+    # checks original purchaser still holds ticket, true
+    assert venue.validateTicketCode(event.id, ticket.ticket_num,
+                                    user1.id, event.blockchain.blocks[-1].hash)
+    ticket3 = venue.createTicket(event, 20, seat2)
+    ticket3.listTicket(ticket.face_value, venue.id)
+    user1.buyTicket(ticket3)
+    ticket3.listTicket(21, user1.id)
+    user2.buyTicket(ticket3)
     # checks that user1 can no longer use their code, as the ids dont match, even with a current hash
-    assert not venue.validateTicketCode(event.id, ticket.ticket_num, user1.id, event.blockchain.blocks[-1].hash)
+    assert not venue.validateTicketCode(event.id, ticket3.ticket_num, user1.id, event.blockchain.blocks[-1].hash)
     # checks that someone cannot spoof user2's id, with a previously correct hash
-    assert not venue.validateTicketCode(event.id, ticket.ticket_num, user2.id, event.blockchain.blocks[-2].hash)
+    assert not venue.validateTicketCode(event.id, ticket3.ticket_num, user2.id, event.blockchain.blocks[-2].hash)
     # check the the second user's code now works
-    assert venue.validateTicketCode(event.id, ticket.ticket_num, user2.id, event.blockchain.blocks[-1].hash)
+    assert venue.validateTicketCode(event.id, ticket3.ticket_num, user2.id, event.blockchain.blocks[-1].hash)
     event2 = venue.createEvent("Pop Show", datetime.now() + timedelta(hours=14), "An event for students to pop out!")
-    ticket2 = venue.createTicket(event2, 20, seat)
+    ticket2 = venue.createTicket(event2, 20, seat3)
     ticket2.listTicket(20, venue.id)
     user1.buyTicket(ticket2)
     # event2 is too far away to check in for
