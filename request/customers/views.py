@@ -53,7 +53,7 @@ def upgrade_ticket(request, event_id, ticket_num):
     if request.method == "POST":
 
         user_email = customer.user.email
-        old_ticket_num = request.POST.get("current-ticket")
+        old_ticket_num = int(request.POST.get("current-ticket"))
         if old_ticket_num is None:
             print('none')
             return redirect('upgrade-ticket')
@@ -69,6 +69,7 @@ def upgrade_ticket(request, event_id, ticket_num):
                 "venue_name": venue.name
             }
         }
+        print(data)
         response = bcAPI.post("user/upgrade_ticket", data=data)
         if response[1] == 200:
             result = True
@@ -117,6 +118,35 @@ def list_customer_tickets(request):
 
     return render(request, "customer_ticket_list.html", context)
 
+@customer_login_required
+def list_customer_ticket(request, event_id, ticket_num):
+    """
+    List a ticket that a customer owns.
+    """
+    # get venue
+    event = get_object_or_404(Event, pk=event_id)
+
+    # build data
+    data = {
+        "venue": {
+            "venue_location": event.venue.location,
+            "venue_name": event.venue.name
+        },
+        "event_id": event_id,
+        "ticket_num": ticket_num,
+        "user_email": request.user.email
+    }
+
+    # send POST request to blockchain server with data
+    response = bcAPI.post("user/list_ticket", data=data)
+
+    # expect 201 response if successful.
+    if response[1] != 200:
+        messages.error(request, "Couldn't contact blockchain server.")
+    else:
+        messages.success(request, "Ticket successfully listed.")
+
+    return redirect("list-customer-tickets")
 
 @customer_login_required
 def ticket_code(request, event_id, ticket_num):

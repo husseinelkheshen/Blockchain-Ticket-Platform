@@ -10,9 +10,17 @@
             <h3 class="card-title">{{ ticket.event_info.name }}</h3>
             <h4 class="card-subtitle mb-2 text-muted">{{ ticket.venue.venue_name }}</h4>
             <h4 class="card-subtitle mb-2 text-muted">{{ ticket.venue.venue_location }}</h4>
+            <h7>{{ ticket.seat_info.section }}</h7> |
+
+            <h7>Row: {{ ticket.seat_info.row }}</h7> |
+
+            <h7>Seat Number: {{ ticket.seat_info.seat_num }}</h7>
+            <br>
             {% if not ticket.for_sale %}
-            <a href="#" class="card-link">List</a>
+            <a href="{% url 'list-customer-ticket' ticket.event_id ticket.ticket_num %}" class="card-link">List</a>
             <a href="/customers/ticket_code/{{ ticket.event_id }}/{{ ticket.ticket_num }}" class="card-link">QR Code</a>
+            {% else %}
+            <p class="text-success">Listed</p> 
             {% endif %}
         </div>
     </div>
