@@ -1,9 +1,50 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Venue: {{ venue.name }}</h1>
+<h1 class="rale-heading">Venue: {{ venue.name }}</h1>
 
 <h2>Events</h2>
+
+<div class="event-container container">
+  {% load staticfiles %}
+  <style>
+    .event-container a {
+      color: white;
+    }
+    .event-container ul a {
+      color: #c8c8c8;
+    }
+  </style>
+  {% for event in events %}
+  <div class="mb-3 rounded container" style="border: 1px solid black; padding: 15px;
+    background-image: url('{% static 'admit01/images/stock_concert.png' %}');
+    background-size: cover; background-position: center">
+    <div class="row">
+      <h3 class="col-12"><a href="{% url 'event' event.event_id %}">{{ event.name }}</a></h3>
+        <ul class="row" style="list-style: none">
+        <li class="col-6 col-sm-6">
+          <a href="{% url 'create-tickets' event.event_id %}">Create tickets</a>
+        </li>
+        <li class="col-12 col-sm-6">
+          <a href="{% url 'schedule-release' event.event_id %}">Schedule release</a>
+        </li>
+        <li class="col-12 col-sm-6">
+          <a href="{% url 'edit-event' event.event_id %}">Edit Event</a>
+        </li>
+        <li class="col-12 col-sm-6">
+          <a href="{% url 'edit-tickets' event.event_id %}">Edit Tickets</a>
+        </li>
+        <li class="col-12 col-sm-6">
+          <a href="{% url 'validate-ticket' event.event_id %}">Validate Tickets</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+
+<!-- Original Template -->
 <ul>
   {% for event in events %}
   <li>

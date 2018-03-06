@@ -11,7 +11,7 @@
 					<h2><a href="{% url 'event' event.event_id %}">{{ event.name }}</a></h2>
 				</li>
 				<li class="col-12 col-sm-8">
-					<h4>{{ event.desc }}</h4>
+					{{ event.desc }}
 				</li>
 				<li class="col-12 col-sm-4">
 					<h4>{{event.time.year}}/{{event.time.month}}/{{event.time.day}}</h4>

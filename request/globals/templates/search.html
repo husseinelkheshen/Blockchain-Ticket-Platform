@@ -21,7 +21,7 @@
 					<h2><a href="{% url 'event' result.event_id %}">{{ result.name }}</a></h2>
 				</li>
 				<li class="col-12 col-sm-8">
-					<h4>{{ result.desc }}</h4>
+					{{ result.desc }}
 				</li>
 				<li class="col-12 col-sm-4">
 					<h4>{{result.time.year}}/{{result.time.month}}/{{result.time.day}}</h4>

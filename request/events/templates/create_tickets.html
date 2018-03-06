@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Create tickets</h1>
+<h2 class="rale-heading">Create tickets</h2>
 
 <form action="{% url 'create-tickets' event.pk %}" method="POST">
   {% csrf_token %}
