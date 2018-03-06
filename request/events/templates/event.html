@@ -1,9 +1,73 @@
 {% extends "base.html" %}
+{% load staticfiles %} 
 
 {% block content %}
-<h1>{{ event.name }}</h1>
-<p>{{ event.description }}</p>
+<h2 class="rale-heading"> Face Value and List price are not very good descriptors, which one should we be displaying</h2>
+<div class="container-fluid mb-4"  style="height: 300px;
+    background-image: url('{% static 'admit01/images/stock_concert.png' %}'); background-size: cover;
+    background-position: center bottom;">
+        <div class="row align-items-end" style="height: 100%">
+            <section class="col-6" style="color: white">
+                <h1 class="rale-heading" style="font-size: 50px">{{ event.name }}</h1>
+                <p style="color: #c8c8c8; font-size: 24px">{{ event.description }}</p>
+            </section>
+            <section class="col-6 text-left text-sm-right rale-heading" style="color:white">
+                <h3 class="rale-heading"></h3>
+            </section>
+        </div>
+</div><!-- event headline container -->
 
+{% if userType == "venue" %}
+<div class="rounded mx-auto" style="border: 2px solid #003470; width: 90%;
+    max-height: 400px; overflow-y: scroll;">
+{% for ticket in tickets %}
+    <div style="border: 1px solid black; border-style: solid none; padding: 15px">
+        <h3>{{ ticket.seat.section }}<span style="font-size: 16px"> (Ticket number: {{ ticket.ticket_num }})</span></h3>
+        <h5>Row: {{ ticket.seat.row }} | Seat: {{ ticket.seat.seat_no }}</h5>
+        <h5 class="text-danger">Price: ${{ ticket.face_value }}</h5>
+
+        {% if ticket.history_length > 1 %}
+        <p class="text-danger">SOLD</p>
+        {% elif not ticket.for_sale %}
+        <p><a href="{% url 'list-ticket' event_id=event.pk ticket_num=ticket.ticket_num %}">List</a></p>
+        {% else %}
+        <p class="text-success">Listed</p>
+        {% endif %}
+    </div>
+{% endfor %}
+</div>
+{% else %}
+<div class="container mx-auto rounded mb-4 text-center" style="width: 85%;
+    border: 1px solid black; background-color: white; padding: 10px">
+        <img class="mb-4" style="width: 100%; max-width: 500px" src="{% static 'admit01/images/venue-stock.gif' %}"/>
+        
+        <div class="ticketlist">
+            <ul>
+                {% for ticket in tickets %}
+                {% if ticket.for_sale %}
+                <li class="row">
+                    <div style="font-size: 18px" class="col-12">{{ ticket.seat.section }} <span>(Ticket number: {{ ticket.ticket_num }})</span>
+                    </div>
+                    <div class="col-12">
+                        <span>Row: {{ ticket.seat.row }} | Seat: {{ ticket.seat.seat_no }}</span>
+                    </div>
+                    <div class="col-9 row">
+                        <div class="ticket-info col-12 col-md-6">${{ ticket.face_value }}</div>
+                    </div>
+                    <div class="col-12">
+                        <p><a href="{% url 'buy-ticket' event.pk ticket.ticket_num %}">Buy Ticket</a></p>
+                        <p><a href="/customers/upgrade_ticket/{{ event.pk }}/{{ ticket.ticket_num }} ">Upgrade to this ticket.</a></p>
+                    </div>
+                </li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+{% endif %}
+
+<!-- Original  Template
 <h2>Tickets</h2>
 {% if userType == "venue" %}
     {% for ticket in tickets %}
@@ -11,7 +75,7 @@
         <h7>(Ticket number: {{ ticket.ticket_num }})</h7>
         <h5>Row: {{ ticket.seat.row }}</h5>
         <h5>Seat Number: {{ ticket.seat.seat_no }}</h5>
-        <h5 class="text-danger">Price: {{ ticket.face_value }}</h5>
+        <h5 class="text-danger">Price: ${{ ticket.face_value }}</h5>
 
         {% if ticket.history_length > 1 %}
         <p class="text-danger">SOLD</p>
@@ -27,8 +91,8 @@
         {% if ticket.for_sale %}
         <h3>{{ ticket.seat.section }}</h3>
         <h7>(Ticket number: {{ ticket.ticket_num }})</h7>
-        <h5>Row: {{ ticket.seat.row }}</h5>
-        <h5>Seat Number: {{ ticket.seat.seat_no }}</h5>
+        <h5>Row: {{ ticket.seat.row }} | Seat: {{ ticket.seat.seat_no }}</h5>
+        <h5>Price: ${{ ticket.face_value }}</h5>
 
         <p><a href="{% url 'buy-ticket' event.pk ticket.ticket_num %}">Buy Ticket</a></p>
         <p><a href="/customers/upgrade_ticket/{{ event.pk }}/{{ ticket.ticket_num }} ">Upgrade to this ticket.</a></p>
@@ -38,4 +102,5 @@
     {% endfor %}
 
 {% endif %}
+-->
 {% endblock %}

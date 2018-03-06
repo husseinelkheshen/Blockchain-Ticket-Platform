@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2 class="rale-heading">My tickets: Face Value and List price are not very good descriptors, which one should we be displaying</h2>
+<h2 class="rale-heading">My tickets</h2>
 
 {% if tickets %}
     {% for ticket in tickets %}
@@ -16,7 +16,6 @@
 
             <h7>Seat Number: {{ ticket.seat_info.seat_num }}</h7>
             <br>
-            <p><h7>Seat Number: ${{ ticket.seat_info.seat_num }}</h7></p>
             {% if not ticket.for_sale %}
             <a href="{% url 'list-customer-ticket' ticket.event_id ticket.ticket_num %}" class="card-link">List</a>
             <a href="/customers/ticket_code/{{ ticket.event_id }}/{{ ticket.ticket_num }}" class="card-link">QR Code</a>

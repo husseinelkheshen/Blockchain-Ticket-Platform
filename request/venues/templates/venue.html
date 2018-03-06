@@ -15,6 +15,7 @@
       color: #c8c8c8;
     }
   </style>
+  {% if events %}
   {% for event in events %}
   <div class="mb-3 rounded container" style="border: 1px solid black; padding: 15px;
     background-image: url('{% static 'admit01/images/stock_concert.png' %}');
@@ -41,6 +42,9 @@
     </div>
   </div>
   {% endfor %}
+  {% else %}
+  <h4>You have No Events</h4>
+  {% endif %}
 </div>
 
 
