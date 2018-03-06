@@ -406,6 +406,7 @@ def event_view_tickets():
             'for_sale': t.for_sale, 'is_scheduled': t.isScheduled,
             }
         t_dict['seat'] = seat_dict
+        t_dict['listed'] = t.for_sale
         ret.append(t_dict)
     return good_request(ret)
 
@@ -963,7 +964,7 @@ def user_generate_ticket_code():
     if qrobj is None:
         return bad_request('failed getting qr code')
     qrobj.png('/tmp/tempqr.png')
-    return send_file('/tmp/tempqr.png', mimetype='image/gif')
+    return send_file('/tmp/tempqr.png', mimetype='image/png')
 
 
 
