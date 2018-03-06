@@ -70,6 +70,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'globals.context_processors.user_type',
+                'globals.context_processors.wallet'
             ],
         },
     },
