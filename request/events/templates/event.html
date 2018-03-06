@@ -2,7 +2,6 @@
 {% load staticfiles %} 
 
 {% block content %}
-<h2 class="rale-heading"> Face Value and List price are not very good descriptors, which one should we be displaying</h2>
 <div class="container-fluid mb-4"  style="height: 300px;
     background-image: url('{% static 'admit01/images/stock_concert.png' %}'); background-size: cover;
     background-position: center bottom;">
@@ -24,7 +23,7 @@
     <div style="border: 1px solid black; border-style: solid none; padding: 15px">
         <h3>{{ ticket.seat.section }}<span style="font-size: 16px"> (Ticket number: {{ ticket.ticket_num }})</span></h3>
         <h5>Row: {{ ticket.seat.row }} | Seat: {{ ticket.seat.seat_no }}</h5>
-        <h5 class="text-danger">Price: ${{ ticket.face_value }}</h5>
+        <h5 class="text-danger">Price: ${{ ticket.list_price }}</h5>
 
         {% if ticket.history_length > 1 %}
         <p class="text-danger">SOLD</p>
@@ -52,7 +51,7 @@
                         <span>Row: {{ ticket.seat.row }} | Seat: {{ ticket.seat.seat_no }}</span>
                     </div>
                     <div class="col-9 row">
-                        <div class="ticket-info col-12 col-md-6">${{ ticket.face_value }}</div>
+                        <div class="ticket-info col-12 col-md-6">${{ ticket.list_price }}</div>
                     </div>
                     <div class="col-12">
                         <p><a href="{% url 'buy-ticket' event.pk ticket.ticket_num %}">Buy Ticket</a></p>
