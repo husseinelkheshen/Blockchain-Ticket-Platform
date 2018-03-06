@@ -164,6 +164,7 @@ def edit_event(request, event_id):
                     }
                 }
             }
+            print(data)
 
             response = bcAPI.post('venue/event/edit', data=data)
             print(response)
@@ -212,7 +213,7 @@ def edit_tickets(request, event_id):
                     "new_price": new_price,
                     "which_seats": {
                         "section": section,
-                        "row": row,
+                        "row": str(row),
                         "seat_num": seat_num
                     }
                 }
