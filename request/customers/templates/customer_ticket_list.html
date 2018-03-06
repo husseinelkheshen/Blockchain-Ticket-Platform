@@ -10,8 +10,10 @@
             <h3 class="card-title">{{ ticket.event_info.name }}</h3>
             <h4 class="card-subtitle mb-2 text-muted">{{ ticket.venue.venue_name }}</h4>
             <h4 class="card-subtitle mb-2 text-muted">{{ ticket.venue.venue_location }}</h4>
-            <a href="#" class="card-link">Buy</a>
+            {% if not ticket.for_sale %}
+            <a href="#" class="card-link">List</a>
             <a href="/customers/ticket_code/{{ ticket.event_id }}/{{ ticket.ticket_num }}" class="card-link">QR Code</a>
+            {% endif %}
         </div>
     </div>
     {% endfor %}
