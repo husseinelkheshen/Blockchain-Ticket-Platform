@@ -148,35 +148,34 @@ def search(request):
     print('date range',date_range)
     results = None
 
-    if query:
-        # empty query string is same as sending None
-        if query == "":
-            query = None
+    # empty query string is same as sending None
+    if query == "":
+        query = None
 
-        if date:
-            date = models.DateField().to_python(date)
+    if date:
+        date = models.DateField().to_python(date)
 
-        data = {
-            "user_email": request.user.email,
-            "search_info": {
-                "search_text": query,
-                "date_range": int(date_range) if date_range else None,
-                "date": {
-                    "year": date.year,
-                    "month": date.month,
-                    "day": date.day
-                } if date else None
-            }
+    data = {
+        "user_email": request.user.email,
+        "search_info": {
+            "search_text": query,
+            "date_range": int(date_range) if date_range else None,
+            "date": {
+                "year": date.year,
+                "month": date.month,
+                "day": date.day
+            } if date else None
         }
+    }
 
-        print(data)
+    print(data)
 
-        response = bcAPI.post('user/search', data=data)
+    response = bcAPI.post('user/search', data=data)
 
-        if response[1] == 200:
-            results = response[0]
-        else:
-            messages.error(request, "Something went wrong while searching. Please try again.")
+    if response[1] == 200:
+        results = response[0]
+    else:
+        messages.error(request, "Something went wrong while searching. Please try again.")
 
     context = {
         "results": results,
