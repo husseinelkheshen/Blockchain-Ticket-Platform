@@ -131,6 +131,8 @@ def bc_upgrade_ticket(venue, event, user, ticket_num, new_ticket_num):
     for ticket in event.tickets:
         if ticket.ticket_num == new_ticket_num:
             new_ticket = ticket
+    if new_ticket is None:
+        return False
 
     if new_ticket is not None and old_ticket is not None:
         return user.upgradeTicket(old_ticket, new_ticket) and new_ticket.ticket_num

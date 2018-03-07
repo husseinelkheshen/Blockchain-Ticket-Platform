@@ -667,7 +667,7 @@ def user_upgrade_ticket():
     u = Trackers.registered_users.get(user_email)
     if u is None:
         return bad_request('User does not exist')
-    u.wallet = 100000
+
 
     #upgrade ticket
     ret = bc_upgrade_ticket(v, e, u, ticket_num, new_ticket_num)

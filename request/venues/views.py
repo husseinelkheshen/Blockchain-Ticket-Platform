@@ -36,7 +36,7 @@ def list_ticket(request, event_id, ticket_num):
 
     # expect 201 response if successful.
     if response[1] != 200:
-        messages.error(request, "Couldn't contact blockchain server.")
+        messages.error(request, "Couldn't list ticket.")
     else:
         messages.success(request, "Ticket successfully listed.")
 
@@ -102,7 +102,7 @@ def schedule_release(request, event_id):
         form = ScheduleReleaseForm(request.POST)
 
         if form.is_valid():
-            date = form.cleaned_data.get("date")
+            date = form.cleaned_data.get("scheduled_for")
             section = form.cleaned_data.get('section')
 
         # TODO: send request to blockchain server indicating that

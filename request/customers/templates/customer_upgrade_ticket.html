@@ -9,8 +9,10 @@
     {% csrf_token %}
     <select name="current-ticket">
         {% for ticket in tickets %}
+        {% if ticket.event_id == event_id %}
         <option value="{{ ticket.ticket_num }}">{{ ticket.event_info.name }}, Section: {{ ticket.seat_info.section }}, Row: {{ ticket.seat_info.row }}, Seat: {{ ticket.seat_info.seat_num }}
         </option>
+        {% endif %}
         {% endfor %}
     </select>
     <br>

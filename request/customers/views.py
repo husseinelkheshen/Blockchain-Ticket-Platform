@@ -36,8 +36,7 @@ def buy_ticket(request, event_id, ticket_num):
 
     # expect 200 response if successful.
     if response[1] != 200:
-        print(response[0])
-        messages.error(request, "Couldn't contact blockchain server.")
+        messages.error(request, "Not enough funds to buy this ticket.")
     else:
         messages.success(request, "Ticket successfully purchased.")
 
@@ -85,7 +84,7 @@ def upgrade_ticket(request, event_id, ticket_num):
     else:
         response = bcAPI.post("user/view_tickets", data={"user_email": customer.user.email})
         if response[1] == 200:
-            context = {"tickets": response[0]}
+            context = {"tickets": response[0], "event_id": int(event_id)}
         else:
             return redirect('home')
         return render(request, "customer_upgrade_ticket.html", context)
