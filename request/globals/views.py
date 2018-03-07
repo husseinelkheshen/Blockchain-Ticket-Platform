@@ -143,8 +143,6 @@ def search(request):
     print('date range',date_range)
     if date_range is None or date_range == "":
         date_range = None
-    if len(date_range) == 0 or date_range == "":
-        date_range = None
     print('date range',date_range)
     results = None
 
