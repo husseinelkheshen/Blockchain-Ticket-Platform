@@ -6,6 +6,9 @@ from django.contrib.auth import logout as auth_logout
 from django.db import models
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
+from django.middleware.csrf import get_token
+
+
 
 from .models import User
 from customers.models import Customer
@@ -24,6 +27,8 @@ def register(request):
 
     if request.method == "POST":
         form = RegisterForm(request.POST)
+        csrf_token = get_token(request)
+
 
         if form.is_valid():
             email = form.cleaned_data.get("email")
