@@ -10,11 +10,11 @@ class CreateEventForm(forms.Form):
 
 class CreateTicketsForm(forms.Form):
     section = forms.CharField(max_length=100)
-    min_row = forms.IntegerField()
-    max_row = forms.IntegerField()
-    min_seat= forms.IntegerField()
-    max_seat= forms.IntegerField()
-    face_value = forms.FloatField()
+    min_row = forms.IntegerField(min_value=0)
+    max_row = forms.IntegerField(min_value=0)
+    min_seat= forms.IntegerField(min_value=0)
+    max_seat= forms.IntegerField(min_value=0)
+    face_value = forms.FloatField(min_value=0)
 
 class EditEventForm(forms.ModelForm):
     class Meta:
