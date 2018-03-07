@@ -169,6 +169,8 @@ def search(request):
             }
         }
 
+        print(data)
+
         response = bcAPI.post('user/search', data=data)
 
         if response[1] == 200:
