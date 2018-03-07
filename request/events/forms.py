@@ -23,12 +23,12 @@ class CreateTicketsForm(forms.Form):
         min_seat = cleaned_data.get("min_seat")
         max_seat = cleaned_data.get("max_seat")
 
-        if min_row > max_row:
+        if min_row >= max_row:
             raise forms.ValidationError(
                 "Min row must be less than max row."
             )
 
-        if min_seat > max_seat:
+        if min_seat >= max_seat:
             raise forms.ValidationError(
                 "Min seat must be less than max seat."
             )
