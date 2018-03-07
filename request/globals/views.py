@@ -152,7 +152,11 @@ def search(request):
             query = None
 
         if date:
-            date = models.DateField().to_python(date)
+            try:
+                date = models.DateField().to_python(date)
+            except:
+                messages.error(request, "Invalid date format.")
+                return redirect("search")
 
         data = {
             "user_email": request.user.email,
