@@ -145,6 +145,10 @@ def search(request):
     results = None
 
     if query:
+        # empty query string is same as sending None
+        if query == "":
+            query = None
+
         try:
             date = models.DateField().to_python(date)
         except:
