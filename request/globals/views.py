@@ -153,13 +153,8 @@ def search(request):
         if query == "":
             query = None
 
-        try:
+        if date:
             date = models.DateField().to_python(date)
-        except:
-            raise Http404("Incorrectly formatted date.")
-
-        if date is None:
-            raise Http404("Incorrectly formatted date.")
 
         data = {
             "user_email": request.user.email,
@@ -170,7 +165,7 @@ def search(request):
                     "year": date.year,
                     "month": date.month,
                     "day": date.day
-                }
+                } if date else None
             }
         }
 
