@@ -36,7 +36,7 @@ def list_ticket(request, event_id, ticket_num):
 
     # expect 201 response if successful.
     if response[1] != 200:
-        messages.error(request, "Couldn't contact blockchain server.")
+        messages.error(request, "Couldn't list ticket.")
     else:
         messages.success(request, "Ticket successfully listed.")
 
