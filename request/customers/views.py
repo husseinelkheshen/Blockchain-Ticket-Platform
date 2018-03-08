@@ -54,7 +54,7 @@ def upgrade_ticket(request, event_id, ticket_num):
         user_email = customer.user.email
         old_ticket_num = int(request.POST.get("current-ticket"))
         if old_ticket_num is None:
-            print('none')
+            # print('none')
             return redirect('upgrade-ticket')
         # TODO: send request to blockchain server to Upgrade ticket
         data = {
@@ -68,7 +68,7 @@ def upgrade_ticket(request, event_id, ticket_num):
                 "venue_name": venue.name
             }
         }
-        print(data)
+        # print(data)
         response = bcAPI.post("user/upgrade_ticket", data=data)
         if response[1] == 200:
             result = True
@@ -173,7 +173,7 @@ def ticket_code(request, event_id, ticket_num):
     f = open("./image.gif", "w")
     f.write(str(response[0]))
     f.close()
-    print(len(response[0]))
+    # print(len(response[0]))
     # expect 200 response if successful.
     if response[1] != 200:
         return redirect("home")

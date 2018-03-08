@@ -51,7 +51,7 @@ def register(request):
                         bc_created = True
                     else:
                         messages.error(request, "Request to blockchain API failed.")
-                        print(response[1])
+                        # print(response[1])
                         return redirect("register")
 
                 else:
@@ -137,18 +137,18 @@ def explore(request):
 @customer_login_required
 def search(request):
     query = request.GET.get("q")
-    print('query',query)
+    # print('query',query)
     date = request.GET.get("date")
 
     if date is None or date == "":
         date = None
 
-    print('date',date)
+    # print('date',date)
     date_range = request.GET.get("date-range")
-    print('date range',date_range)
+    # print('date range',date_range)
     if date_range is None or date_range == "":
         date_range = None
-    print('date range',date_range)
+    # print('date range',date_range)
     results = None
 
     if date or date_range or query:
@@ -176,7 +176,7 @@ def search(request):
             }
         }
 
-        print(data)
+        # print(data)
 
         response = bcAPI.post('user/search', data=data)
 

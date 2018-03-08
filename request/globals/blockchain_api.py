@@ -25,8 +25,8 @@ def post(path, data):
             settings.BLOCKCHAIN_API["host"]+ ":"+ str(settings.BLOCKCHAIN_API['port']) + "/" + path, 
             timeout=settings.API_TIMEOUT, json=data)
 
-    print(data)   
-    print(r.text)
+    # print(data)   
+    # print(r.text)
     return (r.json(), r.status_code)
 
 def post_raw(path, data):

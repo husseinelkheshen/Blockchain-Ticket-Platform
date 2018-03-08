@@ -30,7 +30,7 @@ def create_event(request):
             when = form.cleaned_data.get("when")
 
             event = Event.objects.create(venue=venue, name=name, description=description)
-            print("event id: ", event.id)
+            # print("event id: ", event.id)
 
             # TODO: API call to blockchain server to create event
             data = {
@@ -112,7 +112,7 @@ def create_tickets(request, event_id):
                 messages.success(
                     request, "Tickets successfully created."
                 )
-                print(response[0])
+                # print(response[0])
 
                 return redirect("create-tickets", event.pk)
             else:
@@ -164,10 +164,10 @@ def edit_event(request, event_id):
                     }
                 }
             }
-            print(data)
+            # print(data)
 
             response = bcAPI.post('venue/event/edit', data=data)
-            print(response)
+            # print(response)
             if response[0].get('event_id') == event.id:
                 messages.success(request, "Event successfully edited.")
                 event.save()
@@ -220,7 +220,7 @@ def edit_tickets(request, event_id):
             }
 
             response = bcAPI.post('venue/event/tickets/edit', data=data)
-            print(response)
+            # print(response)
             if response[1] == 200:
                 messages.success(request, "Tickets edited.")
             else:
@@ -268,14 +268,14 @@ def event(request, event_id):
 
     # check if venue has the permissions to create tickets for
     # an event.
-    print("user venue: "+ str(user_venue))
-    print("event venue" + str(event.venue))
-    print(event.venue == user_venue)
+    # print("user venue: "+ str(user_venue))
+    # print("event venue" + str(event.venue))
+    # print(event.venue == user_venue)
     response = bcAPI.post('venue/event/view_tickets', data=data)
     tickets = response[0]
 
 
-    print(response)
+    # print(response)
     context = {
         "event": event,
         "tickets": tickets
